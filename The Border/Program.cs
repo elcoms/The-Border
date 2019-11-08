@@ -59,6 +59,26 @@ namespace The_Border
                     quit = true;
                     break;
 
+                case ConsoleKey.W:
+                case ConsoleKey.UpArrow:
+                    player.Y--;
+                    break;
+
+                case ConsoleKey.A:
+                case ConsoleKey.LeftArrow:
+                    player.X--;
+                    break;
+
+                case ConsoleKey.S:
+                case ConsoleKey.DownArrow:
+                    player.Y++;
+                    break;
+
+                case ConsoleKey.D:
+                case ConsoleKey.RightArrow:
+                    player.X++;
+                    break;
+
                 default:
                     break;
             }

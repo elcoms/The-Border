@@ -6,8 +6,8 @@ namespace The_Border.scripts
 {
     class Player
     {
-        int X { get; set; }
-        int Y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Player()
         {
