@@ -13,6 +13,7 @@ namespace The_Border
     class Program
     {
         private static Player player = new Player();
+        private static bool quit;
         static void Main(string[] args)
         {
             // Set up console
@@ -29,7 +30,7 @@ namespace The_Border
 
         static void RunGame()
         {
-            while (true)
+            while (!quit)
             {
                 Console.Clear();
 
@@ -49,7 +50,18 @@ namespace The_Border
 
         static void Input()
         {
-            Console.ReadKey(true);
+            ConsoleKeyInfo input = Console.ReadKey(true);
+
+            switch (input.Key)
+            {
+                case ConsoleKey.Q:
+                case ConsoleKey.Escape:
+                    quit = true;
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         static void Update()
