@@ -1,30 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace The_Border.scripts
 {
-    class Player
+    class Enemy
     {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        private int level, gold, health;
+        private int health, attack;
 
-        public Player()
+        public Enemy()
         {
             X = 5;
             Y = 5;
-            level = 1;
-            gold = 0;
             health = 100;
+            attack = 5;
         }
-
         public void Render()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(Constants.PLAYER);
         }
 
-        public void Damage(int amt)
+        public void Damage()
         {
 
         }
@@ -34,11 +36,10 @@ namespace The_Border.scripts
             health += amt;
         }
 
-        // increase x and y by given amount if it doesn't go below 0
         public void Move(int xAmt, int yAmt)
         {
-            X = (X + xAmt) >= 0 ? (X + xAmt) : X;
-            Y = (Y + yAmt) >= 0 ? (Y + yAmt) : Y;
+            X += xAmt;
+            Y += yAmt;
         }
     }
 }
