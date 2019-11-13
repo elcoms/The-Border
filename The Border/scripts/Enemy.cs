@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace The_Border.scripts
 {
-    class Enemy
+    class Enemy : Character
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
-
-        private int health, attack;
-
         public Enemy()
         {
             X = 5;
@@ -20,26 +15,29 @@ namespace The_Border.scripts
             health = 100;
             attack = 5;
         }
-        public void Render()
+
+        public Enemy(int xPos, int yPos, int hp, int attackPower)
+        {
+            X = xPos;
+            Y = yPos;
+            health = hp;
+            attack = attackPower;
+        }
+
+        public override void Render()
         {
             Console.SetCursorPosition(X, Y);
-            Console.Write(Constants.PLAYER);
-        }
 
-        public void Damage()
-        {
-
-        }
-
-        public void Heal(int amt)
-        {
-            health += amt;
-        }
-
-        public void Move(int xAmt, int yAmt)
-        {
-            X += xAmt;
-            Y += yAmt;
+            // render enemy if alive
+            if (health > 0)
+                Console.Write(Constants.ENEMY);
+            // render enemy dead body if dead
+            else if (!dead)
+            {
+                Console.Write(Constants.ENEMY_DEAD);
+                dead = true;
+            }   
+            // don't render anything after enemy dead
         }
     }
 }

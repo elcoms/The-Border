@@ -23,23 +23,15 @@ namespace The_Border.scripts
                 string line = reader.ReadLine();
 
                 int x = 0, y = 0;
+                // loop as long as there's another line
                 while (line != null)
                 {
                     // Console.ReadKey(true);
                     // Console.WriteLine(world[i] + ": " + x + ", " + y);
                     foreach (char c in line)
                     {
-                        switch (c)
-                        {
-                            case Constants.WALL:
-                                worldData[x, y] = Constants.WALL;
-                                break;
-
-                            default:
-                                worldData[x, y] = ' ';
-                                // empty space
-                                break;
-                        }
+                        // assign the character to a 2D array according to x and y
+                        worldData[x, y] = c;
 
                         x++;
                     }
@@ -68,13 +60,18 @@ namespace The_Border.scripts
             }
         }
 
-        public bool CollidedWithWall(int x, int y)
+        public char GetCollidedObject(int x, int y)
         {
             // Check if going out of bounds
             if (x < 0 || y < 0)
-                return false;
+                return Constants.OUT_OF_BOUNDS;
             else
-                return worldData[x, y] == Constants.WALL ? true : false;
+                return worldData[x, y];
+        }
+
+        public void UpdateObjectPosition(int x, int y, char c)
+        {
+            worldData[x, y] = c;
         }
     }
 }

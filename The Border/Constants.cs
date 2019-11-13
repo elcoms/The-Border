@@ -7,8 +7,11 @@
 
         // char
         public const char PLAYER = 'O';
+        public const char ENEMY = 'E';
+        public const char ENEMY_DEAD = 'X';
         public const char WALL = '█';
-        public const char NEXTLINE = 'N';
+        public const char SPACE = ' ';
+        public const char OUT_OF_BOUNDS = 'B';
 
         // world size
         public const int WORLD_WIDTH = 100;

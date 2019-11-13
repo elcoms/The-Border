@@ -21,12 +21,6 @@ namespace The_Border
             // Console.WindowWidth = Console.LargestWindowWidth;
             // Console.WindowHeight = Console.LargestWindowHeight;
 
-            Enemy[] enemies = new Enemy[20];
-            for (int i = 0; i < enemies.Length; ++i)
-            {
-                enemies[i] = new Enemy();
-            }
-
             // Remove cursor
             Console.CursorVisible = false;
 
@@ -106,7 +100,7 @@ namespace The_Border
             }
         }
 
-        // Process other data based on input
+        // Process data based on input
         static void Update()
         {
 
