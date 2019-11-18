@@ -9,6 +9,7 @@ namespace The_Border.scripts
 {
     class World
     {
+        string worldString;
         char[,] worldData;
 
         public World() {
@@ -26,12 +27,20 @@ namespace The_Border.scripts
                 // loop as long as there's another line
                 while (line != null)
                 {
-                    // Console.ReadKey(true);
-                    // Console.WriteLine(world[i] + ": " + x + ", " + y);
+                    worldString += line + Environment.NewLine;
+
                     foreach (char c in line)
                     {
-                        // assign the character to a 2D array according to x and y
-                        worldData[x, y] = c;
+                        // assign walls to a 2D array according to x and y
+                        switch (c)
+                        {
+                            case Constants.WALL:
+                                worldData[x, y] = Constants.WALL;
+                                break;
+
+                            default:
+                                break;
+                        }
 
                         x++;
                     }
@@ -47,8 +56,13 @@ namespace The_Border.scripts
             }
         }
 
-        // For testing purposes
         public void Render()
+        {
+            Console.Write(worldString);
+        }
+
+        // For testing purposes
+        public void RenderWorldData() 
         {
             for (int y = 0; y < worldData.GetLength(0); y++)
             {
@@ -60,18 +74,13 @@ namespace The_Border.scripts
             }
         }
 
-        public char GetCollidedObject(int x, int y)
+        public bool CollidedWithWall(int x, int y)
         {
             // Check if going out of bounds
             if (x < 0 || y < 0)
-                return Constants.OUT_OF_BOUNDS;
+                return false;
             else
-                return worldData[x, y];
-        }
-
-        public void UpdateObjectPosition(int x, int y, char c)
-        {
-            worldData[x, y] = c;
+                return worldData[x, y] == Constants.WALL;
         }
     }
 }

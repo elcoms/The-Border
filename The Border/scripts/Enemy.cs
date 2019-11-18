@@ -10,8 +10,8 @@ namespace The_Border.scripts
     {
         public Enemy()
         {
-            X = 5;
-            Y = 5;
+            X = 1;
+            Y = 1;
             health = 100;
             attack = 5;
         }
