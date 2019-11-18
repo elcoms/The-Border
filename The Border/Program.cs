@@ -17,6 +17,7 @@ namespace The_Border
         private static Random random = new Random();
 
         private static string worldString;
+        private static bool noInput;
         private static bool quit;
         static void Main(string[] args)
         {
@@ -39,10 +40,10 @@ namespace The_Border
             while (!quit)
             {
                 Console.Clear();
-
+                
+                Update();
                 Render();
                 Input();
-                Update();
             }
         }
 
@@ -75,6 +76,7 @@ namespace The_Border
         static void Input()
         {
             ConsoleKeyInfo input = Console.ReadKey(true);
+            noInput = false;
 
             switch (input.Key)
             {
@@ -85,48 +87,70 @@ namespace The_Border
 
                 case ConsoleKey.W:
                 case ConsoleKey.UpArrow:
-                    if (!world.CollidedWithWall(player.X, player.Y - 1) && !CollidedWithEnemy(player.X, player.Y - 1))
+                    if (!world.CollidedWithWall(player.X, player.Y - 1) && !CollisionUpdate(player.X, player.Y - 1))
                         player.Move(0, -1);
                     break;
 
                 case ConsoleKey.A:
                 case ConsoleKey.LeftArrow:
-                    if (!world.CollidedWithWall(player.X - 1, player.Y) && !CollidedWithEnemy(player.X - 1, player.Y))
+                    if (!world.CollidedWithWall(player.X - 1, player.Y) && !CollisionUpdate(player.X - 1, player.Y))
                         player.Move(-1, 0);
                     break;
 
                 case ConsoleKey.S:
                 case ConsoleKey.DownArrow:
-                    if (!world.CollidedWithWall(player.X, player.Y + 1) && !CollidedWithEnemy(player.X, player.Y + 1))
+                    if (!world.CollidedWithWall(player.X, player.Y + 1) && !CollisionUpdate(player.X, player.Y + 1))
                         player.Move(0, 1);
                     break;
 
                 case ConsoleKey.D:
                 case ConsoleKey.RightArrow:
-                    if (!world.CollidedWithWall(player.X + 1, player.Y) && !CollidedWithEnemy(player.X + 1, player.Y))
+                    if (!world.CollidedWithWall(player.X + 1, player.Y) && !CollisionUpdate(player.X + 1, player.Y))
                         player.Move(1, 0);
                     break;
 
-                default:
+                default: noInput = true;
                     break;
             }
         }
 
-        // Process data based on input
+        // Process data not based on input
         static void Update()
         {
 
         }
 
-        static bool CollidedWithEnemy(int x, int y)
+        // Check collision with objects in the program
+        static void CollisionUpdate(int xInput, int yInput)
         {
-            foreach (Enemy enemy in enemies)
-            {
-                if (enemy.X == x && enemy.Y == y)
-                    return true;
-            }
+            int x = player.X + xInput;
+            int y = player.Y + yInput;
+            bool collided;
 
-            return false;
+            if (!world.CollidedWithWall(x, y))
+            {
+                foreach (Enemy enemy in enemies)
+                {
+                    if (enemy.X == x && enemy.Y == y)
+                    {
+                        collided = true;
+                        break;
+                    }
+                }
+
+                if (!collided)
+                    player.Move(xInput, yInput);
+            }
+            
+
+
+        }
+
+        // For debugging purposes
+        static void Log(string s)
+        {
+            Console.SetCursorPosition(18, 5);
+            Console.Write(s);
         }
     }
 }
