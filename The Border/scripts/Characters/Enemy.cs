@@ -13,7 +13,7 @@ namespace The_Border.scripts
             X = 1;
             Y = 1;
             health = 100;
-            attack = 5;
+            damage = 5;
         }
 
         public Enemy(int xPos, int yPos, int hp, int attackPower)
@@ -21,23 +21,32 @@ namespace The_Border.scripts
             X = xPos;
             Y = yPos;
             health = hp;
-            attack = attackPower;
+            damage = attackPower;
         }
 
         public override void Render()
         {
             Console.SetCursorPosition(X, Y);
-
-            // render enemy if alive
-            if (health > 0)
-                Console.Write(Constants.ENEMY);
+            
             // render enemy dead body if dead
-            else if (!dead)
+            if (!dead)
             {
-                Console.Write(Constants.ENEMY_DEAD);
-                dead = true;
-            }   
+                // render enemy if alive
+                if (health > 0)
+                    Console.Write(Constants.ENEMY);
+                // render dead body if not, update world data to be walkable
+                else
+                {
+                    Console.Write(Constants.ENEMY_DEAD);
+                    World.UpdateWorldData(X, Y, Constants.SPACE);
+                    dead = true;
+                }
+            }
             // don't render anything after enemy dead
+            else
+            {
+                Console.Write(Constants.SPACE);
+            }
         }
     }
 }

@@ -9,8 +9,9 @@ namespace The_Border.scripts
 {
     class World
     {
+        static char[,] worldData;
         string worldString;
-        char[,] worldData;
+        
         List<Door> doors;
         List<Enemy> enemies;
 
@@ -123,6 +124,7 @@ namespace The_Border.scripts
                         if (enemy.X == x && enemy.Y == y)
                         {
                             // player attack enemy
+                            enemy.ReduceHealth(player.Attack());
                             return true;
                         }
                     }
@@ -149,6 +151,11 @@ namespace The_Border.scripts
                 }
                 Console.WriteLine();
             }
+        }
+
+        public static void UpdateWorldData(int x, int y, char data)
+        {
+            worldData[x, y] = data;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace The_Border.scripts
 {
     class Character : Object
     {
-        protected int health, attack;
+        protected int health, damage;
         protected bool dead;
         
         public virtual void ReduceHealth(int amount)
@@ -19,6 +19,11 @@ namespace The_Border.scripts
         public virtual void Heal(int amount)
         {
             health += amount;
+        }
+
+        public virtual int Attack()
+        {
+            return 0;
         }
     }
 }

@@ -16,9 +16,12 @@ namespace The_Border
         private static List<Enemy> enemies = new List<Enemy>();
         private static Random random = new Random();
 
-        private static string worldString;
+        private static string worldString = "Loading...";
         private static bool noInput;
         private static bool quit;
+
+        public static bool suspend;
+
         static void Main(string[] args)
         {
             // Set up console
@@ -43,6 +46,13 @@ namespace The_Border
                 
                 Update();
                 Render();
+
+                // pause to show frame
+                /* if (suspend)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    suspend = false;
+                } */
                 Input();
             }
         }
