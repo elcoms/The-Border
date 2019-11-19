@@ -8,16 +8,24 @@ namespace The_Border.scripts
 {
     class Door
     {
+        public int X { get; private set; }
+        public int Y { get; private set; }
         ConsoleColor color = ConsoleColor.DarkRed;
 
-        int x = 1, y = 1;
+        
         string name = "The Door";
         bool unlocked = false;
 
-        public Door (int xPos, int yPos, string givenName, ConsoleColor givenColor)
+        public Door(int xPos, int yPos)
         {
-            x = xPos;
-            y = yPos;
+            X = xPos;
+            Y = yPos;
+        }
+
+        public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor)
+        {
+            X = xPos;
+            Y = yPos;
             name = givenName;
             color = givenColor;
         }
@@ -25,11 +33,13 @@ namespace The_Border.scripts
         public void Render()
         {
             Console.ForegroundColor = color;
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(X, Y);
             Console.Write(Constants.DOOR);
+
+            Console.ForegroundColor = Constants.FOREGROUND_COLOR;
         }
 
-        public OnCollision(Player player)
+        public void OnCollision(Player player)
         {
             // Check for key
             // if key, Log: && unlocked = true;

@@ -52,24 +52,16 @@ namespace The_Border
         {
             worldString = File.ReadAllText(Constants.DUNGEON_FILE);
             world.Initialize();
-
-            for (int i = 0; i < 2; i++)
-            {
-                Enemy enemy = new Enemy(random.Next(1, 3), random.Next(1, 3), 10, 5);
-                enemies.Add(enemy);
-            }
         }
 
         // Display anything on screen
         static void Render()
         {
+            Console.BackgroundColor = Constants.BACKGROUND_COLOR;
+            Console.ForegroundColor = Constants.FOREGROUND_COLOR;
+
             world.Render();
             player.Render();
-
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Render();
-            }
         }
 
         // Handle input
@@ -87,26 +79,22 @@ namespace The_Border
 
                 case ConsoleKey.W:
                 case ConsoleKey.UpArrow:
-                    if (!world.CollidedWithWall(player.X, player.Y - 1) && !CollisionUpdate(player.X, player.Y - 1))
-                        player.Move(0, -1);
+                    world.CheckCollision(player.X, player.Y - 1, player);
                     break;
 
                 case ConsoleKey.A:
                 case ConsoleKey.LeftArrow:
-                    if (!world.CollidedWithWall(player.X - 1, player.Y) && !CollisionUpdate(player.X - 1, player.Y))
-                        player.Move(-1, 0);
+                    world.CheckCollision(player.X - 1, player.Y, player);
                     break;
 
                 case ConsoleKey.S:
                 case ConsoleKey.DownArrow:
-                    if (!world.CollidedWithWall(player.X, player.Y + 1) && !CollisionUpdate(player.X, player.Y + 1))
-                        player.Move(0, 1);
+                    world.CheckCollision(player.X, player.Y + 1, player);
                     break;
 
                 case ConsoleKey.D:
                 case ConsoleKey.RightArrow:
-                    if (!world.CollidedWithWall(player.X + 1, player.Y) && !CollisionUpdate(player.X + 1, player.Y))
-                        player.Move(1, 0);
+                    world.CheckCollision(player.X + 1, player.Y, player);
                     break;
 
                 default: noInput = true;
@@ -117,32 +105,6 @@ namespace The_Border
         // Process data not based on input
         static void Update()
         {
-
-        }
-
-        // Check collision with objects in the program
-        static void CollisionUpdate(int xInput, int yInput)
-        {
-            int x = player.X + xInput;
-            int y = player.Y + yInput;
-            bool collided;
-
-            if (!world.CollidedWithWall(x, y))
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.X == x && enemy.Y == y)
-                    {
-                        collided = true;
-                        break;
-                    }
-                }
-                /*
-                if (!collided)
-                    player.Move(xInput, yInput); */
-            }
-            
-
 
         }
 

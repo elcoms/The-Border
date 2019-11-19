@@ -1,4 +1,6 @@
-﻿namespace The_Border
+﻿using System;
+
+namespace The_Border
 {
     class Constants
     {
@@ -18,5 +20,9 @@
         public const int WORLD_HEIGHT   = 100;
         public const int CAM_WIDTH      = 100;
         public const int CAM_HEIGHT     = 100;
+
+        // color
+        public const ConsoleColor FOREGROUND_COLOR = ConsoleColor.White;
+        public const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Black;
     }
 }
