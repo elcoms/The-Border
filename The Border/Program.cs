@@ -137,9 +137,9 @@ namespace The_Border
                         break;
                     }
                 }
-
+                /*
                 if (!collided)
-                    player.Move(xInput, yInput);
+                    player.Move(xInput, yInput); */
             }
             
 

@@ -19,5 +19,12 @@ namespace The_Border.scripts
             X = (X + xAmount) >= 0 ? (X + xAmount) : X;
             Y = (Y + yAmount) >= 0 ? (Y + yAmount) : Y;
         }
+
+        // Assign the x and y positions based on given parameters
+        public virtual void SetPosition(int xPos, int yPos)
+        {
+            X = xPos >= 0 ? xPos : X;
+            Y = yPos >= 0 ? yPos : Y;
+        }
     }
 }
