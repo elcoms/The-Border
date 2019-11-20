@@ -14,17 +14,7 @@ namespace The_Border.scripts
             damage = 10;
             level = 1;
             gold = 0;
-        }
-
-        public override void Render()
-        {
-            Console.SetCursorPosition(X, Y);
-            Console.Write(Constants.PLAYER);
-        }
-
-        public override int Attack()
-        {
-            return damage;
+            sprite = Constants.PLAYER;
         }
     }
 }

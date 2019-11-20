@@ -1,9 +1,10 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 using The_Border.scripts;
 
@@ -19,8 +20,9 @@ namespace The_Border
         private static string worldString = "Loading...";
         private static bool noInput;
         private static bool quit;
+        private static int count = 0;
 
-        public static bool suspend;
+        public static Stopwatch animationTimer = new Stopwatch();
 
         static void Main(string[] args)
         {
@@ -42,18 +44,13 @@ namespace The_Border
 
             while (!quit)
             {
-                Console.Clear();
-                
                 Update();
                 Render();
 
-                // pause to show frame
-                /* if (suspend)
-                {
-                    System.Threading.Thread.Sleep(1000);
-                    suspend = false;
-                } */
-                Input();
+                if (!animationTimer.IsRunning)
+                    Input();
+                else
+                    Thread.Sleep(100);
             }
         }
 
@@ -119,10 +116,10 @@ namespace The_Border
         }
 
         // For debugging purposes
-        static void Log(string s)
+        public static void Log(string s)
         {
-            Console.SetCursorPosition(18, 5);
-            Console.Write(s);
+            Console.SetCursorPosition(5, 18);
+            Console.WriteLine(s);
         }
     }
 }

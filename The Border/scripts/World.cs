@@ -52,7 +52,7 @@ namespace The_Border.scripts
 
                             case Constants.ENEMY:
                                 worldData[x, y] = Constants.ENEMY;
-                                enemies.Add(new Enemy(x, y, 10, 1));
+                                enemies.Add(new Enemy(x, y, 100, 1, Constants.ENEMY));
                                 break;
 
                             case Constants.SPACE:
@@ -80,6 +80,7 @@ namespace The_Border.scripts
         // Render everything in the game world
         public void Render()
         {
+            Console.SetCursorPosition(0, 0);
             Console.Write(worldString);
 
             foreach (Door door in doors)
@@ -124,7 +125,7 @@ namespace The_Border.scripts
                         if (enemy.X == x && enemy.Y == y)
                         {
                             // player attack enemy
-                            enemy.ReduceHealth(player.Attack());
+                            enemy.Damaged(player.GetDamage(), player);
                             return true;
                         }
                     }
