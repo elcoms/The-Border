@@ -47,7 +47,7 @@ namespace The_Border.scripts
 
                             case Constants.KEY:
                                 worldData[x, y] = Constants.KEY;
-                                Program.keys.Add(new Key(x, y, ConsoleColor.DarkRed));
+                                Program.keys.Add(new Key(x, y, ConsoleColor.DarkRed, "The Key"));
                                 break;
 
                             case Constants.DOOR:
@@ -127,7 +127,19 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.KEY:
-                    // put key into player inventory
+                    foreach (Key key in Program.keys)
+                    {
+                        if (key.X == x && key.Y == y)
+                        {
+                            // put key into inventory if possible
+                            if (player.GetInventory().AddItem(key))
+                                UpdateWorldData(x, y, Constants.SPACE);
+
+                            return true;
+                        }
+                    }
+
+                    player.SetPosition(x, y);
                     break;
 
                 case Constants.DOOR:

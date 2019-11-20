@@ -8,19 +8,34 @@ namespace The_Border.scripts
 {
     class Item : Object
     {
-        protected string name = "The Item";
+        public string Name { get; protected set; }
+        private bool isVisible = true;
+
         protected new char sprite = Constants.LOOTBAG;
         protected ConsoleColor color = Constants.FOREGROUND_COLOR;
+
+        public Item()
+        {
+            Name = "The Item";
+        }
 
         public override void Render()
         {
             Console.SetCursorPosition(X, Y);
-            Console.ForegroundColor = color;
-            Console.Write(sprite);
+            if (isVisible)
+            {   
+                Console.ForegroundColor = color;
+                Console.Write(sprite);
+            }
+            else
+            {
+                Console.Write(Constants.SPACE);
+            }
         }
-        public virtual void OnCollision(Player player)
-        {
 
+        public void SetVisible(bool visible)
+        {
+            isVisible = visible;
         }
     }
 }

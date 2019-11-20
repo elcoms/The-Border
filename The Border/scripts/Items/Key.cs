@@ -8,12 +8,13 @@ namespace The_Border.scripts
 {
     class Key : Item
     {
-        public Key(int x, int y, ConsoleColor keyColor)
+        public Key(int x, int y, ConsoleColor keyColor, string name)
         {
             X = x;
             Y = y;
             sprite = Constants.KEY;
             color = keyColor;
+            Name = name;
         }
     }
 }
