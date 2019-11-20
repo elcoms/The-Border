@@ -11,7 +11,6 @@ namespace The_Border.scripts
     {
         protected int health = 1, damage = 1;
         protected bool dead, attacked, horizontalAttack;
-        protected char sprite = '?';
 
         public override void Render()
         {
