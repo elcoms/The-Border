@@ -37,6 +37,12 @@ namespace The_Border
         public const int CAM_WIDTH              = 100;
         public const int CAM_HEIGHT             = 100;
 
+        // positions
+        public const int PLAYER_X = 5;
+        public const int PLAYER_Y = 5;
+        public const int INVENTORY_X = 100;
+        public const int INVENTORY_Y = 1;
+
         // time (in milliseconds)
         public const int ATTACK_ANIM_TIME       = 200;
 

@@ -5,6 +5,7 @@ namespace The_Border.scripts
     class Player : Character
     {
         private int level, gold;
+        private Inventory inventory = new Inventory();
 
         public Player()
         {
@@ -16,5 +17,14 @@ namespace The_Border.scripts
             gold = 0;
             sprite = Constants.PLAYER;
         }
+
+        public override void Render()
+        {
+            inventory.Render();
+
+            base.Render();
+        }
+
+        public Inventory GetInventory() { return inventory; }
     }
 }

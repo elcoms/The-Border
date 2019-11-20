@@ -48,6 +48,7 @@
     <Compile Include="scripts\Camera.cs" />
     <Compile Include="scripts\Characters\Character.cs" />
     <Compile Include="scripts\Door.cs" />
+    <Compile Include="scripts\Inventory.cs" />
     <Compile Include="scripts\IObject.cs" />
     <Compile Include="scripts\Items\Item.cs" />
     <Compile Include="scripts\Items\Key.cs" />
