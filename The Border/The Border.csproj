@@ -50,6 +50,7 @@
     <Compile Include="scripts\Door.cs" />
     <Compile Include="scripts\IObject.cs" />
     <Compile Include="scripts\Items\Item.cs" />
+    <Compile Include="scripts\Items\Key.cs" />
     <Compile Include="scripts\Object.cs" />
     <Compile Include="scripts\World.cs" />
     <Compile Include="scripts\Characters\Enemy.cs" />

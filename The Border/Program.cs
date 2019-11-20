@@ -14,15 +14,15 @@ namespace The_Border
     {
         private static World world = new World();
         private static Player player = new Player();
-        private static List<Enemy> enemies = new List<Enemy>();
-        private static Random random = new Random();
-
-        private static string worldString = "Loading...";
+        
+        
         private static bool noInput;
         private static bool quit;
-        private static int count = 0;
 
         public static Stopwatch animationTimer = new Stopwatch();
+        public static List<Enemy> enemies = new List<Enemy>();
+        public static List<Key> keys = new List<Key>();
+        public static List<Door> doors = new List<Door>();
 
         static void Main(string[] args)
         {
@@ -57,7 +57,6 @@ namespace The_Border
         // Load assets and prepare game
         static void Initialize()
         {
-            worldString = File.ReadAllText(Constants.DUNGEON_FILE);
             world.Initialize();
         }
 

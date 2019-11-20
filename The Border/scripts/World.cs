@@ -11,14 +11,9 @@ namespace The_Border.scripts
     {
         static char[,] worldData;
         string worldString;
-        
-        List<Door> doors;
-        List<Enemy> enemies;
 
         public World() {
             worldData = new char[Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT];
-            doors = new List<Door>();
-            enemies = new List<Enemy>();
         }
 
         // Load the data for the game world
@@ -45,15 +40,21 @@ namespace The_Border.scripts
                                 worldData[x, y] = Constants.WALL;
                                 break;
 
-                            case Constants.DOOR:
-                                worldData[x, y] = Constants.DOOR;
-                                doors.Add(new Door(x, y));
-                                break;
-
                             case Constants.ENEMY:
                                 worldData[x, y] = Constants.ENEMY;
-                                enemies.Add(new Enemy(x, y, 100, 1, Constants.ENEMY));
+                                Program.enemies.Add(new Enemy(x, y, 100, 1, Constants.ENEMY));
                                 break;
+
+                            case Constants.KEY:
+                                worldData[x, y] = Constants.KEY;
+                                Program.keys.Add(new Key(x, y, ConsoleColor.DarkRed));
+                                break;
+
+                            case Constants.DOOR:
+                                worldData[x, y] = Constants.DOOR;
+                                Program.doors.Add(new Door(x, y));
+                                break;
+;
 
                             case Constants.SPACE:
                                 worldData[x, y] = Constants.SPACE;
@@ -83,12 +84,17 @@ namespace The_Border.scripts
             Console.SetCursorPosition(0, 0);
             Console.Write(worldString);
 
-            foreach (Door door in doors)
+            foreach (Key key in Program.keys)
+            {
+                key.Render();
+            }
+
+            foreach (Door door in Program.doors)
             {
                 door.Render();
             }
 
-            foreach (Enemy enemy in enemies)
+            foreach (Enemy enemy in Program.enemies)
             {
                 enemy.Render();
             }
@@ -108,24 +114,28 @@ namespace The_Border.scripts
         {
             switch (worldData[x, y])
             {
-                case Constants.DOOR:
-                    foreach (Door door in doors)
-                    {
-                        if (door.X == x && door.Y == y)
-                        {
-                            door.OnCollision(player);
-                            return true;
-                        }
-                    }
-                    break;
-
                 case Constants.ENEMY:
-                    foreach (Enemy enemy in enemies)
+                    foreach (Enemy enemy in Program.enemies)
                     {
                         if (enemy.X == x && enemy.Y == y)
                         {
                             // player attack enemy
                             enemy.Damaged(player.GetDamage(), player);
+                            return true;
+                        }
+                    }
+                    break;
+
+                case Constants.KEY:
+                    // put key into player inventory
+                    break;
+
+                case Constants.DOOR:
+                    foreach (Door door in Program.doors)
+                    {
+                        if (door.X == x && door.Y == y)
+                        {
+                            door.OnCollision(player);
                             return true;
                         }
                     }

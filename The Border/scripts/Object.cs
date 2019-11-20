@@ -11,6 +11,8 @@ namespace The_Border.scripts
         public int X { get; set; }
         public int Y { get; set; }
 
+        protected char sprite = '?';
+
         public virtual void Render() { }
 
         // increase x and y by given amount if it doesn't go below 0

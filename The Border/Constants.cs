@@ -20,6 +20,10 @@ namespace The_Border
         public const char VERTICAL_ATTACK       = '|';
         public const char DEAD                  = 'X';
 
+        // items
+        public const char KEY                   = 't';
+        public const char LOOTBAG               = 'b';
+
         // others
         public const char WALL                  = '█';
         public const char SPACE                 = ' ';
@@ -33,12 +37,13 @@ namespace The_Border
         public const int CAM_WIDTH              = 100;
         public const int CAM_HEIGHT             = 100;
 
-        // time
+        // time (in milliseconds)
         public const int ATTACK_ANIM_TIME       = 200;
 
         // Color
         //======================================
-        public const ConsoleColor FOREGROUND_COLOR = ConsoleColor.White;
-        public const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Black;
+        public const ConsoleColor FOREGROUND_COLOR              = ConsoleColor.White;
+        public const ConsoleColor BACKGROUND_COLOR              = ConsoleColor.Black;
+        public static readonly ConsoleColor[] KEY_DOOR_COLORS   = { ConsoleColor.Cyan, ConsoleColor.Green, ConsoleColor.Yellow };
     }
 }
