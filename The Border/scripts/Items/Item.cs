@@ -22,6 +22,7 @@ namespace The_Border.scripts
         public override void Render()
         {
             Console.SetCursorPosition(X, Y);
+
             if (isVisible)
             {   
                 Console.ForegroundColor = color;
@@ -37,5 +38,7 @@ namespace The_Border.scripts
         {
             isVisible = visible;
         }
+
+        public char getSprite() { return sprite; }
     }
 }

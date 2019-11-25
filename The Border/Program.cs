@@ -21,14 +21,14 @@ namespace The_Border
 
         public static Stopwatch animationTimer = new Stopwatch();
         public static List<Enemy> enemies = new List<Enemy>();
-        public static List<Key> keys = new List<Key>();
+        public static List<Item> items = new List<Item>();
         public static List<Door> doors = new List<Door>();
 
         static void Main(string[] args)
         {
             // Set up console
-            // Console.WindowWidth = Console.LargestWindowWidth;
-            // Console.WindowHeight = Console.LargestWindowHeight;
+            Console.WindowWidth = Console.LargestWindowWidth / 2;
+            Console.WindowHeight = Console.LargestWindowHeight / 2;
 
             // Remove cursor
             Console.CursorVisible = false;
@@ -103,6 +103,26 @@ namespace The_Border
                     world.CheckCollision(player.X + 1, player.Y, player);
                     break;
 
+                case ConsoleKey.D1:
+                    player.GetInventory().DropItem(1, player.X, player.Y);
+                    break;
+
+                case ConsoleKey.D2:
+                    player.GetInventory().DropItem(2, player.X, player.Y);
+                    break;
+
+                case ConsoleKey.D3:
+                    player.GetInventory().DropItem(3, player.X, player.Y);
+                    break;
+
+                case ConsoleKey.D4:
+                    player.GetInventory().DropItem(4, player.X, player.Y);
+                    break;
+
+                case ConsoleKey.D5:
+                    player.GetInventory().DropItem(5, player.X, player.Y);
+                    break;
+
                 default: noInput = true;
                     break;
             }
@@ -118,6 +138,16 @@ namespace The_Border
         public static void Log(string s)
         {
             Console.SetCursorPosition(5, 18);
+            Console.Write(new string(' ', 200));
+            Console.SetCursorPosition(5, 18);
+            Console.WriteLine(s);
+        }
+
+        public static void Log(string s, int offsetX, int offsetY)
+        {
+            Console.SetCursorPosition(5 + offsetX, 18 + offsetY);
+            Console.Write(new string(' ', 200));
+            Console.SetCursorPosition(5 + offsetX, 18 + offsetY);
             Console.WriteLine(s);
         }
     }

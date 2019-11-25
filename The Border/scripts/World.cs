@@ -19,18 +19,21 @@ namespace The_Border.scripts
         // Load the data for the game world
         public void Initialize()
         {
-            // Check if world file exists
             if(File.Exists(Constants.DUNGEON_FILE))
             {
-                StreamReader reader = new StreamReader(Constants.DUNGEON_FILE);
+                worldString = File.ReadAllText(Constants.DUNGEON_FILE);
+            }
+
+            // Check if world file exists
+            if(File.Exists(Constants.COLLISION_DATA_FILE))
+            {
+                StreamReader reader = new StreamReader(Constants.COLLISION_DATA_FILE);
                 string line = reader.ReadLine();
 
                 int x = 0, y = 0;
                 // loop as long as there's another line
                 while (line != null)
                 {
-                    worldString += line + Environment.NewLine;
-
                     foreach (char c in line)
                     {
                         // assign each character in the world to a 2D array according to x and y
@@ -47,7 +50,7 @@ namespace The_Border.scripts
 
                             case Constants.KEY:
                                 worldData[x, y] = Constants.KEY;
-                                Program.keys.Add(new Key(x, y, ConsoleColor.DarkRed, "The Key"));
+                                Program.items.Add(new Key(x, y, ConsoleColor.DarkRed, "The Key"));
                                 break;
 
                             case Constants.DOOR:
@@ -84,9 +87,9 @@ namespace The_Border.scripts
             Console.SetCursorPosition(0, 0);
             Console.Write(worldString);
 
-            foreach (Key key in Program.keys)
+            foreach (Item item in Program.items)
             {
-                key.Render();
+                item.Render();
             }
 
             foreach (Door door in Program.doors)
@@ -127,12 +130,12 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.KEY:
-                    foreach (Key key in Program.keys)
+                    for (int i = 0; i < Program.items.Count; i++)
                     {
-                        if (key.X == x && key.Y == y)
+                        if (Program.items[i].X == x && Program.items[i].Y == y)
                         {
-                            // put key into inventory if possible
-                            if (player.GetInventory().AddItem(key))
+                            // put item into inventory if possible
+                            if (player.GetInventory().AddItem(Program.items[i]))
                                 UpdateWorldData(x, y, Constants.SPACE);
 
                             return true;
