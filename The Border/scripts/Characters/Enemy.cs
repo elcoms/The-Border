@@ -8,6 +8,8 @@ namespace The_Border.scripts
 {
     class Enemy : Character
     {
+        protected Item drop;
+
         public Enemy()
         {
             X = 1;
@@ -17,13 +19,38 @@ namespace The_Border.scripts
             sprite = Constants.ENEMY;
         }
 
-        public Enemy(int xPos, int yPos, int hp, int attackPower, char character)
+        public Enemy(int xPos, int yPos, int hp, int attackPower, char character, Item item)
         {
             X = xPos;
             Y = yPos;
             health = hp;
             damage = attackPower;
             sprite = character;
+            drop = item;
+            drop.SetVisible(false);
+        }
+
+        public override void Render()
+        {
+            base.Render();
+        }
+
+        public void DropItem()
+        {
+            drop.SetPosition(X, Y);
+            drop.SetVisible(true);
+            Program.items.Add(drop);
+            World.UpdateWorldData(X, Y, drop.getSprite());
+
+            drop = null;
+        }
+
+        public void Update()
+        {
+            if (dead && drop != null)
+            {
+                DropItem();
+            }
         }
     }
 }

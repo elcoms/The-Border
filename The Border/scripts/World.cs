@@ -45,7 +45,8 @@ namespace The_Border.scripts
 
                             case Constants.ENEMY:
                                 worldData[x, y] = Constants.ENEMY;
-                                Program.enemies.Add(new Enemy(x, y, 100, 1, Constants.ENEMY));
+                                Program.enemies.Add(new Enemy(x, y, 20, 1, Constants.ENEMY,
+                                    new Key(x, y, ConsoleColor.DarkRed, "The Key")));
                                 break;
 
                             case Constants.KEY:

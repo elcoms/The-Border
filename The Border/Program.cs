@@ -47,6 +47,7 @@ namespace The_Border
                 Update();
                 Render();
 
+                // run input only if the game is not animating attacks
                 if (!animationTimer.IsRunning)
                     Input();
                 else
@@ -83,6 +84,7 @@ namespace The_Border
                     quit = true;
                     break;
 
+                // MOVEMENT INPUT
                 case ConsoleKey.W:
                 case ConsoleKey.UpArrow:
                     world.CheckCollision(player.X, player.Y - 1, player);
@@ -103,6 +105,8 @@ namespace The_Border
                     world.CheckCollision(player.X + 1, player.Y, player);
                     break;
 
+
+                // INVENTORY INPUT
                 case ConsoleKey.D1:
                     player.GetInventory().DropItem(1, player.X, player.Y);
                     break;
@@ -131,7 +135,10 @@ namespace The_Border
         // Process data not based on input
         static void Update()
         {
-
+            foreach (Enemy enemy in Program.enemies)
+            {
+                enemy.Update();
+            }
         }
 
         // For debugging purposes

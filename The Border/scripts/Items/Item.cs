@@ -24,7 +24,7 @@ namespace The_Border.scripts
             Console.SetCursorPosition(X, Y);
 
             if (isVisible)
-            {   
+            {
                 Console.ForegroundColor = color;
                 Console.Write(sprite);
             }
