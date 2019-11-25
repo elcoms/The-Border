@@ -78,5 +78,17 @@ namespace The_Border.scripts
                 Program.Log("There was nothing there that The Man could grab.");
             }
         }
+
+        public void RemoveItem(int num)
+        {
+            num -= 1;
+
+            if (items[num] != null)
+            {
+                items[num] = null;
+            }
+        }
+
+        public Item[] GetItems() { return items; }
     }
 }

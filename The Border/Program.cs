@@ -141,7 +141,7 @@ namespace The_Border
             }
         }
 
-        // For debugging purposes
+        // Print dialogue/narration text 
         public static void Log(string s)
         {
             Console.SetCursorPosition(5, 18);
@@ -150,6 +150,7 @@ namespace The_Border
             Console.WriteLine(s);
         }
 
+        // For debugging purposes
         public static void Log(string s, int offsetX, int offsetY)
         {
             Console.SetCursorPosition(5 + offsetX, 18 + offsetY);

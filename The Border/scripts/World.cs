@@ -59,7 +59,6 @@ namespace The_Border.scripts
                                 Program.doors.Add(new Door(x, y));
                                 break;
 ;
-
                             case Constants.SPACE:
                                 worldData[x, y] = Constants.SPACE;
                                 break;
