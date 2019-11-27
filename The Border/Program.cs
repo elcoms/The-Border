@@ -81,7 +81,7 @@ namespace The_Border
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
 
             // world.Render();
-            // camera.Render();
+            camera.Render();
             player.Render();
         }
 
