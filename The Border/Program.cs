@@ -13,13 +13,14 @@ namespace The_Border
     class Program
     {
         private static World world = new World();
-        private static Player player = new Player();
-        
+        private static Camera camera = new Camera();
         
         private static bool noInput;
         private static bool quit;
 
+        public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
+
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Item> items = new List<Item>();
         public static List<Door> doors = new List<Door>();
@@ -59,6 +60,18 @@ namespace The_Border
         static void Initialize()
         {
             world.Initialize();
+            camera.Initialize();
+        }
+        
+        // Process data not based on input
+        static void Update()
+        {
+            foreach (Enemy enemy in Program.enemies)
+            {
+                enemy.Update();
+            }
+
+            camera.Update();
         }
 
         // Display anything on screen
@@ -67,7 +80,8 @@ namespace The_Border
             Console.BackgroundColor = Constants.BACKGROUND_COLOR;
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
 
-            world.Render();
+            // world.Render();
+            // camera.Render();
             player.Render();
         }
 
@@ -129,15 +143,6 @@ namespace The_Border
 
                 default: noInput = true;
                     break;
-            }
-        }
-
-        // Process data not based on input
-        static void Update()
-        {
-            foreach (Enemy enemy in Program.enemies)
-            {
-                enemy.Update();
             }
         }
 
