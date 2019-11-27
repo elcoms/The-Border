@@ -16,10 +16,11 @@ namespace The_Border.scripts
             worldData = new char[Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT];
         }
 
-        // Load the data for the game world
+        // Load the data for the collision map
         public void Initialize()
         {
-            if(File.Exists(Constants.DUNGEON_FILE))
+            // get world map
+            if (File.Exists(Constants.DUNGEON_FILE))
             {
                 worldString = File.ReadAllText(Constants.DUNGEON_FILE);
             }
@@ -136,7 +137,7 @@ namespace The_Border.scripts
                     {
                         if (Program.items[i].X == x && Program.items[i].Y == y)
                         {
-                            // put item into inventory if possible
+                            // put item into inventory if possible and update collision data
                             if (player.GetInventory().AddItem(Program.items[i]))
                                 UpdateWorldData(x, y, Constants.SPACE);
 
@@ -171,9 +172,9 @@ namespace The_Border.scripts
         // For testing purposes
         public void RenderWorldData()
         {
-            for (int y = 0; y < worldData.GetLength(0); y++)
+            for (int y = 0; y < worldData.GetLength(1); y++)
             {
-                for (int x = 0; x < worldData.GetLength(1); x++)
+                for (int x = 0; x < worldData.GetLength(0); x++)
                 {
                     Console.Write(worldData[x, y]);
                 }
@@ -184,6 +185,11 @@ namespace The_Border.scripts
         public static void UpdateWorldData(int x, int y, char data)
         {
             worldData[x, y] = data;
+        }
+
+        public static char[,] GetData()
+        {
+            return worldData;
         }
     }
 }

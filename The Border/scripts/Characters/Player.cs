@@ -9,8 +9,8 @@ namespace The_Border.scripts
 
         public Player()
         {
-            X = 5;
-            Y = 5;
+            X = 63;
+            Y = 17;
             health = 100;
             damage = 10;
             level = 1;
