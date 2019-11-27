@@ -59,6 +59,7 @@ namespace The_Border.scripts
                                 worldData[x, y] = Constants.DOOR_COLLISION;
                                 Program.doors.Add(new Door(x, y, c == Constants.DOOR_HORIZONTAL));
                                 break;
+;
 
                             case Constants.SPACE:
                                 worldData[x, y] = Constants.SPACE;

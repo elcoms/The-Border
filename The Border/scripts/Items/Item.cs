@@ -27,7 +27,6 @@ namespace The_Border.scripts
             {
                 Console.ForegroundColor = color;
                 Console.Write(sprite);
-
                 Console.ForegroundColor = Constants.FOREGROUND_COLOR;
             }
             else
@@ -42,7 +41,6 @@ namespace The_Border.scripts
         }
 
         public char getSprite() { return sprite; }
-
         public ConsoleColor getColor() { return color; }
     }
 }
