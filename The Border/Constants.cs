@@ -28,13 +28,15 @@ namespace The_Border
         // others
         public const char WALL                  = '█';
         public const char SPACE                 = ' ';
-        public const char DOOR                  = '▌';
+        public const char DOOR_COLLISION        = '▌';
+        public const char DOOR_VERTICAL         = '│';
+        public const char DOOR_HORIZONTAL       = '─';
 
         // Int
         // ======================================
         // world size
-        public const int WORLD_WIDTH            = 100;
-        public const int WORLD_HEIGHT           = 100;
+        public const int WORLD_WIDTH            = 250;
+        public const int WORLD_HEIGHT           = 250;
         public const int CAM_WIDTH              = 100;
         public const int CAM_HEIGHT             = 100;
 

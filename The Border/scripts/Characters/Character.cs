@@ -49,11 +49,6 @@ namespace The_Border.scripts
                         dead = true;
                     }
                 }
-                // don't render anything after dead
-                else
-                {
-                    Console.Write(Constants.SPACE);
-                }
             }
         }
 

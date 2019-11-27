@@ -15,26 +15,37 @@ namespace The_Border.scripts
         
         string name = "The Door";
         bool unlocked = false;
+        bool horizontal = false;
 
-        public Door(int xPos, int yPos)
+        public Door(int xPos, int yPos, bool isHorizontal)
         {
             X = xPos;
             Y = yPos;
+            horizontal = isHorizontal;
         }
 
-        public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor)
+        public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor, bool isHorizontal)
         {
             X = xPos;
             Y = yPos;
             name = givenName;
             color = givenColor;
+            horizontal = isHorizontal;
         }
 
         public void Render()
         {
-            Console.ForegroundColor = color;
-            Console.SetCursorPosition(X, Y);
-            Console.Write(Constants.DOOR);
+            if (unlocked)
+            {
+                Console.SetCursorPosition(X, Y);
+                Console.Write(Constants.SPACE);
+            }
+            else
+            {
+                Console.ForegroundColor = color;
+                Console.SetCursorPosition(X, Y);
+                Console.Write(horizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL);
+            }
 
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
         }
@@ -42,8 +53,27 @@ namespace The_Border.scripts
         public void OnCollision(Player player)
         {
             // Check for key
-            // if key, Log: && unlocked = true;
-            // else Log:
+            foreach (Item item in player.GetInventory().GetItems())
+            {
+                if (item as Key != null)
+                {
+                    if (item.getColor() == color)
+                    {
+                        World.UpdateWorldData(X, Y, Constants.SPACE);
+                        unlocked = true;
+                    }   
+                }
+            }
+
+            // print dialogue
+            if (unlocked)
+            {
+                Program.Log("The Door is happy to be reunited with The Key.");
+            }
+            else
+            {
+                Program.Log("The Man fidgets and pulls but The Door did not seem to care.");
+            }
         }
     }
 }

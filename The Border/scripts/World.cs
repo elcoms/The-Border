@@ -54,9 +54,10 @@ namespace The_Border.scripts
                                 Program.items.Add(new Key(x, y, ConsoleColor.DarkRed, "The Key"));
                                 break;
 
-                            case Constants.DOOR:
-                                worldData[x, y] = Constants.DOOR;
-                                Program.doors.Add(new Door(x, y));
+                            case Constants.DOOR_VERTICAL:
+                            case Constants.DOOR_HORIZONTAL:
+                                worldData[x, y] = Constants.DOOR_COLLISION;
+                                Program.doors.Add(new Door(x, y, c == Constants.DOOR_HORIZONTAL));
                                 break;
 ;
 
@@ -146,7 +147,7 @@ namespace The_Border.scripts
                     player.SetPosition(x, y);
                     break;
 
-                case Constants.DOOR:
+                case Constants.DOOR_COLLISION:
                     foreach (Door door in Program.doors)
                     {
                         if (door.X == x && door.Y == y)
