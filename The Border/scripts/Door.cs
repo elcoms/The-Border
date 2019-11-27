@@ -15,19 +15,22 @@ namespace The_Border.scripts
         
         string name = "The Door";
         bool unlocked = false;
+        bool horizontal = false;
 
-        public Door(int xPos, int yPos)
+        public Door(int xPos, int yPos, bool isHorizontal)
         {
             X = xPos;
             Y = yPos;
+            horizontal = isHorizontal;
         }
 
-        public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor)
+        public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor, bool isHorizontal)
         {
             X = xPos;
             Y = yPos;
             name = givenName;
             color = givenColor;
+            horizontal = isHorizontal;
         }
 
         public void Render()
@@ -41,7 +44,7 @@ namespace The_Border.scripts
             {
                 Console.ForegroundColor = color;
                 Console.SetCursorPosition(X, Y);
-                Console.Write(Constants.DOOR);
+                Console.Write(horizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL);
             }
 
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
