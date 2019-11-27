@@ -70,20 +70,20 @@ namespace The_Border.scripts
 
             if (startX > Constants.WORLD_HEIGHT)
                 startY = Constants.WORLD_HEIGHT - Constants.CAM_HEIGHT;
-            int count = 0;
+            
+            int x = startX, y = startY;
             // get data from world to render starting from the start positions to the camera size
-            while (startY < Constants.CAM_HEIGHT)
+            while (y < Constants.CAM_HEIGHT)
             {
-                while (startX < Constants.CAM_WIDTH)
+                while (x < Constants.CAM_WIDTH)
                 {
-                    visible += visibleMap[startX, startY];
+                    visible += visibleMap[x, y];
 
-                    Console.WriteLine(count++ + ": " + visibleMap[startX, startY]);
-                    startX++;
-                    count++;
+                    x++;
                 }
                 visible += Environment.NewLine;
-                startY++;
+                x = startX;
+                y++;
             }
         }
 
