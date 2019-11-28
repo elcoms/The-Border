@@ -12,7 +12,7 @@ namespace The_Border.scripts
         protected int health = 1, damage = 1;
         protected bool dead, attacked, horizontalAttack;
 
-        public override void Render()
+        public override void Update()
         {
             // if attacked, show attack graphic depending on direction for a short amt of time
             if (attacked)
@@ -35,16 +35,15 @@ namespace The_Border.scripts
 
             if (!attacked)
             {
-                Console.SetCursorPosition(X, Y);
                 if (!dead)
                 {
                     // render if alive
                     if (health > 0)
-                        Console.Write(sprite);
+                        Camera.UpdateVisibleMap(X, Y, Constants.PLAYER);
                     // render dead body if not, update world data to be walkable
                     else
                     {
-                        Console.Write(Constants.DEAD);
+                        Camera.UpdateVisibleMap(X, Y, Constants.DEAD);
                         World.UpdateWorldData(X, Y, Constants.SPACE);
                         dead = true;
                     }

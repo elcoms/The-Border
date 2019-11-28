@@ -9,8 +9,8 @@ namespace The_Border.scripts
 
         public Player()
         {
-            X = 63;
-            Y = 17;
+            X = 53;
+            Y = 13;
             health = 100;
             damage = 10;
             level = 1;
@@ -21,8 +21,6 @@ namespace The_Border.scripts
         public override void Render()
         {
             inventory.Render();
-
-            base.Render();
         }
 
         public Inventory GetInventory() { return inventory; }
