@@ -66,7 +66,8 @@ namespace The_Border
         // Process data not based on input
         static void Update()
         {
-            foreach (Enemy enemy in Program.enemies)
+            player.Update();
+            foreach (Enemy enemy in enemies)
             {
                 enemy.Update();
             }
@@ -82,7 +83,6 @@ namespace The_Border
 
             // world.Render();
             camera.Render();
-            player.Render();
         }
 
         // Handle input

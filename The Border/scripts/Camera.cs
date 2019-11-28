@@ -10,11 +10,17 @@ namespace The_Border.scripts
     class Camera
     {
         static char[,] visibleMap;
-        string visible;
+        string visible, clear;
 
         public Camera()
         {
             visibleMap = new char[Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT];
+
+            for (int i = 0; i < Constants.CAM_HEIGHT; i++)
+            {
+                clear += new string(' ', Constants.CAM_WIDTH);
+                clear += Environment.NewLine;
+            }
         }
 
         // Load the data for the visible map
@@ -71,25 +77,21 @@ namespace The_Border.scripts
             if (startX > Constants.WORLD_HEIGHT)
                 startY = Constants.WORLD_HEIGHT - Constants.CAM_HEIGHT;
             
-            int x = startX, y = startY;
             // get data from world to render starting from the start positions to the camera size
-            while (y < Constants.CAM_HEIGHT)
+            for (int y = 0; y < Constants.CAM_HEIGHT; y++)
             {
-                while (x < Constants.CAM_WIDTH)
+                for (int x = 0; x < Constants.CAM_WIDTH; x++)
                 {
-                    visible += visibleMap[x, y];
-
-                    x++;
+                    visible += visibleMap[startX + x, startY + y];
                 }
                 visible += Environment.NewLine;
-                x = startX;
-                y++;
+                visible += new string(' ', Constants.CAM_START_X);
             }
         }
 
         public void Render()
         {
-            Console.SetCursorPosition(5, 5);
+            Console.SetCursorPosition(Constants.CAM_START_X, Constants.CAM_START_Y);
             Console.Write(visible);
         }
 

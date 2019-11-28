@@ -34,11 +34,13 @@ namespace The_Border
 
         // Int
         // ======================================
-        // world size
+        // world and cam size
         public const int WORLD_WIDTH            = 250;
         public const int WORLD_HEIGHT           = 250;
-        public const int CAM_WIDTH              = 100;
-        public const int CAM_HEIGHT             = 100;
+        public const int CAM_WIDTH              = 50;
+        public const int CAM_HEIGHT             = 24;
+        public const int CAM_START_X            = 5; 
+        public const int CAM_START_Y            = 3;
 
         // positions
         public const int PLAYER_X = 5;
