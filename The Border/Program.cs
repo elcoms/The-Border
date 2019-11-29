@@ -60,19 +60,16 @@ namespace The_Border
         static void Initialize()
         {
             world.Initialize();
-            camera.Initialize();
+            player.SetPosition(53, 13);
         }
         
         // Process data not based on input
         static void Update()
         {
-            player.Update();
             foreach (Enemy enemy in enemies)
             {
                 enemy.Update();
             }
-
-            camera.Update();
         }
 
         // Display anything on screen
@@ -81,7 +78,6 @@ namespace The_Border
             Console.BackgroundColor = Constants.BACKGROUND_COLOR;
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
 
-            // world.Render();
             camera.Render();
         }
 
@@ -149,18 +145,26 @@ namespace The_Border
         // Print dialogue/narration text 
         public static void Log(string s)
         {
-            Console.SetCursorPosition(5, 18);
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
             Console.Write(new string(' ', 200));
-            Console.SetCursorPosition(5, 18);
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
             Console.WriteLine(s);
         }
 
         // For debugging purposes
         public static void Log(string s, int offsetX, int offsetY)
         {
-            Console.SetCursorPosition(5 + offsetX, 18 + offsetY);
+            Console.SetCursorPosition(Constants.LOG_X + offsetX, Constants.LOG_Y + offsetY);
             Console.Write(new string(' ', 200));
-            Console.SetCursorPosition(5 + offsetX, 18 + offsetY);
+            Console.SetCursorPosition(Constants.LOG_X + offsetX, Constants.LOG_Y + offsetY);
+            Console.WriteLine(s);
+        }
+
+        public static void LogNewLine(string s)
+        {
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
+            Console.Write(new string(' ', 200));
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
             Console.WriteLine(s);
         }
     }

@@ -20,7 +20,7 @@ namespace The_Border.scripts
 
         public override void Render()
         {
-            inventory.Render();
+            base.Render();
         }
 
         public Inventory GetInventory() { return inventory; }

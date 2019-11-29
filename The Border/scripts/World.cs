@@ -40,30 +40,39 @@ namespace The_Border.scripts
                         // assign each character in the world to a 2D array according to x and y
                         switch (c)
                         {
+                            case Constants.SPACE:
+                                worldData[x, y] = Constants.SPACE;
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.SPACE));
+                                break;
+
                             case Constants.WALL:
                                 worldData[x, y] = Constants.WALL;
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.WALL));
                                 break;
 
                             case Constants.ENEMY:
+                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY,
+                                    new Key(x, y, ConsoleColor.DarkRed, "The Key"));
+
                                 worldData[x, y] = Constants.ENEMY;
-                                Program.enemies.Add(new Enemy(x, y, 20, 1, Constants.ENEMY,
-                                    new Key(x, y, ConsoleColor.DarkRed, "The Key")));
+                                Program.enemies.Add(tempEnemy);
+                                Camera.UpdateVisibleMap(tempEnemy);
                                 break;
 
                             case Constants.KEY:
+                                Key tempKey = new Key(x, y, ConsoleColor.DarkRed, "The Key");
+
                                 worldData[x, y] = Constants.KEY;
-                                Program.items.Add(new Key(x, y, ConsoleColor.DarkRed, "The Key"));
+                                Program.items.Add(tempKey);
+                                Camera.UpdateVisibleMap(tempKey);
                                 break;
 
                             case Constants.DOOR_VERTICAL:
                             case Constants.DOOR_HORIZONTAL:
+                                Door tempDoor = new Door(x, y, c == Constants.DOOR_HORIZONTAL);
                                 worldData[x, y] = Constants.DOOR_COLLISION;
-                                Program.doors.Add(new Door(x, y, c == Constants.DOOR_HORIZONTAL));
-                                break;
-;
-
-                            case Constants.SPACE:
-                                worldData[x, y] = Constants.SPACE;
+                                Program.doors.Add(tempDoor);
+                                Camera.UpdateVisibleMap(tempDoor);
                                 break;
 
                             default:
@@ -137,9 +146,8 @@ namespace The_Border.scripts
                     {
                         if (Program.items[i].X == x && Program.items[i].Y == y)
                         {
-                            // put item into inventory if possible and update collision data
-                            if (player.GetInventory().AddItem(Program.items[i]))
-                                UpdateWorldData(x, y, Constants.SPACE);
+                            // put item into inventory if possible
+                            player.GetInventory().AddItem(Program.items[i]);
 
                             return true;
                         }
@@ -160,6 +168,7 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.SPACE:
+                    Program.Log("PLAYER MOVE");
                     player.SetPosition(x, y);
                     return false;
 
