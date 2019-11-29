@@ -23,8 +23,6 @@ namespace The_Border.scripts
 
         public override void Render()
         {
-            Console.SetCursorPosition(X, Y);
-
             if (isVisible)
             {
                 Console.ForegroundColor = color;

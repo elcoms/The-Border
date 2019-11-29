@@ -52,7 +52,10 @@ namespace The_Border
                 if (!animationTimer.IsRunning)
                     Input();
                 else
+                {
+                    Log("sleeping.");
                     Thread.Sleep(100);
+                }
             }
         }
 
@@ -61,6 +64,11 @@ namespace The_Border
         {
             world.Initialize();
             player.SetPosition(53, 13);
+
+            for (int i = 1; i < doors.Count; i++)
+            {
+                doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[new Random().Next(0, 3)]);
+            }
         }
         
         // Process data not based on input

@@ -31,6 +31,8 @@ namespace The_Border.scripts
             horizontal = isHorizontal;
         }
 
+        public void SetDoorColor(ConsoleColor newColor) { color = newColor; }
+
         public override void Render()
         {
             if (unlocked)

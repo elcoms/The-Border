@@ -37,7 +37,8 @@ namespace The_Border.scripts
                 {
                     foreach (char c in line)
                     {
-                        // assign each character in the world to a 2D array according to x and y
+                        // create the world based on the character read in the file
+                        // update world data, camera data and program data arrays
                         switch (c)
                         {
                             case Constants.SPACE:
@@ -52,7 +53,7 @@ namespace The_Border.scripts
 
                             case Constants.ENEMY:
                                 Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY,
-                                    new Key(x, y, ConsoleColor.DarkRed, "The Key"));
+                                    new Key(x, y, Constants.KEY_DOOR_COLORS[new Random().Next(0, 3)], "The Key"));
 
                                 worldData[x, y] = Constants.ENEMY;
                                 Program.enemies.Add(tempEnemy);
@@ -168,7 +169,6 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.SPACE:
-                    Program.Log("PLAYER MOVE");
                     player.SetPosition(x, y);
                     return false;
 

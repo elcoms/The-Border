@@ -14,6 +14,15 @@ namespace The_Border.scripts
 
         public override void Render()
         {
+            if (Program.animationTimer.IsRunning)
+            {
+                if (Program.animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
+                {
+                    Program.animationTimer.Reset();
+                    attacked = false;
+                }
+            }
+
             // if attacked, show attack graphic depending on direction for a short amt of time
             if (attacked)
             {
@@ -22,17 +31,8 @@ namespace The_Border.scripts
                 // suspend the console for a short amt of time before changing back
                 if (!Program.animationTimer.IsRunning)
                     Program.animationTimer.Start();
-                else
-                {
-                    if (Program.animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
-                    {
-                        Program.animationTimer.Reset();
-                        attacked = false;
-                    }
-                }
             }
-
-            if (!attacked)
+            else
             {
                 if (!dead)
                 {
@@ -43,7 +43,6 @@ namespace The_Border.scripts
                     else
                     {
                         Console.Write(Constants.DEAD);
-                        World.UpdateWorldData(X, Y, Constants.SPACE);
                         dead = true;
                     }
                 }
