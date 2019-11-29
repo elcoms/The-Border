@@ -34,19 +34,21 @@ namespace The_Border
 
         // Int
         // ======================================
-        // world and cam size
+        // sizes
         public const int WORLD_WIDTH            = 250;
         public const int WORLD_HEIGHT           = 250;
         public const int CAM_WIDTH              = 50;
         public const int CAM_HEIGHT             = 24;
-        public const int CAM_START_X            = 5; 
-        public const int CAM_START_Y            = 3;
 
         // positions
-        public const int PLAYER_X = 5;
-        public const int PLAYER_Y = 5;
-        public const int INVENTORY_X = 100;
-        public const int INVENTORY_Y = 1;
+        public const int PLAYER_X               = 5;
+        public const int PLAYER_Y               = 5;
+        public const int INVENTORY_X            = 100;
+        public const int INVENTORY_Y            = 1;
+        public const int CAM_START_X            = 5;
+        public const int CAM_START_Y            = 3;
+        public const int LOG_X                  = 5;
+        public const int LOG_Y                  = 27;
 
         // time (in milliseconds)
         public const int ATTACK_ANIM_TIME       = 200;

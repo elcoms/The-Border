@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace The_Border.scripts
 {
-    class Door
+    class Door : Object
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
         ConsoleColor color = ConsoleColor.DarkRed;
 
         
@@ -33,17 +31,15 @@ namespace The_Border.scripts
             horizontal = isHorizontal;
         }
 
-        public void Render()
+        public override void Render()
         {
             if (unlocked)
             {
-                Console.SetCursorPosition(X, Y);
                 Console.Write(Constants.SPACE);
             }
             else
             {
                 Console.ForegroundColor = color;
-                Console.SetCursorPosition(X, Y);
                 Console.Write(horizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL);
             }
 

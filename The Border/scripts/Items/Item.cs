@@ -9,6 +9,8 @@ namespace The_Border.scripts
     class Item : Object
     {
         public string Name { get; protected set; }
+        public Character Holder { get; set; }
+        
         private bool isVisible = true;
 
         protected new char sprite = Constants.LOOTBAG;

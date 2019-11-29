@@ -28,6 +28,7 @@ namespace The_Border.scripts
             sprite = character;
             drop = item;
             drop.SetVisible(false);
+            drop.Holder = this;
         }
 
         public override void Render()
@@ -40,12 +41,11 @@ namespace The_Border.scripts
             drop.SetPosition(X, Y);
             drop.SetVisible(true);
             Program.items.Add(drop);
-            World.UpdateWorldData(X, Y, drop.getSprite());
 
             drop = null;
         }
 
-        public void Update()
+        public override void Update()
         {
             if (dead && drop != null)
             {

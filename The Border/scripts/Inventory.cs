@@ -37,20 +37,26 @@ namespace The_Border.scripts
         {
             bool itemAdded = false;
 
+            // check if inventory got space
             for (int i = 0; i < items.Length; i++)
             {
+                // if got space, add item to inventory
                 if (items[i] == null)
                 {
                     items[i] = item;
                     item.SetVisible(false);
                     itemAdded = true;
+
+                    if (item.Holder != null)
+                        item.Holder.SetPosition(item.X, item.Y);
                     break;
                 }
             }
 
+            // dialogue for adding item successfully/unsuccessfully
             if (itemAdded)
             {
-                Program.Log("Picked up " + item.Name);
+                Program.Log("The Man found " + item.Name + " to accompany him.");
             }
             else
             {
@@ -68,7 +74,6 @@ namespace The_Border.scripts
             {
                 Program.Log("The Man left " + items[num].Name + " behind.");
                 
-                World.UpdateWorldData(x, y, items[num].getSprite());
                 items[num].SetPosition(x, y);
                 items[num].SetVisible(true);
                 items[num] = null;
@@ -86,6 +91,11 @@ namespace The_Border.scripts
             if (items[num] != null)
             {
                 items[num] = null;
+                Program.Log(items[num].Name + " was obliterated.");
+            }
+            else
+            {
+                Program.Log("Nothing can't be destroyed.");
             }
         }
 
