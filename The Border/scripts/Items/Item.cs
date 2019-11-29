@@ -13,12 +13,12 @@ namespace The_Border.scripts
         
         private bool isVisible = true;
 
-        protected new char sprite = Constants.LOOTBAG;
         protected ConsoleColor color = Constants.FOREGROUND_COLOR;
 
         public Item()
         {
             Name = "The Item";
+            sprite = Constants.LOOTBAG;
         }
 
         public override void Render()
@@ -40,7 +40,6 @@ namespace The_Border.scripts
             isVisible = visible;
         }
 
-        public char getSprite() { return sprite; }
         public ConsoleColor getColor() { return color; }
     }
 }

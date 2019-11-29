@@ -46,15 +46,22 @@ namespace The_Border.scripts
                         dead = true;
                     }
                 }
+                else
+                {
+                    Console.Write(Constants.DEAD);
+                }
             }
         }
 
         public virtual void Damaged(int amount, Object obj)
         {
-            // determine if the attack by object is next to this character or above/below
-            horizontalAttack = obj.Y == Y ? true : false;
-            attacked = true;
-            health -= amount;
+            if (!dead)
+            {
+                // determine if the attack by object is next to this character or above/below
+                horizontalAttack = obj.Y == Y ? true : false;
+                attacked = true;
+                health -= amount;
+            }
         }
 
         public virtual void Heal(int amount)

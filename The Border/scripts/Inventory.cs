@@ -49,6 +49,12 @@ namespace The_Border.scripts
 
                     if (item.Holder != null)
                         item.Holder.SetPosition(item.X, item.Y);
+                    else
+                    {
+                        World.UpdateWorldData(item.X, item.Y, Constants.SPACE);
+                        Camera.UpdateVisibleMap(new Object(item.X, item.Y, Constants.SPACE));
+                    }
+
                     break;
                 }
             }

@@ -22,6 +22,8 @@ namespace The_Border.scripts
             sprite = objectSprite;
         }
 
+        public char GetSprite() { return sprite; }
+
         public virtual void Render() 
         {
             Console.Write(sprite);

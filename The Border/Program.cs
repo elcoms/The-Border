@@ -17,6 +17,7 @@ namespace The_Border
         
         private static bool noInput;
         private static bool quit;
+        private static int logCount = 1;
 
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
@@ -24,6 +25,7 @@ namespace The_Border
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Item> items = new List<Item>();
         public static List<Door> doors = new List<Door>();
+        public static List<string> log = new List<string>();
 
         static void Main(string[] args)
         {
@@ -52,10 +54,7 @@ namespace The_Border
                 if (!animationTimer.IsRunning)
                     Input();
                 else
-                {
-                    Log("sleeping.");
                     Thread.Sleep(100);
-                }
             }
         }
 
@@ -87,6 +86,13 @@ namespace The_Border
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
 
             camera.Render();
+            player.GetInventory().Render();
+
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
+            foreach (string s in log)
+            {
+                Console.Write(s + " ");
+            }
         }
 
         // Handle input
@@ -170,10 +176,9 @@ namespace The_Border
 
         public static void LogNewLine(string s)
         {
-            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
-            Console.Write(new string(' ', 200));
-            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + logCount);
             Console.WriteLine(s);
+            logCount++;
         }
     }
 }

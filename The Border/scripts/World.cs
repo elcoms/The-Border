@@ -52,8 +52,7 @@ namespace The_Border.scripts
                                 break;
 
                             case Constants.ENEMY:
-                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY,
-                                    new Key(x, y, Constants.KEY_DOOR_COLORS[new Random().Next(0, 3)], "The Key"));
+                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[new Random().Next(0, 3)], "The Key"));
 
                                 worldData[x, y] = Constants.ENEMY;
                                 Program.enemies.Add(tempEnemy);
@@ -128,6 +127,8 @@ namespace The_Border.scripts
         // Check if there is collision in the position specified and call for any necessary action
         public bool CheckCollision(int x, int y, Player player)
         {
+
+            // Program.LogNewLine(worldData[x, y].ToString());
             switch (worldData[x, y])
             {
                 case Constants.ENEMY:
@@ -143,6 +144,7 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.KEY:
+ 
                     for (int i = 0; i < Program.items.Count; i++)
                     {
                         if (Program.items[i].X == x && Program.items[i].Y == y)
