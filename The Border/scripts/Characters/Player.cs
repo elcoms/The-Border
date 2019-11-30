@@ -23,7 +23,7 @@ namespace The_Border.scripts
         {
             if (dead)
             {
-                Console.BackgroundColor = ConsoleColor.Red;
+                Console.BackgroundColor = ConsoleColor.DarkRed;
                 Program.Log(level > 4 ? "The Man tried his best but The Border was too overwhelming."
                     : "The Man could not even get close to The Border");
 
