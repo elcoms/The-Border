@@ -26,13 +26,13 @@ namespace The_Border.scripts
             if (startX < 0)
                 startX = 0;
 
-            if (startX > Constants.WORLD_WIDTH)
+            if (startX > Constants.WORLD_WIDTH - Constants.CAM_WIDTH)
                 startX = Constants.WORLD_WIDTH - Constants.CAM_WIDTH;
 
             if (startY < 0)
                 startY = 0;
 
-            if (startX > Constants.WORLD_HEIGHT)
+            if (startX > Constants.WORLD_HEIGHT - Constants.CAM_HEIGHT)
                 startY = Constants.WORLD_HEIGHT - Constants.CAM_HEIGHT;
 
             // get data from world to render starting from the start positions to the camera size
@@ -41,7 +41,7 @@ namespace The_Border.scripts
             {
                 for (int x = 0; x < Constants.CAM_WIDTH; x++)
                 {
-                    visibleMap[startX + x, startY + y].Render();
+                    visibleMap[startX + x, startY + y]?.Render();
                 }
                 Console.WriteLine();
                 Console.Write(new string(' ', Constants.CAM_START_X));

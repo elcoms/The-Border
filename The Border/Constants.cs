@@ -8,6 +8,8 @@ namespace The_Border
         // ======================================
         public const string DUNGEON_FILE = "..\\..\\data\\dungeon.txt";
         public const string COLLISION_DATA_FILE = "..\\..\\data\\collision_data.txt";
+        public const string GRAPHICAL_INTERFACE_FILE = "..\\..\\data\\interface.txt";
+        public const string MENU_FILE = "..\\..\\data\\main_menu.txt";
 
 
         // Char
@@ -25,12 +27,16 @@ namespace The_Border
         public const char KEY                   = 't';
         public const char LOOTBAG               = 'b';
 
-        // others
+        // collision types
         public const char WALL                  = '█';
         public const char SPACE                 = ' ';
         public const char DOOR_COLLISION        = '▌';
+
+        // graphic types
         public const char DOOR_VERTICAL         = '│';
         public const char DOOR_HORIZONTAL       = '─';
+        public const char FENCE                 = '▒';
+        public const char FENCE_WEAK            = '░';
 
         // Int
         // ======================================
@@ -39,16 +45,20 @@ namespace The_Border
         public const int WORLD_HEIGHT           = 250;
         public const int CAM_WIDTH              = 50;
         public const int CAM_HEIGHT             = 24;
+        public const int WINDOW_WIDTH           = 95;
+        public const int WINDOW_HEIGHT          = 37;
 
         // positions
         public const int PLAYER_X               = 5;
         public const int PLAYER_Y               = 5;
-        public const int INVENTORY_X            = 100;
-        public const int INVENTORY_Y            = 1;
         public const int CAM_START_X            = 5;
         public const int CAM_START_Y            = 3;
-        public const int LOG_X                  = 5;
-        public const int LOG_Y                  = 27;
+        public const int STATS_X                = 61;
+        public const int STATS_Y                = 4;   
+        public const int INVENTORY_X            = 60;
+        public const int INVENTORY_Y            = 19;
+        public const int LOG_X                  = 3;
+        public const int LOG_Y                  = 30;
 
         // time (in milliseconds)
         public const int ATTACK_ANIM_TIME       = 200;

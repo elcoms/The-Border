@@ -20,6 +20,7 @@ namespace The_Border.scripts
             X = xPos;
             Y = yPos;
             horizontal = isHorizontal;
+            sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
         }
 
         public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor, bool isHorizontal)
@@ -29,7 +30,10 @@ namespace The_Border.scripts
             name = givenName;
             color = givenColor;
             horizontal = isHorizontal;
+            sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
         }
+
+        public void SetDoorColor(ConsoleColor newColor) { color = newColor; }
 
         public override void Render()
         {
@@ -40,7 +44,7 @@ namespace The_Border.scripts
             else
             {
                 Console.ForegroundColor = color;
-                Console.Write(horizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL);
+                Console.Write(sprite);
             }
 
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;

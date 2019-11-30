@@ -21,12 +21,14 @@ namespace The_Border.scripts
 
                 if (items[i] != null)
                 {
+                    Console.ForegroundColor = items[i].getColor();
                     Console.Write(items[i].Name);
+                    Console.ForegroundColor = Constants.FOREGROUND_COLOR;
                 }
                 // print empty spaces if no item
                 else
                 {
-                    Console.Write(new string(' ', Console.WindowWidth - Constants.INVENTORY_X - 5));
+                    Console.Write(new string(' ', Constants.WINDOW_WIDTH - Constants.INVENTORY_X - 10));
                 }
 
                 Console.SetCursorPosition(Constants.INVENTORY_X, Constants.INVENTORY_Y + i + 1);
@@ -49,6 +51,11 @@ namespace The_Border.scripts
 
                     if (item.Holder != null)
                         item.Holder.SetPosition(item.X, item.Y);
+                    else
+                    {
+                        World.UpdateWorldData(item.X, item.Y, Constants.SPACE);
+                        Camera.UpdateVisibleMap(new Object(item.X, item.Y, Constants.SPACE));
+                    }
                     break;
                 }
             }

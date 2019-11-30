@@ -37,7 +37,8 @@ namespace The_Border.scripts
                 {
                     foreach (char c in line)
                     {
-                        // assign each character in the world to a 2D array according to x and y
+                        // create the world based on the character read in the file
+                        // update world data, camera data and program data arrays
                         switch (c)
                         {
                             case Constants.SPACE:
@@ -50,9 +51,13 @@ namespace The_Border.scripts
                                 Camera.UpdateVisibleMap(new Object(x, y, Constants.WALL));
                                 break;
 
+                            case Constants.FENCE:
+                                worldData[x, y] = Constants.WALL;
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE));
+                                break;
+
                             case Constants.ENEMY:
-                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY,
-                                    new Key(x, y, ConsoleColor.DarkRed, "The Key"));
+                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)], "The Key"));
 
                                 worldData[x, y] = Constants.ENEMY;
                                 Program.enemies.Add(tempEnemy);
@@ -74,6 +79,16 @@ namespace The_Border.scripts
                                 Program.doors.Add(tempDoor);
                                 Camera.UpdateVisibleMap(tempDoor);
                                 break;
+
+                            case Constants.FENCE_WEAK:
+                                Door tempFence = new Door(x, y, "The Fragile Fence", ConsoleColor.Gray, true);
+                                worldData[x, y] = Constants.DOOR_COLLISION;
+                                Program.doors.Add(tempFence);
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE_WEAK));
+                                break;
+
+
+                                
 
                             default:
                                 break;
@@ -127,6 +142,8 @@ namespace The_Border.scripts
         // Check if there is collision in the position specified and call for any necessary action
         public bool CheckCollision(int x, int y, Player player)
         {
+
+            // Program.LogNewLine(worldData[x, y].ToString());
             switch (worldData[x, y])
             {
                 case Constants.ENEMY:
@@ -142,6 +159,7 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.KEY:
+ 
                     for (int i = 0; i < Program.items.Count; i++)
                     {
                         if (Program.items[i].X == x && Program.items[i].Y == y)
