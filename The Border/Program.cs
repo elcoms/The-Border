@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.IO;
 
 using The_Border.scripts;
 
@@ -30,9 +29,10 @@ namespace The_Border
         private static string menuTitle;
         private static State currentState = State.Menu;
 
+        public static bool animating;
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
-        public static Random random = new Random()
+        public static Random random = new Random();
 
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Item> items = new List<Item>();
@@ -62,11 +62,21 @@ namespace The_Border
                 Update();
                 Render();
 
-                // run input only if the game is not animating attacks
-                if (!animationTimer.IsRunning)
+                // Run game only if the game is not animating attacks
+                if (!animating)
+                {
                     Input();
+                }
                 else
+                {
                     Thread.Sleep(100);
+
+                    if (animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
+                    {
+                        animationTimer.Reset();
+                        animating = false;
+                    }
+                }
             }
         }
 
@@ -89,6 +99,8 @@ namespace The_Border
         // Process data not based on input
         static void Update()
         {
+            player.Update();
+
             foreach (Enemy enemy in enemies)
             {
                 enemy.Update();
@@ -103,6 +115,9 @@ namespace The_Border
 
             switch (currentState)
             {
+                // ==================================================================================================
+                // RENDER MENU
+                // ==================================================================================================
                 case State.Menu:
                     Console.Clear();
                     Console.Write(menuTitle);
@@ -119,7 +134,10 @@ namespace The_Border
                     Console.BackgroundColor = Constants.BACKGROUND_COLOR;
                     Console.ForegroundColor = Constants.FOREGROUND_COLOR;
                     break;
-                
+
+                // ==================================================================================================
+                // RENDER GAME
+                // ==================================================================================================
                 case State.Game:
                     camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
                     userInterface.Render();
@@ -145,6 +163,9 @@ namespace The_Border
 
             switch (currentState)
             {
+                // ==================================================================================================
+                // HANDLE MENU INPUT
+                // ==================================================================================================
                 case State.Menu:
                     switch (input.Key)
                     {
@@ -160,7 +181,10 @@ namespace The_Border
 
                         case ConsoleKey.Enter:
                             if (play)
+                            {
                                 currentState = State.Game;
+                                Console.Clear();
+                            }
                             else
                                 quit = true;
                             break;
@@ -170,6 +194,9 @@ namespace The_Border
                     }
                     break;
 
+                // ==================================================================================================
+                // HANDLE GAME INPUT
+                // ==================================================================================================
                 case State.Game:
                     switch (input.Key)
                     {
@@ -181,22 +208,22 @@ namespace The_Border
                         // MOVEMENT INPUT
                         case ConsoleKey.W:
                         case ConsoleKey.UpArrow:
-                            world.CheckCollision(player.X, player.Y - 1, player);
+                            player.OnCollision(player.X, player.Y - 1, World.GetDataFromPosition(player.X, player.Y - 1));
                             break;
 
                         case ConsoleKey.A:
                         case ConsoleKey.LeftArrow:
-                            world.CheckCollision(player.X - 1, player.Y, player);
+                            player.OnCollision(player.X - 1, player.Y, World.GetDataFromPosition(player.X - 1, player.Y));
                             break;
 
                         case ConsoleKey.S:
                         case ConsoleKey.DownArrow:
-                            world.CheckCollision(player.X, player.Y + 1, player);
+                            player.OnCollision(player.X, player.Y + 1, World.GetDataFromPosition(player.X, player.Y + 1));
                             break;
 
                         case ConsoleKey.D:
                         case ConsoleKey.RightArrow:
-                            world.CheckCollision(player.X + 1, player.Y, player);
+                            player.OnCollision(player.X + 1, player.Y, World.GetDataFromPosition(player.X + 1, player.Y));
                             break;
 
 

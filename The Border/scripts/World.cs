@@ -139,61 +139,10 @@ namespace The_Border.scripts
                 return worldData[x, y] == Constants.WALL;
         }
 
-        // Check if there is collision in the position specified and call for any necessary action
-        public bool CheckCollision(int x, int y, Player player)
+        // Return data specified by position
+        public static char GetDataFromPosition(int x, int y)
         {
-
-            // Program.LogNewLine(worldData[x, y].ToString());
-            switch (worldData[x, y])
-            {
-                case Constants.ENEMY:
-                    foreach (Enemy enemy in Program.enemies)
-                    {
-                        if (enemy.X == x && enemy.Y == y)
-                        {
-                            // player attack enemy
-                            enemy.Damaged(player.GetDamage(), player);
-                            return true;
-                        }
-                    }
-                    break;
-
-                case Constants.KEY:
- 
-                    for (int i = 0; i < Program.items.Count; i++)
-                    {
-                        if (Program.items[i].X == x && Program.items[i].Y == y)
-                        {
-                            // put item into inventory if possible
-                            player.GetInventory().AddItem(Program.items[i]);
-
-                            return true;
-                        }
-                    }
-
-                    player.SetPosition(x, y);
-                    break;
-
-                case Constants.DOOR_COLLISION:
-                    foreach (Door door in Program.doors)
-                    {
-                        if (door.X == x && door.Y == y)
-                        {
-                            door.OnCollision(player);
-                            return true;
-                        }
-                    }
-                    break;
-
-                case Constants.SPACE:
-                    Program.Log("PLAYER MOVE");
-                    player.SetPosition(x, y);
-                    return false;
-
-                default: return true;
-            }
-
-            return false;
+            return worldData[x, y];
         }
 
         // For testing purposes
