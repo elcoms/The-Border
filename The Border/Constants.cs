@@ -9,6 +9,7 @@ namespace The_Border
         public const string DUNGEON_FILE = "..\\..\\data\\dungeon.txt";
         public const string COLLISION_DATA_FILE = "..\\..\\data\\collision_data.txt";
         public const string GRAPHICAL_INTERFACE_FILE = "..\\..\\data\\interface.txt";
+        public const string MENU_FILE = "..\\..\\data\\main_menu.txt";
 
 
         // Char

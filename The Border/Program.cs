@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.IO;
 
 using The_Border.scripts;
 
@@ -12,13 +13,22 @@ namespace The_Border
 {
     class Program
     {
+        public enum State
+        {
+            Menu,
+            Game
+        }
+
         private static World world = new World();
         private static Camera camera = new Camera();
         private static GraphicalInterface userInterface = new GraphicalInterface();
         
         private static bool noInput;
+        private static bool play = true;
         private static bool quit;
         private static int logCount = 1;
+        private static string menuTitle;
+        private static State currentState = State.Menu;
 
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
@@ -72,6 +82,8 @@ namespace The_Border
             {
                 doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
             }
+
+            menuTitle = File.ReadAllText(Constants.MENU_FILE);
         }
         
         // Process data not based on input
@@ -89,15 +101,41 @@ namespace The_Border
             Console.BackgroundColor = Constants.BACKGROUND_COLOR;
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
 
-            camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
-            userInterface.Render();
-
-            // For debugging purposes
-            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
-            foreach (string s in log)
+            switch (currentState)
             {
-                Console.Write(s + " ");
+                case State.Menu:
+                    Console.Clear();
+                    Console.Write(menuTitle);
+
+                    Console.BackgroundColor = play ? ConsoleColor.White : Constants.BACKGROUND_COLOR;
+                    Console.ForegroundColor = play ? ConsoleColor.Black : Constants.FOREGROUND_COLOR;
+                    Console.SetCursorPosition((Constants.WINDOW_WIDTH / 2) - 5, Constants.WINDOW_HEIGHT / 2);
+                    Console.Write(" Play ");
+
+                    Console.BackgroundColor = play ? Constants.BACKGROUND_COLOR : ConsoleColor.White;
+                    Console.ForegroundColor = play ? Constants.FOREGROUND_COLOR : ConsoleColor.Black;
+                    Console.SetCursorPosition((Constants.WINDOW_WIDTH / 2) - 5, (Constants.WINDOW_HEIGHT / 2) + 2);
+                    Console.Write(" Quit ");
+                    Console.BackgroundColor = Constants.BACKGROUND_COLOR;
+                    Console.ForegroundColor = Constants.FOREGROUND_COLOR;
+                    break;
+                
+                case State.Game:
+                    camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
+                    userInterface.Render();
+
+                    // For debugging purposes
+                    Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
+                    foreach (string s in log)
+                    {
+                        Console.Write(s + " ");
+                    }
+                    break;
+                
+                default:
+                    break;
             }
+            
         }
 
         // Handle input
@@ -106,59 +144,94 @@ namespace The_Border
             ConsoleKeyInfo input = Console.ReadKey(true);
             noInput = false;
 
-            switch (input.Key)
+            switch (currentState)
             {
-                case ConsoleKey.Q:
-                case ConsoleKey.Escape:
-                    quit = true;
+                case State.Menu:
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.S:
+                        case ConsoleKey.DownArrow:
+                            play = false;
+                            break;
+
+                        case ConsoleKey.W:
+                        case ConsoleKey.UpArrow:
+                            play = true;
+                            break;
+
+                        case ConsoleKey.Enter:
+                            if (play)
+                                currentState = State.Game;
+                            else
+                                quit = true;
+                            break;
+
+                        default: noInput = true;
+                            break;
+                    }
                     break;
 
-                // MOVEMENT INPUT
-                case ConsoleKey.W:
-                case ConsoleKey.UpArrow:
-                    world.CheckCollision(player.X, player.Y - 1, player);
+                case State.Game:
+                    switch (input.Key)
+                    {
+                        case ConsoleKey.Q:
+                        case ConsoleKey.Escape:
+                            quit = true;
+                            break;
+
+                        // MOVEMENT INPUT
+                        case ConsoleKey.W:
+                        case ConsoleKey.UpArrow:
+                            world.CheckCollision(player.X, player.Y - 1, player);
+                            break;
+
+                        case ConsoleKey.A:
+                        case ConsoleKey.LeftArrow:
+                            world.CheckCollision(player.X - 1, player.Y, player);
+                            break;
+
+                        case ConsoleKey.S:
+                        case ConsoleKey.DownArrow:
+                            world.CheckCollision(player.X, player.Y + 1, player);
+                            break;
+
+                        case ConsoleKey.D:
+                        case ConsoleKey.RightArrow:
+                            world.CheckCollision(player.X + 1, player.Y, player);
+                            break;
+
+
+                        // INVENTORY INPUT
+                        case ConsoleKey.D1:
+                            player.GetInventory().DropItem(1, player.X, player.Y);
+                            break;
+
+                        case ConsoleKey.D2:
+                            player.GetInventory().DropItem(2, player.X, player.Y);
+                            break;
+
+                        case ConsoleKey.D3:
+                            player.GetInventory().DropItem(3, player.X, player.Y);
+                            break;
+
+                        case ConsoleKey.D4:
+                            player.GetInventory().DropItem(4, player.X, player.Y);
+                            break;
+
+                        case ConsoleKey.D5:
+                            player.GetInventory().DropItem(5, player.X, player.Y);
+                            break;
+
+                        default:
+                            noInput = true;
+                            break;
+                    }
                     break;
 
-                case ConsoleKey.A:
-                case ConsoleKey.LeftArrow:
-                    world.CheckCollision(player.X - 1, player.Y, player);
-                    break;
-
-                case ConsoleKey.S:
-                case ConsoleKey.DownArrow:
-                    world.CheckCollision(player.X, player.Y + 1, player);
-                    break;
-
-                case ConsoleKey.D:
-                case ConsoleKey.RightArrow:
-                    world.CheckCollision(player.X + 1, player.Y, player);
-                    break;
-
-
-                // INVENTORY INPUT
-                case ConsoleKey.D1:
-                    player.GetInventory().DropItem(1, player.X, player.Y);
-                    break;
-
-                case ConsoleKey.D2:
-                    player.GetInventory().DropItem(2, player.X, player.Y);
-                    break;
-
-                case ConsoleKey.D3:
-                    player.GetInventory().DropItem(3, player.X, player.Y);
-                    break;
-
-                case ConsoleKey.D4:
-                    player.GetInventory().DropItem(4, player.X, player.Y);
-                    break;
-
-                case ConsoleKey.D5:
-                    player.GetInventory().DropItem(5, player.X, player.Y);
-                    break;
-
-                default: noInput = true;
+                default:
                     break;
             }
+            
         }
 
         // Print dialogue/narration text 
