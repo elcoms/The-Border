@@ -26,7 +26,7 @@ namespace The_Border.scripts
                 // print empty spaces if no item
                 else
                 {
-                    Console.Write(new string(' ', Console.WindowWidth - Constants.INVENTORY_X - 5));
+                    Console.Write(new string(' ', Constants.WINDOW_WIDTH - Constants.INVENTORY_X - 10));
                 }
 
                 Console.SetCursorPosition(Constants.INVENTORY_X, Constants.INVENTORY_Y + i + 1);

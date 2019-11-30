@@ -32,8 +32,8 @@ namespace The_Border
         static void Main(string[] args)
         {
             // Set up console
-            Console.WindowWidth = Console.LargestWindowWidth;
-            Console.WindowHeight = Console.LargestWindowHeight;
+            Console.WindowWidth = Constants.WINDOW_WIDTH;
+            Console.WindowHeight = Constants.WINDOW_HEIGHT;
 
             // Remove cursor
             Console.CursorVisible = false;
@@ -165,10 +165,25 @@ namespace The_Border
         // Print dialogue/narration text 
         public static void Log(string s)
         {
+            // Clear log
             Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
-            Console.Write(new string(' ', 200));
-            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
-            Console.WriteLine(s);
+            Console.Write(new string(' ', 50));
+            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
+            Console.Write(new string(' ', 50));
+
+            // Write string, word wrap once if necessary
+            if (s.Length > 50)
+            {
+                Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
+                Console.WriteLine(s.Substring(0, 50));
+                Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
+                Console.WriteLine(s.Substring(50));
+            }
+            else
+            {
+                Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
+                Console.WriteLine(s);
+            }
         }
 
         // For debugging purposes
