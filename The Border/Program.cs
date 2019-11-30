@@ -32,7 +32,7 @@ namespace The_Border
 
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
-        public static Random random = new Random();
+        public static Random random = new Random()
 
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Item> items = new List<Item>();
@@ -135,7 +135,6 @@ namespace The_Border
                 default:
                     break;
             }
-            
         }
 
         // Handle input

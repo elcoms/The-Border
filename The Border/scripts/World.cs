@@ -186,6 +186,7 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.SPACE:
+                    Program.Log("PLAYER MOVE");
                     player.SetPosition(x, y);
                     return false;
 

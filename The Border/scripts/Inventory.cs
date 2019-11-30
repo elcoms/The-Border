@@ -56,7 +56,6 @@ namespace The_Border.scripts
                         World.UpdateWorldData(item.X, item.Y, Constants.SPACE);
                         Camera.UpdateVisibleMap(new Object(item.X, item.Y, Constants.SPACE));
                     }
-
                     break;
                 }
             }
