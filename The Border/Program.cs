@@ -55,7 +55,7 @@ namespace The_Border
 
         static void RunGame()
         {
-            Initialize();
+            menuTitle = File.ReadAllText(Constants.MENU_FILE);
 
             while (!quit)
             {
@@ -65,7 +65,18 @@ namespace The_Border
                 // Run game only if the game is not animating attacks
                 if (!animating)
                 {
-                    Input();
+                    if (player.Dead() && currentState == State.Game)
+                    {
+                        Console.SetCursorPosition(0, (Constants.WINDOW_HEIGHT / 2) - 5);
+                        Console.Write(File.Exists(Constants.GAMEOVER_FILE) ? File.ReadAllText(Constants.GAMEOVER_FILE) : "Game Over");
+
+                        Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
+                        currentState = State.Menu;
+                        play = true;
+                        Console.Clear();
+                    }
+                    else
+                        Input();
                 }
                 else
                 {
@@ -83,17 +94,23 @@ namespace The_Border
         // Load assets and prepare game
         static void Initialize()
         {
+            player = new Player();
+            world = new World();
+            camera = new Camera();
+            enemies = new List<Enemy>();
+            items = new List<Item>();
+            doors = new List<Door>();
+            random = new Random();
+
             world.Initialize();
             userInterface.Initialize();
 
-            player.SetPosition(53, 13);
+            player.SetPosition(Constants.PLAYER_X, Constants.PLAYER_Y);
 
             for (int i = 1; i < doors.Count; i++)
             {
                 doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
             }
-
-            menuTitle = File.ReadAllText(Constants.MENU_FILE);
         }
         
         // Process data not based on input
@@ -184,6 +201,7 @@ namespace The_Border
                             {
                                 currentState = State.Game;
                                 Console.Clear();
+                                Initialize();
                             }
                             else
                                 quit = true;

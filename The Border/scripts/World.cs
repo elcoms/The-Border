@@ -57,7 +57,7 @@ namespace The_Border.scripts
                                 break;
 
                             case Constants.ENEMY:
-                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)], "The Key"));
+                                Enemy tempEnemy = new Enemy(x, y, 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)], "The Key"));
 
                                 worldData[x, y] = Constants.ENEMY;
                                 Program.enemies.Add(tempEnemy);

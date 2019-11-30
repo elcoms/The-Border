@@ -26,7 +26,6 @@ namespace The_Border.scripts
                     // render if alive
                     if (health > 0)
                         Console.Write(sprite);
-
                 }
                 else
                 {
@@ -41,6 +40,9 @@ namespace The_Border.scripts
             {
                 attacked = false;
             }
+
+            if (health <= 0)
+                dead = true;
 
             base.Update();
         }
@@ -70,8 +72,8 @@ namespace The_Border.scripts
         }
 
         public virtual int GetDamage() { return damage; }
-
         public virtual bool Attacked() { return attacked; }
+        public virtual bool Dead() { return dead; }
 
         public virtual void OnCollision(int x, int y, char collision) { }
     }

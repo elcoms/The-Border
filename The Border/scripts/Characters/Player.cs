@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace The_Border.scripts
 {
@@ -20,6 +21,16 @@ namespace The_Border.scripts
 
         public override void Render()
         {
+            if (dead)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Program.Log(level > 4 ? "The Man tried his best but The Border was too overwhelming."
+                    : "The Man could not even get close to The Border");
+
+                Console.BackgroundColor = Constants.BACKGROUND_COLOR;
+                Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
+            }
+
             base.Render();
         }
 
@@ -31,13 +42,13 @@ namespace The_Border.scripts
         public void RenderStats()
         {
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y);
-            Console.Write("Level: " + level);
+            Console.Write("Level: " + level + "   ");
 
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y + 1);
-            Console.Write("Health: " + health);
+            Console.Write("Health: " + health + "   ");
             
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y + 2);
-            Console.Write("Gold: " + gold);
+            Console.Write("Gold: " + gold + "   ");
         }
 
         public override void OnCollision(int x, int y, char collision)
