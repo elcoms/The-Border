@@ -21,7 +21,9 @@ namespace The_Border.scripts
 
                 if (items[i] != null)
                 {
+                    Console.ForegroundColor = items[i].getColor();
                     Console.Write(items[i].Name);
+                    Console.ForegroundColor = Constants.FOREGROUND_COLOR;
                 }
                 // print empty spaces if no item
                 else

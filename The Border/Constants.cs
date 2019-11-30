@@ -50,10 +50,12 @@ namespace The_Border
         // positions
         public const int PLAYER_X               = 5;
         public const int PLAYER_Y               = 5;
-        public const int INVENTORY_X            = 60;
-        public const int INVENTORY_Y            = 19;
         public const int CAM_START_X            = 5;
         public const int CAM_START_Y            = 3;
+        public const int STATS_X                = 61;
+        public const int STATS_Y                = 4;   
+        public const int INVENTORY_X            = 60;
+        public const int INVENTORY_Y            = 19;
         public const int LOG_X                  = 3;
         public const int LOG_Y                  = 30;
 

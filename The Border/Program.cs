@@ -92,8 +92,7 @@ namespace The_Border
             camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
             userInterface.Render();
 
-            player.GetInventory().Render();
-
+            // For debugging purposes
             Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
             foreach (string s in log)
             {

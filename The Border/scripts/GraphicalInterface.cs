@@ -62,6 +62,7 @@ namespace The_Border.scripts
 
         public void Render()
         {
+            // Render borders
             foreach (Pixel pixel in text)
             {
                 if (pixel.c == Constants.SPACE)
@@ -70,6 +71,12 @@ namespace The_Border.scripts
                 Console.SetCursorPosition(pixel.x, pixel.y);
                 Console.WriteLine(pixel.c);
             }
+
+            // Render stats
+            Program.player.RenderStats();
+
+            // Render Inventory
+            Program.player.GetInventory().Render();
         }
     }
 }
