@@ -14,6 +14,7 @@ namespace The_Border
     {
         private static World world = new World();
         private static Camera camera = new Camera();
+        private static GraphicalInterface userInterface = new GraphicalInterface();
         
         private static bool noInput;
         private static bool quit;
@@ -21,6 +22,7 @@ namespace The_Border
 
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
+        public static Random random = new Random();
 
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Item> items = new List<Item>();
@@ -30,8 +32,8 @@ namespace The_Border
         static void Main(string[] args)
         {
             // Set up console
-            Console.WindowWidth = Console.LargestWindowWidth / 2;
-            Console.WindowHeight = Console.LargestWindowHeight / 2;
+            Console.WindowWidth = Console.LargestWindowWidth;
+            Console.WindowHeight = Console.LargestWindowHeight;
 
             // Remove cursor
             Console.CursorVisible = false;
@@ -62,11 +64,13 @@ namespace The_Border
         static void Initialize()
         {
             world.Initialize();
+            userInterface.Initialize();
+
             player.SetPosition(53, 13);
 
             for (int i = 1; i < doors.Count; i++)
             {
-                doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[new Random().Next(0, 3)]);
+                doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
             }
         }
         
@@ -85,7 +89,9 @@ namespace The_Border
             Console.BackgroundColor = Constants.BACKGROUND_COLOR;
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
 
-            camera.Render();
+            camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
+            userInterface.Render();
+
             player.GetInventory().Render();
 
             Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);

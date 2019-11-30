@@ -51,8 +51,13 @@ namespace The_Border.scripts
                                 Camera.UpdateVisibleMap(new Object(x, y, Constants.WALL));
                                 break;
 
+                            case Constants.FENCE:
+                                worldData[x, y] = Constants.WALL;
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE));
+                                break;
+
                             case Constants.ENEMY:
-                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[new Random().Next(0, 3)], "The Key"));
+                                Enemy tempEnemy = new Enemy(x, y, 20, 1, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)], "The Key"));
 
                                 worldData[x, y] = Constants.ENEMY;
                                 Program.enemies.Add(tempEnemy);
@@ -74,6 +79,16 @@ namespace The_Border.scripts
                                 Program.doors.Add(tempDoor);
                                 Camera.UpdateVisibleMap(tempDoor);
                                 break;
+
+                            case Constants.FENCE_WEAK:
+                                Door tempFence = new Door(x, y, "The Fragile Fence", ConsoleColor.Gray, true);
+                                worldData[x, y] = Constants.DOOR_COLLISION;
+                                Program.doors.Add(tempFence);
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE_WEAK));
+                                break;
+
+
+                                
 
                             default:
                                 break;

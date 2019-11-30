@@ -8,6 +8,7 @@ namespace The_Border
         // ======================================
         public const string DUNGEON_FILE = "..\\..\\data\\dungeon.txt";
         public const string COLLISION_DATA_FILE = "..\\..\\data\\collision_data.txt";
+        public const string GRAPHICAL_INTERFACE_FILE = "..\\..\\data\\interface.txt";
 
 
         // Char
@@ -25,12 +26,16 @@ namespace The_Border
         public const char KEY                   = 't';
         public const char LOOTBAG               = 'b';
 
-        // others
+        // collision types
         public const char WALL                  = '█';
         public const char SPACE                 = ' ';
         public const char DOOR_COLLISION        = '▌';
+
+        // graphic types
         public const char DOOR_VERTICAL         = '│';
         public const char DOOR_HORIZONTAL       = '─';
+        public const char FENCE                 = '▒';
+        public const char FENCE_WEAK            = '░';
 
         // Int
         // ======================================
