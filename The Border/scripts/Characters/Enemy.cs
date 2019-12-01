@@ -63,7 +63,10 @@ namespace The_Border.scripts
                     OnCollision(X + 1, Y, World.GetDataFromPosition(X + 1, Y));
                 }
                 else
+                {
+                    Program.player.Gold += Program.random.Next(0, 11);
                     dead = true;
+                }
             }
 
             if (dead && drop != null)

@@ -52,8 +52,8 @@ namespace The_Border
         public const int WINDOW_HEIGHT          = 37;
 
         // positions
-        public const int PLAYER_X               = 170; // 53
-        public const int PLAYER_Y               = 82; // 13
+        public const int PLAYER_X               = 53;
+        public const int PLAYER_Y               = 13;
         public const int CAM_START_X            = 5;
         public const int CAM_START_Y            = 3;
         public const int STATS_X                = 61;

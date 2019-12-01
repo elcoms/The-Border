@@ -5,7 +5,9 @@ namespace The_Border.scripts
 {
     class Player : Character
     {
-        private int level = 0, gold = 0;
+        public int Level { get; set; }
+        public int Gold { get; set; }
+
         private Inventory inventory = new Inventory();
 
         public Player()
@@ -14,8 +16,8 @@ namespace The_Border.scripts
             Y = 13;
             health = 100;
             damage = 10;
-            level = 1;
-            gold = 0;
+            Level = 1;
+            Gold = 0;
             sprite = Constants.PLAYER;
         }
 
@@ -24,7 +26,7 @@ namespace The_Border.scripts
             if (dead)
             {
                 Console.BackgroundColor = ConsoleColor.DarkRed;
-                Program.Log(level > 4 ? "The Man tried his best but The Border was too overwhelming."
+                Program.Log(Level > 4 ? "The Man tried his best but The Border was too overwhelming."
                     : "The Man could not even get close to The Border");
 
                 Console.BackgroundColor = Constants.BACKGROUND_COLOR;
@@ -42,13 +44,13 @@ namespace The_Border.scripts
         public void RenderStats()
         {
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y);
-            Console.Write("Level: " + level + "   ");
+            Console.Write("Level: " + Level + "   ");
 
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y + 1);
             Console.Write("Health: " + health + "   ");
             
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y + 2);
-            Console.Write("Gold: " + gold + "   ");
+            Console.Write("Gold: " + Gold + "   ");
         }
 
         public override void OnCollision(int x, int y, char collision)
