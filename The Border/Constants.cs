@@ -10,6 +10,8 @@ namespace The_Border
         public const string GRAPHICAL_INTERFACE_FILE = "..\\..\\data\\interface.txt";
         public const string MENU_FILE = "..\\..\\data\\main_menu.txt";
         public const string GAMEOVER_FILE = "..\\..\\data\\gameover.txt";
+        public const string FOREGROUND_FILE = "..\\..\\data\\cutscene_foreground.txt";
+        public const string BACKGROUND_FILE = "..\\..\\data\\cutscene_background.txt";
 
 
         // Char
@@ -50,8 +52,8 @@ namespace The_Border
         public const int WINDOW_HEIGHT          = 37;
 
         // positions
-        public const int PLAYER_X               = 53; // 53
-        public const int PLAYER_Y               = 13; // 13
+        public const int PLAYER_X               = 170; // 53
+        public const int PLAYER_Y               = 82; // 13
         public const int CAM_START_X            = 5;
         public const int CAM_START_Y            = 3;
         public const int STATS_X                = 61;

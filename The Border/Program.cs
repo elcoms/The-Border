@@ -21,6 +21,7 @@ namespace The_Border
         private static World world = new World();
         private static Camera camera = new Camera();
         private static GraphicalInterface userInterface = new GraphicalInterface();
+        private static Cutscene endingCutscene = new Cutscene();
         
         private static bool noInput;            // true if player input any key that has no function
         private static bool play = true;        // whether play option in menu is selected
@@ -60,44 +61,51 @@ namespace The_Border
 
             while (!quit)
             {
-                Update();
-                Render();
-
-                // Run game only if the game is not animating attacks
-                if (!animating)
+                if (win)
                 {
-                    // If player is dead in game, read and display gameover from file, wait a few secs before going to menu
-                    if (player.Dead() && currentState == State.Game)
+                    // Play cutscene
+                    if (!endingCutscene.Play())
                     {
-                        Console.SetCursorPosition(0, (Constants.WINDOW_HEIGHT / 2) - 5);
-                        Console.Write(File.Exists(Constants.GAMEOVER_FILE) ? File.ReadAllText(Constants.GAMEOVER_FILE) : "Game Over");
-
+                        // Go back to main menu if cutscene stops playing
                         Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
                         currentState = State.Menu;
                         play = true;
-                        Console.Clear();
+                        win = false;
                     }
-                    else if (win)
-                    {
-                        // play win animation
-
-                        Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
-                        currentState = State.Menu;
-                        play = true;
-                        Console.Clear();
-                    }
-                    else
-                        Input();
                 }
+                // Continue updating if game not won
                 else
                 {
-                    Thread.Sleep(100);
+                    Update();
+                    Render();
 
-                    // stop running timer if it has passed the animation time
-                    if (animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
+                    // Allow input only if the game is not animating attacks
+                    if (!animating)
                     {
-                        animationTimer.Reset();
-                        animating = false;
+                        // If player is dead in game, read and display gameover from file, wait a few secs before going to menu
+                        if (player.Dead() && currentState == State.Game)
+                        {
+                            Console.SetCursorPosition(0, (Constants.WINDOW_HEIGHT / 2) - 5);
+                            Console.Write(File.Exists(Constants.GAMEOVER_FILE) ? File.ReadAllText(Constants.GAMEOVER_FILE) : "Game Over");
+
+                            Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
+                            currentState = State.Menu;
+                            play = true;
+                            Console.Clear();
+                        }
+                        else
+                            Input();
+                    }
+                    else
+                    {
+                        Thread.Sleep(100);
+
+                        // stop running timer if it has passed the animation time
+                        if (animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
+                        {
+                            animationTimer.Reset();
+                            animating = false;
+                        }
                     }
                 }
             }
@@ -116,6 +124,7 @@ namespace The_Border
 
             world.Initialize();
             userInterface.Initialize();
+            endingCutscene.Initialize();
 
             player.SetPosition(Constants.PLAYER_X, Constants.PLAYER_Y);
 
@@ -132,11 +141,14 @@ namespace The_Border
         // Process data not based on input
         static void Update()
         {
-            player.Update();
-
-            foreach (Enemy enemy in enemies)
+            if (currentState == State.Game)
             {
-                enemy.Update();
+                player.Update();
+
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.Update();
+                }
             }
         }
 
