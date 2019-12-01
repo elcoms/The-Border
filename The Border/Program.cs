@@ -121,6 +121,7 @@ namespace The_Border
             items = new List<Item>();
             doors = new List<Door>();
             random = new Random();
+            endingCutscene = new Cutscene();
 
             world.Initialize();
             userInterface.Initialize();
