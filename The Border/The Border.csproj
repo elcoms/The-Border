@@ -55,6 +55,7 @@
     <Compile Include="scripts\Items\Item.cs" />
     <Compile Include="scripts\Items\Key.cs" />
     <Compile Include="scripts\Object.cs" />
+    <Compile Include="scripts\PatrolEnemy.cs" />
     <Compile Include="scripts\World.cs" />
     <Compile Include="scripts\Characters\Enemy.cs" />
     <Compile Include="scripts\Characters\Player.cs" />

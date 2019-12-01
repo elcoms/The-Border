@@ -57,6 +57,14 @@ namespace The_Border.scripts
                                 Camera.UpdateVisibleMap(tempEnemy);
                                 break;
 
+                            case Constants.ENEMY_PATROL:
+                                PatrolEnemy tempPatrolEnemy = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]));
+
+                                worldData[x, y] = Constants.ENEMY;
+                                Program.enemies.Add(tempPatrolEnemy);
+                                Camera.UpdateVisibleMap(tempPatrolEnemy);
+                                break;
+
                             case Constants.KEY:
                                 Key tempKey = new Key(x, y, ConsoleColor.DarkRed);
 

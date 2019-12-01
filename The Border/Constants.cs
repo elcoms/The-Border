@@ -19,6 +19,7 @@ namespace The_Border
         // characters
         public const char PLAYER                = 'O';
         public const char ENEMY                 = 'E';
+        public const char ENEMY_PATROL          = 'e';
 
         // effects
         public const char HORIZONTAL_ATTACK     = '-';
