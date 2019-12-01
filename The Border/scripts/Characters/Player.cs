@@ -46,11 +46,15 @@ namespace The_Border.scripts
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y);
             Console.Write("Level: " + Level + "   ");
 
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y + 1);
             Console.Write("Health: " + health + "   ");
-            
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y + 2);
             Console.Write("Gold: " + Gold + "   ");
+
+            Console.ForegroundColor = Constants.FOREGROUND_COLOR;
         }
 
         public override void OnCollision(int x, int y, char collision)
