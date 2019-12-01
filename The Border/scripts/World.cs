@@ -50,7 +50,7 @@ namespace The_Border.scripts
                                 break;
 
                             case Constants.ENEMY:
-                                Enemy tempEnemy = new Enemy(x, y, 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)], "The Key"));
+                                Enemy tempEnemy = new Enemy(x, y, 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]));
 
                                 worldData[x, y] = Constants.ENEMY;
                                 Program.enemies.Add(tempEnemy);
@@ -58,7 +58,7 @@ namespace The_Border.scripts
                                 break;
 
                             case Constants.KEY:
-                                Key tempKey = new Key(x, y, ConsoleColor.DarkRed, "The Key");
+                                Key tempKey = new Key(x, y, ConsoleColor.DarkRed);
 
                                 worldData[x, y] = Constants.KEY;
                                 Program.items.Add(tempKey);
@@ -80,8 +80,10 @@ namespace The_Border.scripts
                                 Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE_WEAK));
                                 break;
 
-
-                                
+                            case Constants.WIN_TRIGGER:
+                                worldData[x, y] = Constants.WIN_TRIGGER;
+                                Camera.UpdateVisibleMap(new Object(x, y, Constants.SPACE));
+                                break;
 
                             default:
                                 break;

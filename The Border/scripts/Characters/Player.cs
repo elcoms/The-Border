@@ -80,6 +80,7 @@ namespace The_Border.scripts
                     break;
 
                 case Constants.DOOR_COLLISION:
+
                     foreach (Door door in Program.doors)
                     {
                         if (door.X == x && door.Y == y)
@@ -91,6 +92,10 @@ namespace The_Border.scripts
 
                 case Constants.SPACE:
                     SetPosition(x, y);
+                    break;
+
+                case Constants.WIN_TRIGGER:
+                    Program.win = true;
                     break;
 
                 default:

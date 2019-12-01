@@ -8,13 +8,15 @@ namespace The_Border.scripts
 {
     class Key : Item
     {
-        public Key(int x, int y, ConsoleColor keyColor, string name)
+        public Key(int x, int y, ConsoleColor keyColor)
         {
             X = x;
             Y = y;
             sprite = Constants.KEY;
             color = keyColor;
-            Name = name;
+
+            // name key according to color
+            Name = "The " + color.ToString() + " Key";
         }
     }
 }

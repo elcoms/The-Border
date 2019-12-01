@@ -11,7 +11,7 @@ namespace The_Border.scripts
         ConsoleColor color = ConsoleColor.DarkRed;
 
         
-        string name = "The Door";
+        string name = "The DarkRed Door";
         bool unlocked = false;
         bool horizontal = false;
 
@@ -33,7 +33,14 @@ namespace The_Border.scripts
             sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
         }
 
-        public void SetDoorColor(ConsoleColor newColor) { color = newColor; }
+        public ConsoleColor GetDoorColor() { return color; }
+        public void SetDoorColor(ConsoleColor newColor) 
+        { 
+            color = newColor;
+
+            // rename door according to color
+            name = "The " + color.ToString() + " Door";
+        }
 
         public override void Render()
         {
@@ -52,27 +59,41 @@ namespace The_Border.scripts
 
         public void OnCollision(Player player)
         {
-            // Check for key
-            foreach (Item item in player.GetInventory().GetItems())
+            // unlock if it's fence
+            if (color == ConsoleColor.Gray)
             {
-                if (item as Key != null)
-                {
-                    if (item.getColor() == color)
-                    {
-                        World.UpdateWorldData(X, Y, Constants.SPACE);
-                        unlocked = true;
-                    }   
-                }
-            }
+                World.UpdateWorldData(X, Y, Constants.SPACE);
+                unlocked = true;
 
-            // print dialogue
-            if (unlocked)
-            {
-                Program.Log("The Door is happy to be reunited with The Key.");
+                Program.Log("The Man breaks " + name + " and escapes The Border.");
             }
             else
             {
-                Program.Log("The Man fidgets and pulls but The Door did not seem to care.");
+                Key rightKey = null;
+
+                // Check for key
+                foreach (Item item in player.GetInventory().GetItems())
+                {
+                    if (item as Key != null)
+                    {
+                        if (item.getColor() == color)
+                        {
+                            World.UpdateWorldData(X, Y, Constants.SPACE);
+                            rightKey = item as Key;
+                            unlocked = true;
+                        }
+                    }
+                }
+
+                // print dialogue
+                if (unlocked)
+                {
+                    Program.Log(name + " is happy to be reunited with " + (rightKey != null ? rightKey.Name : " The Key"));
+                }
+                else
+                {
+                    Program.Log("The Man fidgets and pulls but " + name + " did not seem to care.");
+                }
             }
         }
     }

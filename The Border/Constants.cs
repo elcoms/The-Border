@@ -31,6 +31,7 @@ namespace The_Border
         public const char WALL                  = '█';
         public const char SPACE                 = ' ';
         public const char DOOR_COLLISION        = '▌';
+        public const char WIN_TRIGGER           = 'w';
 
         // graphic types
         public const char DOOR_VERTICAL         = '│';
@@ -49,8 +50,8 @@ namespace The_Border
         public const int WINDOW_HEIGHT          = 37;
 
         // positions
-        public const int PLAYER_X               = 53;
-        public const int PLAYER_Y               = 13;
+        public const int PLAYER_X               = 53; // 53
+        public const int PLAYER_Y               = 13; // 13
         public const int CAM_START_X            = 5;
         public const int CAM_START_Y            = 3;
         public const int STATS_X                = 61;

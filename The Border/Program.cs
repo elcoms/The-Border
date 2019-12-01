@@ -29,7 +29,8 @@ namespace The_Border
         private static string menuTitle;
         private static State currentState = State.Menu;
 
-        public static bool animating;
+        public static bool animating;           // true if animation timer is running
+        public static bool win;                 // true if player exits out of map and wins the game
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
         public static Random random = new Random();
@@ -76,6 +77,15 @@ namespace The_Border
                         play = true;
                         Console.Clear();
                     }
+                    else if (win)
+                    {
+                        // play win animation
+
+                        Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
+                        currentState = State.Menu;
+                        play = true;
+                        Console.Clear();
+                    }
                     else
                         Input();
                 }
@@ -111,7 +121,8 @@ namespace The_Border
 
             for (int i = 1; i < doors.Count; i++)
             {
-                doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
+                if (doors[i].GetDoorColor() != ConsoleColor.Gray)
+                    doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
             }
 
             logCount = 0;
