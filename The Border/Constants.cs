@@ -6,7 +6,6 @@ namespace The_Border
     {
         // Text files
         // ======================================
-        public const string DUNGEON_FILE = "..\\..\\data\\dungeon.txt";
         public const string COLLISION_DATA_FILE = "..\\..\\data\\collision_data.txt";
         public const string GRAPHICAL_INTERFACE_FILE = "..\\..\\data\\interface.txt";
         public const string MENU_FILE = "..\\..\\data\\main_menu.txt";
@@ -63,12 +62,12 @@ namespace The_Border
 
         // time (in milliseconds)
         public const int ATTACK_ANIM_TIME       = 200;
-        public const int GAMEOVER_PAUSE_TIME    = 5000;
+        public const int GAMEOVER_PAUSE_TIME    = 4000;
 
         // Color
         //======================================
         public const ConsoleColor FOREGROUND_COLOR              = ConsoleColor.White;
         public const ConsoleColor BACKGROUND_COLOR              = ConsoleColor.Black;
-        public static readonly ConsoleColor[] KEY_DOOR_COLORS   = { ConsoleColor.Cyan, ConsoleColor.Green, ConsoleColor.Yellow };
+        public static readonly ConsoleColor[] KEY_DOOR_COLORS   = { ConsoleColor.Cyan, ConsoleColor.Green, ConsoleColor.Magenta };
     }
 }

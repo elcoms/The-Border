@@ -10,7 +10,6 @@ namespace The_Border.scripts
     class World
     {
         static char[,] worldData;
-        string worldString;
 
         public World() {
             worldData = new char[Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT];
@@ -19,12 +18,6 @@ namespace The_Border.scripts
         // Load the data for the collision map
         public void Initialize()
         {
-            // get world map
-            if (File.Exists(Constants.DUNGEON_FILE))
-            {
-                worldString = File.ReadAllText(Constants.DUNGEON_FILE);
-            }
-
             // Check if world file exists
             if(File.Exists(Constants.COLLISION_DATA_FILE))
             {
@@ -112,7 +105,7 @@ namespace The_Border.scripts
         public void Render()
         {
             Console.SetCursorPosition(0, 0);
-            Console.Write(worldString);
+            // Console.Write(worldString);
 
             foreach (Item item in Program.items)
             {

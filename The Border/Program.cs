@@ -22,10 +22,10 @@ namespace The_Border
         private static Camera camera = new Camera();
         private static GraphicalInterface userInterface = new GraphicalInterface();
         
-        private static bool noInput;
-        private static bool play = true;
-        private static bool quit;
-        private static int logCount = 1;
+        private static bool noInput;            // true if player input any key that has no function
+        private static bool play = true;        // whether play option in menu is selected
+        private static bool quit;               // to check if the game has to stop running
+        private static int logCount = 0;        // to count the number of moves after a dialogue is written, clear log after x moves
         private static string menuTitle;
         private static State currentState = State.Menu;
 
@@ -65,6 +65,7 @@ namespace The_Border
                 // Run game only if the game is not animating attacks
                 if (!animating)
                 {
+                    // If player is dead in game, read and display gameover from file, wait a few secs before going to menu
                     if (player.Dead() && currentState == State.Game)
                     {
                         Console.SetCursorPosition(0, (Constants.WINDOW_HEIGHT / 2) - 5);
@@ -82,6 +83,7 @@ namespace The_Border
                 {
                     Thread.Sleep(100);
 
+                    // stop running timer if it has passed the animation time
                     if (animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
                     {
                         animationTimer.Reset();
@@ -111,6 +113,9 @@ namespace The_Border
             {
                 doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
             }
+
+            logCount = 0;
+            Log("The Man is confused. He feels trapped.");
         }
         
         // Process data not based on input
@@ -216,6 +221,12 @@ namespace The_Border
                 // HANDLE GAME INPUT
                 // ==================================================================================================
                 case State.Game:
+
+                    if (logCount > 5)
+                    {
+                        Log(new string(' ', 100));
+                    }
+
                     switch (input.Key)
                     {
                         case ConsoleKey.Q:
@@ -270,6 +281,9 @@ namespace The_Border
                             noInput = true;
                             break;
                     }
+
+                    if (!noInput)
+                        logCount++;
                     break;
 
                 default:
@@ -281,6 +295,9 @@ namespace The_Border
         // Print dialogue/narration text 
         public static void Log(string s)
         {
+            // start counting the number of moves
+            logCount = 0;
+
             // Clear log
             Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
             Console.Write(new string(' ', 50));
@@ -309,13 +326,6 @@ namespace The_Border
             Console.Write(new string(' ', 200));
             Console.SetCursorPosition(Constants.LOG_X + offsetX, Constants.LOG_Y + offsetY);
             Console.WriteLine(s);
-        }
-
-        public static void LogNewLine(string s)
-        {
-            Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + logCount);
-            Console.WriteLine(s);
-            logCount++;
         }
     }
 }
