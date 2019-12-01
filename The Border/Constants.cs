@@ -28,7 +28,7 @@ namespace The_Border
 
         // items
         public const char KEY                   = 't';
-        public const char LOOTBAG               = 'b';
+        public const char APPLE                 = 'b';
 
         // collision types
         public const char WALL                  = '█';

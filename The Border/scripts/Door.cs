@@ -81,6 +81,7 @@ namespace The_Border.scripts
                             World.UpdateWorldData(X, Y, Constants.SPACE);
                             rightKey = item as Key;
                             player.Level++;
+                            player.GetInventory().RemoveItem(item);
                             unlocked = true;
                         }
                     }

@@ -18,7 +18,7 @@ namespace The_Border.scripts
         public Item()
         {
             Name = "The Item";
-            sprite = Constants.LOOTBAG;
+            sprite = Constants.APPLE;
         }
 
         public override void Render()

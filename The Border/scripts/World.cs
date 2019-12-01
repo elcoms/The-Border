@@ -65,6 +65,10 @@ namespace The_Border.scripts
                                 Camera.UpdateVisibleMap(tempPatrolEnemy);
                                 break;
 
+                            case Constants.APPLE:
+
+                                break;
+
                             case Constants.KEY:
                                 Key tempKey = new Key(x, y, ConsoleColor.DarkRed);
 

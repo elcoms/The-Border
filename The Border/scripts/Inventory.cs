@@ -81,7 +81,18 @@ namespace The_Border.scripts
             {
                 Program.Log("The Man left " + items[num].Name + " behind.");
                 
-                items[num].SetPosition(x, y);
+                // check for space to drop item
+                if (World.GetDataFromPosition(x, y - 1) == Constants.SPACE)
+                    items[num].SetPosition(x, y - 1);
+                else if (World.GetDataFromPosition(x, y + 1) == Constants.SPACE)
+                    items[num].SetPosition(x, y + 1);
+                else if (World.GetDataFromPosition(x + 1, y) == Constants.SPACE)
+                    items[num].SetPosition(x + 1, y);
+                else if (World.GetDataFromPosition(x - 1, y) == Constants.SPACE)
+                    items[num].SetPosition(x - 1, y);
+                else
+                    items[num].SetPosition(x, y);
+
                 items[num].SetVisible(true);
                 items[num] = null;
             }
@@ -91,18 +102,18 @@ namespace The_Border.scripts
             }
         }
 
-        public void RemoveItem(int num)
+        public void RemoveItem(Item item)
         {
-            num -= 1;
-
-            if (items[num] != null)
+            if (item != null)
             {
-                items[num] = null;
-                Program.Log(items[num].Name + " was obliterated.");
-            }
-            else
-            {
-                Program.Log("Nothing can't be destroyed.");
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if (items[i] == item)
+                    {
+                        items[i] = null;
+                        break;
+                    }
+                }
             }
         }
 
