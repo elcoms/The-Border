@@ -36,11 +36,6 @@ namespace The_Border.scripts
             base.Render();
         }
 
-        public override void Update()
-        {
-            base.Update();
-        }
-
         public void RenderStats()
         {
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y);

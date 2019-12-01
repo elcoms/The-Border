@@ -17,11 +17,6 @@ namespace The_Border
             Menu,
             Game
         }
-
-        private static World world = new World();
-        private static Camera camera = new Camera();
-        private static GraphicalInterface userInterface = new GraphicalInterface();
-        private static Cutscene endingCutscene = new Cutscene();
         
         private static bool noInput;            // true if player input any key that has no function
         private static bool play = true;        // whether play option in menu is selected
@@ -30,9 +25,16 @@ namespace The_Border
         private static string menuTitle;
         private static State currentState = State.Menu;
 
+        private static World world = new World();
+        private static Camera camera = new Camera();
+        private static GraphicalInterface userInterface = new GraphicalInterface();
+        private static Cutscene endingCutscene = new Cutscene();
+
+
         public static bool animating;           // true if animation timer is running
         public static bool dropKeyPressed;      // true if drop key is pressed;
         public static bool win;                 // true if player exits out of map and wins the game
+
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
         public static Random random = new Random();

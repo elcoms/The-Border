@@ -67,7 +67,7 @@ namespace The_Border.scripts
 
                             case Constants.APPLE:
                                 HealItem tempApple = new HealItem(x, y, Program.random.Next(5, 21), Constants.APPLE, ConsoleColor.Red, "The Apple",
-                                    "An Apple a day, keeps The Grave at bay");
+                                    "An Apple a day, keeps The Grave at bay.");
 
                                 worldData[x, y] = Constants.KEY;
                                 Program.items.Add(tempApple);
@@ -85,6 +85,7 @@ namespace The_Border.scripts
                             case Constants.DOOR_VERTICAL:
                             case Constants.DOOR_HORIZONTAL:
                                 Door tempDoor = new Door(x, y, c == Constants.DOOR_HORIZONTAL);
+
                                 worldData[x, y] = Constants.DOOR_COLLISION;
                                 Program.doors.Add(tempDoor);
                                 Camera.UpdateVisibleMap(tempDoor);
@@ -92,6 +93,7 @@ namespace The_Border.scripts
 
                             case Constants.FENCE_WEAK:
                                 Door tempFence = new Door(x, y, "The Fragile Fence", ConsoleColor.Gray, true);
+
                                 worldData[x, y] = Constants.DOOR_COLLISION;
                                 Program.doors.Add(tempFence);
                                 Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE_WEAK));
@@ -120,54 +122,11 @@ namespace The_Border.scripts
             }
         }
 
-        // Render everything in the game world
-        public void Render()
-        {
-            Console.SetCursorPosition(0, 0);
-            // Console.Write(worldString);
-
-            foreach (Item item in Program.items)
-            {
-                item.Render();
-            }
-
-            foreach (Door door in Program.doors)
-            {
-                door.Render();
-            }
-
-            foreach (Enemy enemy in Program.enemies)
-            {
-                enemy.Render();
-            }
-        }
-
-        public bool CollidedWithWall(int x, int y)
-        {
-            // Check if going out of bounds
-            if (x < 0 || y < 0)
-                return false;
-            else
-                return worldData[x, y] == Constants.WALL;
-        }
-
+        // Getter/Setters
         // Return data specified by position
         public static char GetDataFromPosition(int x, int y)
         {
             return worldData[x, y];
-        }
-
-        // For testing purposes
-        public void RenderWorldData()
-        {
-            for (int y = 0; y < worldData.GetLength(1); y++)
-            {
-                for (int x = 0; x < worldData.GetLength(0); x++)
-                {
-                    Console.Write(worldData[x, y]);
-                }
-                Console.WriteLine();
-            }
         }
 
         public static void UpdateWorldData(int x, int y, char data)

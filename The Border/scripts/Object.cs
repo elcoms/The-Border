@@ -22,8 +22,6 @@ namespace The_Border.scripts
             sprite = objectSprite;
         }
 
-        public char GetSprite() { return sprite; }
-
         public virtual void Render() 
         {
             Console.Write(sprite);
@@ -60,5 +58,8 @@ namespace The_Border.scripts
             World.UpdateWorldData(X, Y, sprite);
             Camera.UpdateVisibleMap(this);
         }
+
+        // Getter/Setters
+        public char GetSprite() { return sprite; }
     }
 }

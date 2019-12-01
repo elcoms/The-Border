@@ -33,15 +33,6 @@ namespace The_Border.scripts
             sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
         }
 
-        public ConsoleColor GetDoorColor() { return color; }
-        public void SetDoorColor(ConsoleColor newColor) 
-        { 
-            color = newColor;
-
-            // rename door according to color
-            name = "The " + color.ToString() + " Door";
-        }
-
         public override void Render()
         {
             if (unlocked)
@@ -97,6 +88,16 @@ namespace The_Border.scripts
                     Program.Log("The Man fidgets and pulls but " + name + " did not seem to care.");
                 }
             }
+        }
+
+        // Getter/Setters
+        public ConsoleColor GetDoorColor() { return color; }
+        public void SetDoorColor(ConsoleColor newColor)
+        {
+            color = newColor;
+
+            // rename door according to color
+            name = "The " + color.ToString() + " Door";
         }
     }
 }
