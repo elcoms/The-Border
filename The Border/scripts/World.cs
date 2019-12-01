@@ -66,7 +66,12 @@ namespace The_Border.scripts
                                 break;
 
                             case Constants.APPLE:
+                                HealItem tempApple = new HealItem(x, y, Program.random.Next(5, 21), Constants.APPLE, ConsoleColor.Red, "The Apple",
+                                    "An Apple a day, keeps The Grave at bay");
 
+                                worldData[x, y] = Constants.KEY;
+                                Program.items.Add(tempApple);
+                                Camera.UpdateVisibleMap(tempApple);
                                 break;
 
                             case Constants.KEY:

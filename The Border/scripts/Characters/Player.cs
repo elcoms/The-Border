@@ -72,6 +72,7 @@ namespace The_Border.scripts
                     }
                     break;
 
+                case Constants.APPLE:
                 case Constants.KEY:
 
                     for (int i = 0; i < Program.items.Count; i++)

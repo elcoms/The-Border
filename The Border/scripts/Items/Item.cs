@@ -18,7 +18,7 @@ namespace The_Border.scripts
         public Item()
         {
             Name = "The Item";
-            sprite = Constants.APPLE;
+            sprite = 'I';
         }
 
         public override void Render()
@@ -34,6 +34,8 @@ namespace The_Border.scripts
                 Console.Write(Constants.SPACE);
             }
         }
+
+        public virtual void Use(Player player) { }
 
         public void SetVisible(bool visible)
         {

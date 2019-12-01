@@ -31,6 +31,7 @@ namespace The_Border
         private static State currentState = State.Menu;
 
         public static bool animating;           // true if animation timer is running
+        public static bool dropKeyPressed;      // true if drop key is pressed;
         public static bool win;                 // true if player exits out of map and wins the game
         public static Player player = new Player();
         public static Stopwatch animationTimer = new Stopwatch();
@@ -282,23 +283,45 @@ namespace The_Border
 
                         // INVENTORY INPUT
                         case ConsoleKey.D1:
-                            player.GetInventory().DropItem(1, player.X, player.Y);
+                            if (dropKeyPressed)
+                                player.GetInventory().DropItem(1, player.X, player.Y);
+                            else
+                                player.GetInventory().UseItem(1);
                             break;
 
                         case ConsoleKey.D2:
-                            player.GetInventory().DropItem(2, player.X, player.Y);
+                            if (dropKeyPressed)
+                                player.GetInventory().DropItem(2, player.X, player.Y);
+                            else
+                                player.GetInventory().UseItem(2);
                             break;
 
                         case ConsoleKey.D3:
-                            player.GetInventory().DropItem(3, player.X, player.Y);
+                            if (dropKeyPressed)
+                                player.GetInventory().DropItem(3, player.X, player.Y);
+                            else
+                                player.GetInventory().UseItem(3);
                             break;
 
                         case ConsoleKey.D4:
-                            player.GetInventory().DropItem(4, player.X, player.Y);
+                            if (dropKeyPressed)
+                                player.GetInventory().DropItem(4, player.X, player.Y);
+                            else
+                                player.GetInventory().UseItem(4);
                             break;
 
                         case ConsoleKey.D5:
-                            player.GetInventory().DropItem(5, player.X, player.Y);
+                            if (dropKeyPressed)
+                                player.GetInventory().DropItem(5, player.X, player.Y);
+                            else
+                                player.GetInventory().UseItem(5);
+                            break;
+
+                        case ConsoleKey.Spacebar:
+                            dropKeyPressed = !dropKeyPressed;
+
+                            Log(dropKeyPressed ? "[Dropping Item] The Man thinks about what he wants to leave behind..."
+                                : "[Using Item] The Man stops thinking about leaving the items and starts thinking about leaving The Border.");
                             break;
 
                         default:

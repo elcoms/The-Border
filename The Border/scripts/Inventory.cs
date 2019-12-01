@@ -102,6 +102,20 @@ namespace The_Border.scripts
             }
         }
 
+        public void UseItem(int num)
+        {
+            num -= 1;
+
+            if (items[num] != null)
+            {
+                items[num].Use(Program.player);
+            }
+            else
+            {
+                Program.Log("There was nothing there that The Man could grab.");
+            }
+        }
+
         public void RemoveItem(Item item)
         {
             if (item != null)

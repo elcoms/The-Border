@@ -18,5 +18,10 @@ namespace The_Border.scripts
             // name key according to color
             Name = "The " + color.ToString() + " Key";
         }
+
+        public override void Use(Player player)
+        {
+            Program.Log("The Man stares at " + Name + ". It looks lonely.");
+        }
     }
 }
