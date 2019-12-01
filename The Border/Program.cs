@@ -320,8 +320,8 @@ namespace The_Border
                         case ConsoleKey.Spacebar:
                             dropKeyPressed = !dropKeyPressed;
 
-                            Log(dropKeyPressed ? "[Dropping Item] The Man thinks about what he wants to leave behind..."
-                                : "[Using Item] The Man stops thinking about leaving the items and starts thinking about leaving The Border.");
+                            Log(dropKeyPressed ? "The Man thinks about what he wants to leave behind..."
+                                : "The Man stops thinking about leaving the items and starts thinking about leaving The Border.");
                             break;
 
                         default:
@@ -347,17 +347,17 @@ namespace The_Border
 
             // Clear log
             Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
-            Console.Write(new string(' ', 50));
+            Console.Write(new string(' ', 85));
             Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
-            Console.Write(new string(' ', 50));
+            Console.Write(new string(' ', 85));
 
             // Write string, word wrap once if necessary
-            if (s.Length > 50)
+            if (s.Length > 85)
             {
                 Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y);
-                Console.WriteLine(s.Substring(0, 50));
+                Console.WriteLine(s.Substring(0, 85));
                 Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
-                Console.WriteLine(s.Substring(50));
+                Console.WriteLine(s.Substring(85));
             }
             else
             {

@@ -15,6 +15,14 @@ namespace The_Border.scripts
         {
             Console.SetCursorPosition(Constants.INVENTORY_X, Constants.INVENTORY_Y);
 
+            // write drop header if drop key pressed
+            if (Program.dropKeyPressed)
+            {
+                // new string to clear spaces after header
+                Console.Write("[DROP]" + new string(' ', Constants.WINDOW_WIDTH - Constants.INVENTORY_X - 17));
+                Console.SetCursorPosition(Constants.INVENTORY_X, Constants.INVENTORY_Y + 1);
+            }
+
             for (int i = 0; i < items.Length; ++i)
             {
                 Console.Write(i+1 + ". ");
@@ -31,8 +39,13 @@ namespace The_Border.scripts
                     Console.Write(new string(' ', Constants.WINDOW_WIDTH - Constants.INVENTORY_X - 10));
                 }
 
-                Console.SetCursorPosition(Constants.INVENTORY_X, Constants.INVENTORY_Y + i + 1);
+                // set cursor to next line in the interface; increase 1 more line if drop key is pressed
+                Console.SetCursorPosition(Constants.INVENTORY_X, Constants.INVENTORY_Y + i + 1 +
+                    (Program.dropKeyPressed ? 1 : 0));
             }
+
+            // Clear next line
+            Console.Write(new string(' ', Constants.WINDOW_WIDTH - Constants.INVENTORY_X - 10));
         }
 
         public bool AddItem(Item item)
