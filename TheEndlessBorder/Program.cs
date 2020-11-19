@@ -97,7 +97,14 @@ namespace The_Border
                             Console.Clear();
                         }
                         else
+                        {
+                            while (!Console.KeyAvailable)
+                            {
+                                Thread.Sleep(100);
+                            }
+
                             Input();
+                        }
                     }
                     else
                     {
@@ -208,8 +215,12 @@ namespace The_Border
         static void Input()
         {
             ConsoleKeyInfo input = Console.ReadKey(true);
-            noInput = false;
 
+            // Clear input buffer
+            while (Console.KeyAvailable)
+                Console.ReadKey(true);
+
+            noInput = false;
             switch (currentState)
             {
                 // ==================================================================================================
