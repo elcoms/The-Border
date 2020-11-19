@@ -1,5 +1,5 @@
 # The Border
-The Border is a C# command line dungeon crawler game about a Man who's prisoned. Trapped, he has to find a way by fighting Enemies until he has escaped or until he does all the best that he could.
+The Border is a C# command line dungeon crawler game about a Man who's prisoned. Trapped, he has to find a way by fighting Enemies until he has escaped or until he has done all the best that he could.
 
 ## [Controls]
 ### Movement - WASD or Arrow Keys
