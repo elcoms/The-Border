@@ -82,7 +82,7 @@ namespace TheEndlessBorder.scripts
                     }
                     break;
 
-                case Constants.SPACE:
+                case Constants.FLOOR:
                     SetPosition(collidedObject.X, collidedObject.Y);
                     break;
 

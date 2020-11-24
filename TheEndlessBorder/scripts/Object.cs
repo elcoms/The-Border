@@ -46,7 +46,7 @@ namespace TheEndlessBorder.scripts
         public virtual void SetPosition(int xPos, int yPos)
         {
             // remove current position from data
-            World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
+            World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
 
             X = xPos >= 0 ? xPos : X;
             Y = yPos >= 0 ? yPos : Y;
