@@ -4,139 +4,128 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using TheEndlessBorder.scripts;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class World
     {
-        static char[,] worldData;
+        static Object[,] worldObjects;
+
+        int worldSeed;
+        Random random = new Random();
+        Room spawnRoom = new Room();
+
+        public Vector2 WorldSize { get { return new Vector2(worldObjects.GetLength(0), worldObjects.GetLength(1)); } }
 
         public World() {
-            worldData = new char[Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT];
+            worldSeed = random.Next();
+            random = new Random(worldSeed);
         }
 
         // Load the data for the collision map
         public void Initialize()
         {
-            // Check if world file exists
-            if(File.Exists(Constants.COLLISION_DATA_FILE))
-            {
-                StreamReader reader = new StreamReader(Constants.COLLISION_DATA_FILE);
-                string line = reader.ReadLine();
+            // Create Spawn Room
+            worldObjects = spawnRoom.Generate(random.Next(), Constants.WallPatterns);
 
-                int x = 0, y = 0;
-                // loop as long as there's another line
-                while (line != null)
+            // Spawn objects
+            /*for (int y = 0; y < worldObjects.GetLength(1); y++)
+            {
+                for (int x = 0; x < worldObjects.GetLength(0); x++)
                 {
-                    foreach (char c in line)
+                    switch (worldObjects[x, y])
                     {
-                        // create the world based on the character read in the file
-                        // update world data, camera data and program data arrays
-                        switch (c)
-                        {
-                            case Constants.SPACE:
-                                worldData[x, y] = Constants.SPACE;
-                                Camera.UpdateVisibleMap(new Object(x, y, Constants.SPACE));
-                                break;
+                        case Constants.SPACE:
+                        case Constants.WIN_TRIGGER:
+                            UpdateWorldObjects(new Object(x, y, Constants.SPACE));
+                            break;
 
-                            case Constants.WALL:
-                                worldData[x, y] = Constants.WALL;
-                                Camera.UpdateVisibleMap(new Object(x, y, Constants.WALL));
-                                break;
+                        case Constants.WALL:
+                            UpdateWorldObjects(new Object(x, y, Constants.WALL));
+                            break;
 
-                            case Constants.FENCE:
-                                worldData[x, y] = Constants.WALL;
-                                Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE));
-                                break;
+                        case Constants.FENCE:
+                            UpdateWorldObjects(new Object(x, y, Constants.FENCE));
+                            break;
 
-                            case Constants.ENEMY:
-                                Enemy tempEnemy = new Enemy(x, y, 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]));
+                        case Constants.ENEMY:
+                            Enemy tempEnemy = new Enemy(x, y, 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]));
 
-                                worldData[x, y] = Constants.ENEMY;
-                                Program.enemies.Add(tempEnemy);
-                                Camera.UpdateVisibleMap(tempEnemy);
-                                break;
+                            Program.enemies.Add(tempEnemy);
+                            UpdateWorldObjects(tempEnemy);
+                            break;
 
-                            case Constants.ENEMY_PATROL:
-                                PatrolEnemy tempPatrolEnemy = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]));
+                        case Constants.ENEMY_PATROL:
+                            PatrolEnemy tempPatrolEnemy = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]));
 
-                                worldData[x, y] = Constants.ENEMY;
-                                Program.enemies.Add(tempPatrolEnemy);
-                                Camera.UpdateVisibleMap(tempPatrolEnemy);
-                                break;
+                            Program.enemies.Add(tempPatrolEnemy);
+                            UpdateWorldObjects(tempPatrolEnemy);
+                            break;
 
-                            case Constants.APPLE:
-                                HealItem tempApple = new HealItem(x, y, Program.random.Next(5, 21), Constants.APPLE, ConsoleColor.Red, "The Apple",
-                                    "An Apple a day, keeps The Grave at bay.");
+                        case Constants.APPLE:
+                            HealItem tempApple = new HealItem(x, y, Program.random.Next(5, 21), Constants.APPLE, ConsoleColor.Red, "The Apple",
+                                "An Apple a day, keeps The Grave at bay.");
 
-                                worldData[x, y] = Constants.KEY;
-                                Program.items.Add(tempApple);
-                                Camera.UpdateVisibleMap(tempApple);
-                                break;
+                            Program.items.Add(tempApple);
+                            UpdateWorldObjects(tempApple);
+                            break;
 
-                            case Constants.KEY:
-                                Key tempKey = new Key(x, y, ConsoleColor.DarkRed);
+                        case Constants.KEY:
+                            Key tempKey = new Key(x, y, ConsoleColor.DarkRed);
 
-                                worldData[x, y] = Constants.KEY;
-                                Program.items.Add(tempKey);
-                                Camera.UpdateVisibleMap(tempKey);
-                                break;
+                            Program.items.Add(tempKey);
+                            UpdateWorldObjects(tempKey);
+                            break;
 
-                            case Constants.DOOR_VERTICAL:
-                            case Constants.DOOR_HORIZONTAL:
-                                Door tempDoor = new Door(x, y, c == Constants.DOOR_HORIZONTAL);
+                        case Constants.DOOR_VERTICAL:
+                        case Constants.DOOR_HORIZONTAL:
+                            Door tempDoor = new Door(x, y, worldObjects[x, y] == Constants.DOOR_HORIZONTAL);
 
-                                worldData[x, y] = Constants.DOOR_COLLISION;
-                                Program.doors.Add(tempDoor);
-                                Camera.UpdateVisibleMap(tempDoor);
-                                break;
+                            Program.doors.Add(tempDoor);
+                            UpdateWorldObjects(tempDoor);
+                            break;
 
-                            case Constants.FENCE_WEAK:
-                                Door tempFence = new Door(x, y, "The Fragile Fence", ConsoleColor.Gray, true);
+                        case Constants.FENCE_WEAK:
+                            Door tempFence = new Door(x, y, "The Fragile Fence", ConsoleColor.Gray, true);
 
-                                worldData[x, y] = Constants.DOOR_COLLISION;
-                                Program.doors.Add(tempFence);
-                                Camera.UpdateVisibleMap(new Object(x, y, Constants.FENCE_WEAK));
-                                break;
+                            Program.doors.Add(tempFence);
+                            UpdateWorldObjects(new Object(x, y, Constants.FENCE_WEAK));
+                            break;
 
-                            case Constants.WIN_TRIGGER:
-                                worldData[x, y] = Constants.WIN_TRIGGER;
-                                Camera.UpdateVisibleMap(new Object(x, y, Constants.SPACE));
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        x++;
+                        default:
+                            break;
                     }
-
-                    x = 0;
-                    y++;
-                    line = reader.ReadLine();
                 }
-            }
-            else
-            {
-                Console.WriteLine("World file not found.");
-            }
+            }*/
         }
+
+        /*public void CreateNewRoom()
+        {
+            var rooms = new List<Room>();
+            Room room;
+            room = new Room();
+            room.Generate(random.Next());
+            rooms.Add(room);
+
+            Vector2 center = new Vector2();
+        }*/
 
         // Getter/Setters
         // Return data specified by position
-        public static char GetDataFromPosition(int x, int y)
+        public static Object GetObjectFromPosition(int x, int y)
         {
-            return worldData[x, y];
+            return worldObjects[x, y];
         }
 
-        public static void UpdateWorldData(int x, int y, char data)
+        public static void UpdateWorldObjects(Object data)
         {
-            worldData[x, y] = data;
+            worldObjects[data.X, data.Y] = data;
         }
 
-        public static char[,] GetData()
+        public static Object[,] GetWorldObjects()
         {
-            return worldData;
+            return worldObjects;
         }
     }
 }

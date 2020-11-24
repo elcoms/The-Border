@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class Player : Character
     {
@@ -12,8 +12,8 @@ namespace The_Border.scripts
 
         public Player()
         {
-            X = 53;
-            Y = 13;
+            X = 0;
+            Y = 0;
             health = 100;
             damage = 10;
             Level = 1;
@@ -52,48 +52,38 @@ namespace The_Border.scripts
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
         }
 
-        public override void OnCollision(int x, int y, char collision)
+        public override void OnCollision(Object collidedObject)
         {
-            switch (collision)
+            switch (collidedObject.GetSprite())
             {
                 case Constants.ENEMY:
-                    foreach (Enemy enemy in Program.enemies)
+                    // player attack enemy
+                    if (collidedObject is Enemy)
                     {
-                        if (enemy.X == x && enemy.Y == y)
-                        {
-                            // player attack enemy
-                            enemy.Damaged(damage, this);
-                        }
+                        (collidedObject as Enemy).Damaged(damage, this);
                     }
                     break;
 
                 case Constants.APPLE:
                 case Constants.KEY:
 
-                    for (int i = 0; i < Program.items.Count; i++)
+                    if (collidedObject is Item)
                     {
-                        if (Program.items[i].X == x && Program.items[i].Y == y)
-                        {
-                            // put item into inventory if possible
-                            inventory.AddItem(Program.items[i]);
-                        }
+                        inventory.AddItem(collidedObject as Item);
                     }
-
                     break;
 
-                case Constants.DOOR_COLLISION:
+                case Constants.DOOR_HORIZONTAL:
+                case Constants.DOOR_VERTICAL:
 
-                    foreach (Door door in Program.doors)
+                    if (collidedObject is Door)
                     {
-                        if (door.X == x && door.Y == y)
-                        {
-                            door.OnCollision(this);
-                        }
+                        (collidedObject as Door).OnCollision(this);
                     }
                     break;
 
                 case Constants.SPACE:
-                    SetPosition(x, y);
+                    SetPosition(collidedObject.X, collidedObject.Y);
                     break;
 
                 case Constants.WIN_TRIGGER:

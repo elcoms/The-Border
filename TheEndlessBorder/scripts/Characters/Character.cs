@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class Character : Object
     {
@@ -75,6 +75,6 @@ namespace The_Border.scripts
         public virtual bool Attacked() { return attacked; }
         public virtual bool Dead() { return dead; }
 
-        public virtual void OnCollision(int x, int y, char collision) { }
+        public virtual void OnCollision(Object collidedObject) { }
     }
 }

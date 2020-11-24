@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class PatrolEnemy : Enemy
     {
         private bool actionUsed;    // true if the enemy already did an action (moving/attacking)
+        private Random random = new Random();
 
         public PatrolEnemy()
         {
@@ -37,9 +38,9 @@ namespace The_Border.scripts
             base.Update();
         }
 
-        public override void OnCollision(int x, int y, char collision)
+        public override void OnCollision(Object collidedObject)
         {
-            switch (collision)
+            switch (collidedObject.GetSprite())
             {
                 case Constants.PLAYER:
                     if (!attack && !Program.animating && !actionUsed)
@@ -53,9 +54,10 @@ namespace The_Border.scripts
                 case Constants.SPACE:
                     if (!actionUsed)
                     {
-                        if (Program.random.Next(0, 10) < 3)
+                        // 30% chance of moving
+                        if (random.Next(0, 10) < 3)
                         {
-                            SetPosition(x, y);
+                            SetPosition(collidedObject.X, collidedObject.Y);
                             actionUsed = true;
                         }
                     }

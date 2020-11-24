@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace The_Border
+namespace TheEndlessBorder
 {
     class Constants
     {
@@ -32,6 +33,7 @@ namespace The_Border
 
         // collision types
         public const char WALL                  = '█';
+        public const char FLOOR                 = '.';
         public const char SPACE                 = ' ';
         public const char DOOR_COLLISION        = '▌';
         public const char WIN_TRIGGER           = 'w';
@@ -41,20 +43,17 @@ namespace The_Border
         public const char DOOR_HORIZONTAL       = '─';
         public const char FENCE                 = '▒';
         public const char FENCE_WEAK            = '░';
+        public const char UNKNOWN               = '?';
 
         // Int
         // ======================================
         // sizes
-        public const int WORLD_WIDTH            = 250;
-        public const int WORLD_HEIGHT           = 250;
         public const int CAM_WIDTH              = 50;
         public const int CAM_HEIGHT             = 24;
         public const int WINDOW_WIDTH           = 95;
         public const int WINDOW_HEIGHT          = 37;
 
         // positions
-        public const int PLAYER_X               = 53;
-        public const int PLAYER_Y               = 13;
         public const int CAM_START_X            = 5;
         public const int CAM_START_Y            = 3;
         public const int STATS_X                = 61;
@@ -67,6 +66,15 @@ namespace The_Border
         // time (in milliseconds)
         public const int ATTACK_ANIM_TIME       = 200;
         public const int GAMEOVER_PAUSE_TIME    = 4000;
+
+        // Patterns
+        public static List<uint> WallPatterns = new List<uint>(new uint[] { 
+            448, 
+            416 });
+        
+        public static List<uint> DoorPatterns = new List<uint>(new uint[] {
+            448,
+            416 });
 
         // Color
         //======================================

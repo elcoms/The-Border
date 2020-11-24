@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class Enemy : Character
     {
@@ -54,13 +54,13 @@ namespace The_Border.scripts
                 {
                     // Check collision
                     // up
-                    OnCollision(X, Y - 1, World.GetDataFromPosition(X, Y - 1));
+                    OnCollision(World.GetObjectFromPosition(X, Y - 1));
                     // down
-                    OnCollision(X, Y + 1, World.GetDataFromPosition(X, Y + 1));
+                    OnCollision(World.GetObjectFromPosition(X, Y + 1));
                     // left
-                    OnCollision(X - 1, Y, World.GetDataFromPosition(X - 1, Y));
+                    OnCollision(World.GetObjectFromPosition(X - 1, Y));
                     // right
-                    OnCollision(X + 1, Y, World.GetDataFromPosition(X + 1, Y));
+                    OnCollision(World.GetObjectFromPosition(X + 1, Y));
                 }
                 else
                 {
@@ -82,9 +82,9 @@ namespace The_Border.scripts
             base.Update();
         }
 
-        public override void OnCollision(int x, int y, char collision)
+        public override void OnCollision(Object collidedObject)
         {
-            switch (collision)
+            switch (collidedObject.GetSprite())
             {
                 case Constants.PLAYER:
                     if (!attack && !Program.animating)

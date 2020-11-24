@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class GraphicalInterface
     {

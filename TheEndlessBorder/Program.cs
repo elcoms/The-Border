@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using TheEndlessBorder.scripts;
 
-using The_Border.scripts;
-
-namespace The_Border
+namespace TheEndlessBorder
 {
     class Program
     {
@@ -26,7 +25,7 @@ namespace The_Border
         private static State currentState = State.Menu;
 
         private static World world = new World();
-        private static Camera camera = new Camera();
+        private static Camera camera = new Camera(world);
         private static GraphicalInterface userInterface = new GraphicalInterface();
         private static Cutscene endingCutscene = new Cutscene();
 
@@ -126,7 +125,7 @@ namespace The_Border
         {
             player = new Player();
             world = new World();
-            camera = new Camera();
+            camera = new Camera(world);
             enemies = new List<Enemy>();
             items = new List<Item>();
             doors = new List<Door>();
@@ -137,7 +136,7 @@ namespace The_Border
             userInterface.Initialize();
             endingCutscene.Initialize();
 
-            player.SetPosition(Constants.PLAYER_X, Constants.PLAYER_Y);
+            player.SetPosition(world.WorldSize.x / 2, world.WorldSize.y / 2);
 
             for (int i = 1; i < doors.Count; i++)
             {
@@ -275,22 +274,22 @@ namespace The_Border
                         // MOVEMENT INPUT
                         case ConsoleKey.W:
                         case ConsoleKey.UpArrow:
-                            player.OnCollision(player.X, player.Y - 1, World.GetDataFromPosition(player.X, player.Y - 1));
+                            player.OnCollision(World.GetObjectFromPosition(player.X, player.Y - 1));
                             break;
 
                         case ConsoleKey.A:
                         case ConsoleKey.LeftArrow:
-                            player.OnCollision(player.X - 1, player.Y, World.GetDataFromPosition(player.X - 1, player.Y));
+                            player.OnCollision(World.GetObjectFromPosition(player.X - 1, player.Y));
                             break;
 
                         case ConsoleKey.S:
                         case ConsoleKey.DownArrow:
-                            player.OnCollision(player.X, player.Y + 1, World.GetDataFromPosition(player.X, player.Y + 1));
+                            player.OnCollision(World.GetObjectFromPosition(player.X, player.Y + 1));
                             break;
 
                         case ConsoleKey.D:
                         case ConsoleKey.RightArrow:
-                            player.OnCollision(player.X + 1, player.Y, World.GetDataFromPosition(player.X + 1, player.Y));
+                            player.OnCollision(World.GetObjectFromPosition(player.X + 1, player.Y));
                             break;
 
 

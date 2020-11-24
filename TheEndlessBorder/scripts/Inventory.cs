@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class Inventory
     {
@@ -66,8 +66,7 @@ namespace The_Border.scripts
                         item.Holder.SetPosition(item.X, item.Y);
                     else
                     {
-                        World.UpdateWorldData(item.X, item.Y, Constants.SPACE);
-                        Camera.UpdateVisibleMap(new Object(item.X, item.Y, Constants.SPACE));
+                        World.UpdateWorldObjects(new Object(item.X, item.Y, Constants.SPACE));
                     }
                     break;
                 }
@@ -95,13 +94,13 @@ namespace The_Border.scripts
                 Program.Log("The Man left " + items[num].Name + " behind.");
                 
                 // check for space to drop item
-                if (World.GetDataFromPosition(x, y - 1) == Constants.SPACE)
+                if (World.GetObjectFromPosition(x, y - 1).GetSprite() == Constants.SPACE)
                     items[num].SetPosition(x, y - 1);
-                else if (World.GetDataFromPosition(x, y + 1) == Constants.SPACE)
+                else if (World.GetObjectFromPosition(x, y + 1).GetSprite() == Constants.SPACE)
                     items[num].SetPosition(x, y + 1);
-                else if (World.GetDataFromPosition(x + 1, y) == Constants.SPACE)
+                else if (World.GetObjectFromPosition(x + 1, y).GetSprite() == Constants.SPACE)
                     items[num].SetPosition(x + 1, y);
-                else if (World.GetDataFromPosition(x - 1, y) == Constants.SPACE)
+                else if (World.GetObjectFromPosition(x - 1, y).GetSprite() == Constants.SPACE)
                     items[num].SetPosition(x - 1, y);
                 else
                     items[num].SetPosition(x, y);

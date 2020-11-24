@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace The_Border.scripts
+namespace TheEndlessBorder.scripts
 {
     class Door : Object
     {
@@ -53,7 +53,7 @@ namespace The_Border.scripts
             // unlock if it's fence
             if (color == ConsoleColor.Gray)
             {
-                World.UpdateWorldData(X, Y, Constants.SPACE);
+                World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
                 unlocked = true;
 
                 Program.Log("The Man breaks " + name + " and escapes The Border.");
@@ -69,7 +69,7 @@ namespace The_Border.scripts
                     {
                         if (item.getColor() == color)
                         {
-                            World.UpdateWorldData(X, Y, Constants.SPACE);
+                            World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
                             rightKey = item as Key;
                             player.Level++;
                             player.GetInventory().RemoveItem(item);
