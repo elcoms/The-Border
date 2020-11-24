@@ -48,7 +48,7 @@ namespace TheEndlessBorder
         // Int
         // ======================================
         // sizes
-        public const int CAM_WIDTH              = 50;
+        public const int CAM_WIDTH              = 48;
         public const int CAM_HEIGHT             = 24;
         public const int WINDOW_WIDTH           = 95;
         public const int WINDOW_HEIGHT          = 37;

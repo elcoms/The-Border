@@ -29,7 +29,7 @@ namespace TheEndlessBorder.scripts
             // Create Spawn Room
             worldObjects = spawnRoom.Generate(random.Next(), Constants.WallPatterns);
 
-            /*int i = 0;
+            int i = 0;
             bool spawned = false;
             while (!spawned)
             {
@@ -53,8 +53,8 @@ namespace TheEndlessBorder.scripts
                         }
                     }
                 }
-            }*/
-            player.SetPosition(WorldSize.x / 2, WorldSize.y / 2);
+            }
+
             // Spawn objects
             /*for (int y = 0; y < worldObjects.GetLength(1); y++)
             {
@@ -141,7 +141,10 @@ namespace TheEndlessBorder.scripts
         // Return data specified by position
         public static Object GetObjectFromPosition(int x, int y)
         {
-            return worldObjects[x, y];
+            if (x >= 0 && y >= 0 && x < worldObjects.GetLength(0) && y < worldObjects.GetLength(1))
+                return worldObjects[x, y];
+            else
+                return new Object(0, 0, Constants.UNKNOWN);
         }
 
         public static void UpdateWorldObjects(Object data)

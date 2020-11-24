@@ -25,9 +25,11 @@ namespace TheEndlessBorder.scripts
             // get data from world to render starting from the start positions to the camera size
             Console.SetCursorPosition(Constants.CAM_START_X, Constants.CAM_START_Y);
             Object[,] worldObjects = World.GetWorldObjects();
-            for (int y = startY; y < Constants.CAM_HEIGHT; y++)
+
+            // From starting world positions up to a length set by constants
+            for (int y = startY; y < startY + Constants.CAM_HEIGHT; y++)
             {
-                for (int x = startX; x < Constants.CAM_WIDTH; x++)
+                for (int x = startX; x < startX + Constants.CAM_WIDTH; x++)
                 {
                     // Check if the world exists in this position
                     if (x < 0 || y < 0 || x >= worldObjects.GetLength(0) || y >= worldObjects.GetLength(1))
@@ -44,8 +46,8 @@ namespace TheEndlessBorder.scripts
                     }
                 }
 
-                Console.WriteLine();
-                Console.Write(new string(' ', Constants.CAM_START_X));  // Padding
+                // Padding
+                Console.SetCursorPosition(Constants.CAM_START_X, y - startY + 3);
             }
         }
     }

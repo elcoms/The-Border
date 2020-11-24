@@ -363,6 +363,7 @@ namespace TheEndlessBorder.scripts
 
             for (int y = 0; y < FloorPlan.GetLength(1); y++)
             {
+                roomChar[0, y] = new Object(0, y, '|');
                 for (int x = 0; x < FloorPlan.GetLength(0); x++)
                 {
                     if (WallPlan[x, y])
@@ -377,10 +378,8 @@ namespace TheEndlessBorder.scripts
                     {
                         roomChar[x, y] = new Object(x, y, Constants.SPACE);
                     }
-
-                    if (x == FloorPlan.GetLength(0) - 1 || x == 0)
-                        roomChar[x, y] = new Object(x, y, '|');
                 }
+                roomChar[FloorPlan.GetLength(0)-1, y] = new Object(FloorPlan.GetLength(0)-1, y, '|');
             }
 
             return roomChar;
