@@ -137,9 +137,9 @@ namespace TheEndlessBorder.scripts
             var random = new Random(seed);
             var Rooms = new Rect[4 + random.Next() % 4];
 
-            /*Rooms[0].max.x = 4 + random.Next() % MAXSIZE_X;
+            Rooms[0].max.x = 4 + random.Next() % MAXSIZE_X;
             Rooms[0].max.y = 4 + random.Next() % MAXSIZE_Y;
-            Rooms[0].min.x = Rooms[0].min.y = 0;*/
+            Rooms[0].min.x = Rooms[0].min.y = 0;
             Rect Bounds = Rooms[0];
 
             int corners = 0;
@@ -377,6 +377,9 @@ namespace TheEndlessBorder.scripts
                     {
                         roomChar[x, y] = new Object(x, y, Constants.SPACE);
                     }
+
+                    if (x == FloorPlan.GetLength(0) - 1 || x == 0)
+                        roomChar[x, y] = new Object(x, y, '|');
                 }
             }
 

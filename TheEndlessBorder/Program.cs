@@ -132,11 +132,9 @@ namespace TheEndlessBorder
             random = new Random();
             endingCutscene = new Cutscene();
 
-            world.Initialize();
+            world.Initialize(player);
             userInterface.Initialize();
             endingCutscene.Initialize();
-
-            player.SetPosition(world.WorldSize.x / 2, world.WorldSize.y / 2);
 
             for (int i = 1; i < doors.Count; i++)
             {

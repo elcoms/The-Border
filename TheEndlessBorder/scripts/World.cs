@@ -24,10 +24,36 @@ namespace TheEndlessBorder.scripts
         }
 
         // Load the data for the collision map
-        public void Initialize()
+        public void Initialize(Player player)
         {
             // Create Spawn Room
             worldObjects = spawnRoom.Generate(random.Next(), Constants.WallPatterns);
+
+            int i = 0;
+            bool spawned = false;
+            while (!spawned)
+            {
+                // random position
+                Vector2 playerPos = new Vector2(random.Next(0, WorldSize.x), random.Next(0, WorldSize.y));
+
+                if (spawnRoom.FloorPlan[playerPos.x, playerPos.y])
+                {
+                    player.SetPosition(playerPos.x, playerPos.y);
+                    spawned = true;
+                }
+                else if (i > 100) // if random takes too long
+                {
+                    foreach (bool isFloor in spawnRoom.FloorPlan)
+                    {
+                        if (isFloor)
+                        {
+                            player.SetPosition(playerPos.x, playerPos.y);
+                            spawned = true;
+                            break;
+                        }
+                    }
+                }
+            }
 
             // Spawn objects
             /*for (int y = 0; y < worldObjects.GetLength(1); y++)
