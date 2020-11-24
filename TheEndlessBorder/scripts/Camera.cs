@@ -37,7 +37,10 @@ namespace TheEndlessBorder.scripts
                     }
                     else // Render the object if it exists
                     {
-                        worldObjects[x, y]?.Render();
+                        if (worldObjects[x, y] != null)
+                            worldObjects[x, y].Render();
+                        else
+                            Console.Write(Constants.SPACE);
                     }
                 }
 

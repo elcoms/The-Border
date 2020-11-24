@@ -29,7 +29,7 @@ namespace TheEndlessBorder.scripts
             // Create Spawn Room
             worldObjects = spawnRoom.Generate(random.Next(), Constants.WallPatterns);
 
-            int i = 0;
+            /*int i = 0;
             bool spawned = false;
             while (!spawned)
             {
@@ -53,8 +53,8 @@ namespace TheEndlessBorder.scripts
                         }
                     }
                 }
-            }
-
+            }*/
+            player.SetPosition(WorldSize.x / 2, WorldSize.y / 2);
             // Spawn objects
             /*for (int y = 0; y < worldObjects.GetLength(1); y++)
             {

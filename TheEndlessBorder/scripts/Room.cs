@@ -185,8 +185,8 @@ namespace TheEndlessBorder.scripts
                                 Rooms[i].min.x = Rooms[0].min.x;
                                 Rooms[i].max.x = Rooms[0].min.x + (4 + random.Next() % MAXSIZE_X);
 
-                                Rooms[i].min.y = Rooms[0].min.y;
-                                Rooms[i].max.y = Rooms[0].min.y - (4 + random.Next() % MAXSIZE_Y);
+                                Rooms[i].min.y = Rooms[0].min.y - (4 + random.Next() % MAXSIZE_Y);
+                                Rooms[i].max.y = Rooms[0].min.y;
 
                                 currentDirection = Direction.UP;
                             }
@@ -210,8 +210,8 @@ namespace TheEndlessBorder.scripts
                                 Rooms[i].min.x = Rooms[0].max.x;
                                 Rooms[i].max.x = Rooms[0].max.x + (4 + random.Next() % MAXSIZE_X);
 
-                                Rooms[i].min.y = Rooms[0].min.y + (4 + random.Next() % MAXSIZE_Y);
-                                Rooms[i].max.y = Rooms[0].min.y;
+                                Rooms[i].min.y = Rooms[0].min.y;
+                                Rooms[i].max.y = Rooms[0].min.y + (4 + random.Next() % MAXSIZE_Y);
 
                                 currentDirection = Direction.RIGHT;
                             }
@@ -232,8 +232,8 @@ namespace TheEndlessBorder.scripts
                             else
                             {
                                 // +X +Y
-                                Rooms[i].min.x = Rooms[0].min.x + (4 + random.Next() % MAXSIZE_X);
-                                Rooms[i].max.x = Rooms[0].min.x;
+                                Rooms[i].min.x = Rooms[0].min.x;
+                                Rooms[i].max.x = Rooms[0].min.x + (4 + random.Next() % MAXSIZE_X);
 
                                 Rooms[i].min.y = Rooms[0].max.y;
                                 Rooms[i].max.y = Rooms[0].max.y + (4 + random.Next() % MAXSIZE_Y);
@@ -260,8 +260,8 @@ namespace TheEndlessBorder.scripts
                                 Rooms[i].min.x = Rooms[0].max.x;
                                 Rooms[i].max.x = Rooms[0].max.x + (4 + random.Next() % MAXSIZE_X);
 
-                                Rooms[i].min.y = Rooms[0].max.y;
-                                Rooms[i].max.y = Rooms[0].max.y - (4 + random.Next() % MAXSIZE_Y);
+                                Rooms[i].min.y = Rooms[0].max.y - (4 + random.Next() % MAXSIZE_Y);
+                                Rooms[i].max.y = Rooms[0].max.y;
 
                                 currentDirection = Direction.RIGHT;
                             }
