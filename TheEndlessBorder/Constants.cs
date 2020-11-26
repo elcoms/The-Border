@@ -67,14 +67,20 @@ namespace TheEndlessBorder
         public const int ATTACK_ANIM_TIME       = 200;
         public const int GAMEOVER_PAUSE_TIME    = 4000;
 
-        // Patterns
-        public static List<uint> WallPatterns = new List<uint>(new uint[] { 
-            448, 
-            416 });
+        // limits
+        public const int NUM_OF_DOORS           = 3;
+
+        // patterns
+        public readonly static List<uint> WallPatterns = new List<uint>(new uint[] {              
+            27,     // Corner
+            432,    // Corner
+            436,    // Double Corners
+            502,    // Sides of corner
+            504,    // Sides
+            510 }); // Corner
         
-        public static List<uint> DoorPatterns = new List<uint>(new uint[] {
-            448,
-            416 });
+        public readonly static List<uint> DoorPatterns = new List<uint>(new uint[] {
+            504 });
 
         // Color
         //======================================

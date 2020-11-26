@@ -40,7 +40,6 @@ namespace TheEndlessBorder
 
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<Item> items = new List<Item>();
-        public static List<Door> doors = new List<Door>();
         public static List<string> log = new List<string>();
 
         static void Main(string[] args)
@@ -128,19 +127,12 @@ namespace TheEndlessBorder
             camera = new Camera(world);
             enemies = new List<Enemy>();
             items = new List<Item>();
-            doors = new List<Door>();
             random = new Random();
             endingCutscene = new Cutscene();
 
             world.Initialize(player);
             userInterface.Initialize();
             endingCutscene.Initialize();
-
-            for (int i = 1; i < doors.Count; i++)
-            {
-                if (doors[i].GetDoorColor() != ConsoleColor.Gray)
-                    doors[i].SetDoorColor(Constants.KEY_DOOR_COLORS[random.Next(0, 3)]);
-            }
 
             logCount = 0;
             Log("The Man is confused. He feels trapped.");

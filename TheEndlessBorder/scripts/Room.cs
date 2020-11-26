@@ -35,10 +35,26 @@ namespace TheEndlessBorder.scripts
         readonly int MAXSIZE_X = 40;
         readonly int MAXSIZE_Y = 10;
 
+        int wallCount;
+        List<uint> wallPatterns = new List<uint>();
+        List<uint> doorPatterns = new List<uint>();
+        
+        // Plans
         public bool[,] FloorPlan { get; private set; }
         public bool[,] WallPlan { get; private set; }
+        public bool[,] DoorPlan { get; private set; }
+
         Vector2 size;
         public Vector2 GetRoomSize() { return size; }
+
+        public Room()
+        {
+            wallPatterns = new List<uint>(Constants.WallPatterns);
+            GeneratePatterns(wallPatterns, Constants.WallPatterns);
+
+            doorPatterns = new List<uint>(Constants.DoorPatterns);
+            GeneratePatterns(doorPatterns, Constants.DoorPatterns);
+        }
 
         public uint ConvertToDec(int X, int Y)
         {
@@ -52,7 +68,7 @@ namespace TheEndlessBorder.scripts
                      && x < FloorPlan.GetLength(0)
                      && y < FloorPlan.GetLength(1))
                     {
-                        uint n = (FloorPlan[x, y]) ? 1u : 0u;
+                        uint n = (FloorPlan[x, y]) ? 1u : 0u;   // 0 is space, 1 is floor
                         n = n << i;
                         Dec = Dec | n;
                     }
@@ -102,37 +118,45 @@ namespace TheEndlessBorder.scripts
             return newDec;
         }
 
-        public void SetPattern(int x, int y, List<uint> wallPatterns)
+        public void GeneratePatterns(List<uint> patternsList, List<uint> patternsRef)
         {
-            uint dec = ConvertToDec(x, y);
-
-            bool bFound = false;
-            for (int m = 0; m < 2; m++)
+            foreach (var pattern in patternsRef)
             {
-                for (int r = 0; r < 4; r++)
+                uint dec = pattern;
+
+                // mirror
+                for (int m = 0; m < 2; m++)
                 {
-                    for (int i = 0; i < wallPatterns.Count; i++)
+                    // rotate
+                    for (int r = 0; r < 4; r++)
                     {
-                        if (wallPatterns[i] == dec)
+                        // loop through current patterns, if not found add into current patterns
+                        bool bFound = false;
+                        for (int i = 0; i < patternsList.Count; i++)
                         {
-                            bFound = true;
+                            if (patternsList[i] == dec)
+                            {
+                                bFound = true;
+                                break;
+                            }
                         }
+
+                        if (!bFound)
+                        {
+                            patternsList.Add(dec);
+                        }
+
+                        // Rotate
+                        dec = RotateDec90(dec);
                     }
 
-                    if (!bFound)
-                    {
-                        wallPatterns.Add(dec);
-                    }
-
-                    // Rotate
-                    dec = RotateDec90(dec);
+                    // Mirror
+                    dec = MirrorDec(dec);
                 }
-
-                dec = MirrorDec(dec);
             }
         }
 
-        public Object[,] Generate(int seed, List<uint> wallPatterns)
+        public Object[,] Generate(int seed)
         {
             var random = new Random(seed);
             var Rooms = new Rect[4 + random.Next() % 4];
@@ -314,6 +338,7 @@ namespace TheEndlessBorder.scripts
             size.y = Bounds.max.y - Bounds.min.y;
             FloorPlan = new bool[size.x, size.y];
             WallPlan = new bool[size.x, size.y];
+            DoorPlan = new bool[size.x, size.y];
 
             // init array
             for (int y = 0; y < FloorPlan.GetLength(1); y++)
@@ -337,17 +362,31 @@ namespace TheEndlessBorder.scripts
                 }
             }
 
-            // Generate Wall
+            // Generate Wall and Doors plan
+            wallCount = 0;
             for (int y = 0; y < WallPlan.GetLength(1); y++)
             {
                 for (int x = 0; x < WallPlan.GetLength(0); x++)
                 {
+                    // Check if is wall
                     uint currentPattern = ConvertToDec(x, y);
                     foreach (uint pattern in wallPatterns)
                     {
                         if (currentPattern == pattern)
                         {
                             WallPlan[x, y] = true;
+                            wallCount++;
+
+                            // check if it is part of door patterns
+                            foreach (uint doorPattern in doorPatterns)
+                            {
+                                if (currentPattern == doorPattern)
+                                {
+                                    DoorPlan[x, y] = true;
+                                    break;
+                                }
+                            }
+
                             break;
                         }
                     }
@@ -359,30 +398,69 @@ namespace TheEndlessBorder.scripts
 
         Object[,] ConvertToObjects()
         {
-            Object[,] roomChar = new Object[size.x, size.y];
+            Object[,] roomObjects = new Object[size.x, size.y];
+            Random random = new Random(World.WorldSeed);
 
+            int doorCount = 0;
+            int randomDoorCount = random.Next(0, wallCount);
             for (int y = 0; y < FloorPlan.GetLength(1); y++)
             {
-                roomChar[0, y] = new Object(0, y, '|');
+                // roomObjects[0, y] = new Object(0, y, '|');
                 for (int x = 0; x < FloorPlan.GetLength(0); x++)
                 {
                     if (WallPlan[x, y])
                     {
-                        roomChar[x, y] = new Object(x, y, Constants.WALL);
+                        // randomly generate door up to a limit but only if it can be a door
+                        if (doorCount < Constants.NUM_OF_DOORS && DoorPlan[x, y] && randomDoorCount <= 0)
+                        {
+                            roomObjects[x, y] = new Door(x, y, IsDoorHorizontal(x, y),                          // horizontal if floor is to the left or right of the door
+                                Constants.KEY_DOOR_COLORS[random.Next(0, Constants.KEY_DOOR_COLORS.Length)]);   // random color
+
+                            doorCount++;
+                            randomDoorCount = random.Next(0, wallCount);
+                        }
+                        else
+                        {
+                            roomObjects[x, y] = new Object(x, y, Constants.WALL);
+                            randomDoorCount--;
+                        }
                     }
                     else if (FloorPlan[x, y])
                     {
-                        roomChar[x, y] = new Object(x, y, Constants.FLOOR);
+                        roomObjects[x, y] = new Object(x, y, Constants.FLOOR);
                     }
                     else
                     {
-                        roomChar[x, y] = new Object(x, y, Constants.SPACE);
+                        roomObjects[x, y] = new Object(x, y, Constants.SPACE);
                     }
                 }
-                roomChar[FloorPlan.GetLength(0)-1, y] = new Object(FloorPlan.GetLength(0)-1, y, '|');
+                // roomObjects[FloorPlan.GetLength(0)-1, y] = new Object(FloorPlan.GetLength(0)-1, y, '|');
             }
 
-            return roomChar;
+            return roomObjects;
+        }
+
+        bool IsDoorHorizontal(int x, int y)
+        {
+            // check if within top and btm borders
+            if (y > 0 && y < WallPlan.GetLength(1) - 1)
+            {
+                // check if within side borders
+                if (x > 0 && x < WallPlan.GetLength(0) - 1)
+                {
+                    return !(WallPlan[x, y + 1] || WallPlan[x, y - 1]);  // is horizontal if top or bottom is not a wall
+                }
+                // Vertical Only
+                else
+                {
+                    return false;
+                }
+            }
+            // Horizontal Only
+            else
+            {
+                return true;
+            }
         }
     }
 }

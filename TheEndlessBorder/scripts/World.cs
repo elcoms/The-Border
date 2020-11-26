@@ -12,25 +12,26 @@ namespace TheEndlessBorder.scripts
     {
         static Object[,] worldObjects;
 
-        int worldSeed;
+        public static int WorldSeed { get; private set; }
         Random random = new Random();
         Room spawnRoom = new Room();
 
         public Vector2 WorldSize { get { return new Vector2(worldObjects.GetLength(0), worldObjects.GetLength(1)); } }
 
         public World() {
-            worldSeed = random.Next();
-            random = new Random(worldSeed);
+            WorldSeed = random.Next();
+            random = new Random(WorldSeed);
         }
 
         // Load the data for the collision map
         public void Initialize(Player player)
         {
             // Create Spawn Room
-            worldObjects = spawnRoom.Generate(random.Next(), Constants.WallPatterns);
+            worldObjects = spawnRoom.Generate(random.Next());
 
             int i = 0;
             bool spawned = false;
+            Object spawnPosObject = worldObjects[0, 0];     // fix object being replaced by floor when player changes position
             while (!spawned)
             {
                 // random position
@@ -54,6 +55,7 @@ namespace TheEndlessBorder.scripts
                     }
                 }
             }
+            worldObjects[0, 0] = spawnPosObject;
 
             // Spawn objects
             /*for (int y = 0; y < worldObjects.GetLength(1); y++)

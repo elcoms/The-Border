@@ -23,14 +23,13 @@ namespace TheEndlessBorder.scripts
             sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
         }
 
-        public Door(int xPos, int yPos, string givenName, ConsoleColor givenColor, bool isHorizontal)
+        public Door(int xPos, int yPos, bool isHorizontal, ConsoleColor givenColor)
         {
             X = xPos;
             Y = yPos;
-            name = givenName;
-            color = givenColor;
             horizontal = isHorizontal;
             sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
+            SetDoorColor(givenColor);
         }
 
         public override void Render()
