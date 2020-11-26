@@ -429,7 +429,7 @@ namespace TheEndlessBorder.scripts
                     }
                     else if (FloorPlan[x, y])
                     {
-                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.1% after
+                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.5% after
                         if (firstEnemySpawned == null && random.NextDouble() < 0.01)
                         {
                             // 70% chance for normal enemy to spawn
@@ -438,8 +438,9 @@ namespace TheEndlessBorder.scripts
                                 new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]));
 
                             roomObjects[x, y] = firstEnemySpawned;
+                            Program.enemies.Add(firstEnemySpawned);
                         }
-                        else if (firstEnemySpawned != null && random.NextDouble() < 0.001)
+                        else if (firstEnemySpawned != null && random.NextDouble() < 0.003)
                         {
                             Item randomItem = new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]);
                             
@@ -449,9 +450,12 @@ namespace TheEndlessBorder.scripts
                                 randomItem = new HealItem(x, y, random.Next(15, 75), Constants.APPLE, ConsoleColor.Red, "The Apple", "An Apple a day, keeps The Grave at bay.");
                             }
 
-                            roomObjects[x, y] = random.NextDouble() < 0.7 ?
+                            Enemy newEnemy = random.NextDouble() < 0.7 ?
                                 new Enemy(x, y, 20, 10, Constants.ENEMY, randomItem) :
                                 new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, randomItem);
+
+                            roomObjects[x, y] = newEnemy;
+                            Program.enemies.Add(newEnemy);
                         }
                         else
                             roomObjects[x, y] = new Object(x, y, Constants.FLOOR);

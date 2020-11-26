@@ -36,7 +36,7 @@ namespace TheEndlessBorder.scripts
         {
             if (unlocked)
             {
-                Console.Write(Constants.SPACE);
+                Console.Write(Constants.FLOOR);
             }
             else
             {
@@ -52,7 +52,7 @@ namespace TheEndlessBorder.scripts
             // unlock if it's fence
             if (color == ConsoleColor.Gray)
             {
-                World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
+                World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
                 unlocked = true;
 
                 Program.Log("The Man breaks " + name + " and escapes The Border.");
@@ -68,7 +68,7 @@ namespace TheEndlessBorder.scripts
                     {
                         if (item.getColor() == color)
                         {
-                            World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
+                            World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
                             rightKey = item as Key;
                             player.Level++;
                             player.GetInventory().RemoveItem(item);

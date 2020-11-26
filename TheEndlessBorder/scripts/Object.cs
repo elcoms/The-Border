@@ -10,6 +10,7 @@ namespace TheEndlessBorder.scripts
     {
         public int X { get; set; }
         public int Y { get; set; }
+        private Object objectInBackground;
 
         protected char sprite = Constants.UNKNOWN;
 
@@ -20,6 +21,9 @@ namespace TheEndlessBorder.scripts
             X = x;
             Y = y;
             sprite = objectSprite;
+            
+            if (sprite != Constants.SPACE)
+                objectInBackground = new Object(X, Y, Constants.SPACE);
         }
 
         public virtual void Render() 
@@ -45,11 +49,15 @@ namespace TheEndlessBorder.scripts
         // Assign the x and y positions based on given parameters
         public virtual void SetPosition(int xPos, int yPos)
         {
-            // remove current position from data
-            World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
+            // remove current position from data and replace with object in background
+            if (objectInBackground != null)
+                World.UpdateWorldObjects(objectInBackground);
 
             X = xPos >= 0 ? xPos : X;
             Y = yPos >= 0 ? yPos : Y;
+
+            // save new position's object in background
+            objectInBackground = World.GetObjectFromPosition(X, Y);
 
             // update new position in data
             World.UpdateWorldObjects(this);
