@@ -46,6 +46,13 @@ namespace TheEndlessBorder.scripts
             drop = null;
         }
 
+        public void SetItem(Item item)
+        {
+            drop = item;
+            drop.SetVisible(false);
+            drop.Holder = this;
+        }
+
         public override void Update()
         {
             if (!dead)

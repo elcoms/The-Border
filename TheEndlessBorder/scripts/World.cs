@@ -37,7 +37,8 @@ namespace TheEndlessBorder.scripts
                 // random position
                 Vector2 playerPos = new Vector2(random.Next(0, WorldSize.x), random.Next(0, WorldSize.y));
 
-                if (spawnRoom.FloorPlan[playerPos.x, playerPos.y])
+                // Spawn only in floor objects
+                if (worldObjects[playerPos.x, playerPos.y].GetSprite() == Constants.FLOOR)
                 {
                     player.SetPosition(playerPos.x, playerPos.y);
                     spawned = true;

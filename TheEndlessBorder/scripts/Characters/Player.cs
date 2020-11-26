@@ -57,6 +57,7 @@ namespace TheEndlessBorder.scripts
             switch (collidedObject.GetSprite())
             {
                 case Constants.ENEMY:
+                case Constants.ENEMY_PATROL:
                     // player attack enemy
                     if (collidedObject is Enemy)
                     {

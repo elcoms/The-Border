@@ -401,8 +401,10 @@ namespace TheEndlessBorder.scripts
             Object[,] roomObjects = new Object[size.x, size.y];
             Random random = new Random(World.WorldSeed);
 
+            Enemy firstEnemySpawned = null;
             int doorCount = 0;
             int randomDoorCount = random.Next(0, wallCount);
+            ConsoleColor firstDoorColor = Constants.KEY_DOOR_COLORS[0];
             for (int y = 0; y < FloorPlan.GetLength(1); y++)
             {
                 // roomObjects[0, y] = new Object(0, y, '|');
@@ -427,7 +429,32 @@ namespace TheEndlessBorder.scripts
                     }
                     else if (FloorPlan[x, y])
                     {
-                        roomObjects[x, y] = new Object(x, y, Constants.FLOOR);
+                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.1% after
+                        if (firstEnemySpawned == null && random.NextDouble() < 0.01)
+                        {
+                            // 70% chance for normal enemy to spawn
+                            firstEnemySpawned = random.NextDouble() < 0.7 ?
+                                new Enemy(x, y , 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[0])) :
+                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]));
+
+                            roomObjects[x, y] = firstEnemySpawned;
+                        }
+                        else if (firstEnemySpawned != null && random.NextDouble() < 0.001)
+                        {
+                            Item randomItem = new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]);
+                            
+                            // 10% chance for an apple to spawn instead
+                            if (random.NextDouble() < 0.1)
+                            {
+                                randomItem = new HealItem(x, y, random.Next(15, 75), Constants.APPLE, ConsoleColor.Red, "The Apple", "An Apple a day, keeps The Grave at bay.");
+                            }
+
+                            roomObjects[x, y] = random.NextDouble() < 0.7 ?
+                                new Enemy(x, y, 20, 10, Constants.ENEMY, randomItem) :
+                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, randomItem);
+                        }
+                        else
+                            roomObjects[x, y] = new Object(x, y, Constants.FLOOR);
                     }
                     else
                     {
@@ -437,6 +464,8 @@ namespace TheEndlessBorder.scripts
                 // roomObjects[FloorPlan.GetLength(0)-1, y] = new Object(FloorPlan.GetLength(0)-1, y, '|');
             }
 
+            // prevent soft lock by giving the first enemy to the first door color
+            firstEnemySpawned.SetItem(new Key(0, 0, firstDoorColor));
             return roomObjects;
         }
 
