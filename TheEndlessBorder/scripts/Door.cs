@@ -61,6 +61,10 @@ namespace TheEndlessBorder.scripts
             {
                 Key rightKey = null;
 
+                World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
+                World.CreateNewRoom(new Vector2(X, Y));
+                unlocked = true;
+
                 // Check for key
                 foreach (Item item in player.GetInventory().GetItems())
                 {
@@ -72,6 +76,7 @@ namespace TheEndlessBorder.scripts
                             rightKey = item as Key;
                             player.Level++;
                             player.GetInventory().RemoveItem(item);
+                            World.CreateNewRoom(new Vector2(X, Y));
                             unlocked = true;
                         }
                     }

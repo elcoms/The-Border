@@ -51,7 +51,7 @@ namespace TheEndlessBorder.scripts
                     }
                     break;
 
-                case Constants.SPACE:
+                case Constants.FLOOR:
                     if (!actionUsed)
                     {
                         // 30% chance of moving

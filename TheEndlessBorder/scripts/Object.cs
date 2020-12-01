@@ -63,6 +63,13 @@ namespace TheEndlessBorder.scripts
             World.UpdateWorldObjects(this);
         }
 
+        // Modify positions directly without changing anything else
+        public virtual void SetPositionDirectly(int xPos, int yPos)
+        {
+            X = xPos >= 0 ? xPos : X;
+            Y = yPos >= 0 ? yPos : Y;
+        }
+
         // Getter/Setters
         public char GetSprite() { return sprite; }
     }

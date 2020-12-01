@@ -149,6 +149,8 @@ namespace TheEndlessBorder
                 {
                     enemy.Update();
                 }
+
+                Program.Log(player.X + ", " + player.Y, 0, 2);
             }
         }
 

@@ -13,7 +13,7 @@ namespace TheEndlessBorder.scripts
         static Object[,] worldObjects;
 
         public static int WorldSeed { get; private set; }
-        Random random = new Random();
+        static Random random = new Random();
         Room spawnRoom = new Room();
 
         public Vector2 WorldSize { get { return new Vector2(worldObjects.GetLength(0), worldObjects.GetLength(1)); } }
@@ -129,16 +129,150 @@ namespace TheEndlessBorder.scripts
             }*/
         }
 
-        /*public void CreateNewRoom()
+        public static void CreateNewRoom(Vector2 doorPosition)
         {
-            var rooms = new List<Room>();
-            Room room;
-            room = new Room();
-            room.Generate(random.Next());
-            rooms.Add(room);
+            // Generate new Room
+            Room newRoom = new Room();
+            Object[,] newRoomObjects = newRoom.Generate(random.Next());
 
-            Vector2 center = new Vector2();
-        }*/
+            // Insert new room to world and adjust the world accordingly
+            // ==============================================================
+
+            // Check Door exit direction to spawn in
+            Direction doorDirection = Direction.NULL;
+
+            if (doorPosition.x - 1 >= 0)
+                if (worldObjects[doorPosition.x - 1, doorPosition.y]?.GetSprite() == Constants.PLAYER) doorDirection = Direction.LEFT;
+            if (doorPosition.x + 1 < worldObjects.GetLength(0))
+                if (worldObjects[doorPosition.x + 1, doorPosition.y]?.GetSprite() == Constants.PLAYER) doorDirection = Direction.RIGHT;
+            if (doorPosition.y - 1 >= 0)
+                if (worldObjects[doorPosition.x, doorPosition.y - 1]?.GetSprite() == Constants.PLAYER) doorDirection = Direction.UP;
+            if (doorPosition.y + 1 < worldObjects.GetLength(1))
+                if (worldObjects[doorPosition.x, doorPosition.y + 1]?.GetSprite() == Constants.PLAYER) doorDirection = Direction.DOWN;
+
+            // the rect at the side of the room closest to the door
+            Rect roomRect = new Rect();
+            switch (doorDirection)  
+            {
+                case Direction.UP: 
+                    roomRect = newRoom.TopRect;
+                    break;
+                case Direction.DOWN:
+                    roomRect = newRoom.BottomRect;
+                    break;
+                case Direction.LEFT:
+                    roomRect = newRoom.LeftRect;
+                    break;
+                case Direction.RIGHT:
+                    roomRect = newRoom.RightRect;
+                    break;
+                default:
+                    break;
+            }
+
+            // merge room and world if direction is not null
+            if (doorDirection != Direction.NULL)
+            {
+                // center position of side rect
+                Vector2 rectCenter = new Vector2((roomRect.max.x - roomRect.min.x) / 2 + roomRect.min.x, (roomRect.max.y - roomRect.min.y) / 2 + roomRect.min.y);
+
+                // Padding amount based on the difference between the new room and world
+                Vector2 padding = doorPosition - rectCenter;
+
+                // Expand world based on new room size and padding
+                int lengthX = worldObjects.GetLength(0);
+                int lengthY = worldObjects.GetLength(1);
+                int startPosX = 0;
+                int startPosY = 0;
+
+                // World Length X
+                // Room is placed after 0
+                if (padding.x >= 0)
+                {
+                    // use the length that is longer: padding + newRoom size or current length
+                    lengthX = padding.x + newRoom.GetRoomSize().x > worldObjects.GetLength(0) ? padding.x + newRoom.GetRoomSize().x : worldObjects.GetLength(0);
+                    startPosX = padding.x;
+                }
+                // Room is placed before 0
+                else
+                {
+                    // use the length that is longer: new room length or absolute padding + current length
+                    lengthX = padding.x + newRoom.GetRoomSize().x > worldObjects.GetLength(0) ? newRoom.GetRoomSize().x : worldObjects.GetLength(0) - padding.x;
+                    startPosX = -padding.x;
+                }
+
+                // World Length Y
+                if (padding.y >= 0)
+                {
+                    lengthY = padding.y + newRoom.GetRoomSize().y > worldObjects.GetLength(1) ? padding.y + newRoom.GetRoomSize().y : worldObjects.GetLength(1);
+                    startPosY = padding.y;
+                }
+                else
+                {
+                    lengthX = padding.y + newRoom.GetRoomSize().y > worldObjects.GetLength(1) ? newRoom.GetRoomSize().y : worldObjects.GetLength(1) - padding.y;
+                    startPosY = -padding.y;
+                }
+
+                Object[,] newWorld = new Object[lengthX, lengthY];
+
+                // Put world into new world
+                for (int y = 0; y < lengthY; y++)
+                {
+                    // Transfer from startpos to world length, else insert space object
+                    if (y >= startPosY && y < worldObjects.GetLength(1))
+                    {
+                        for (int x = 0; x < lengthX; x++)
+                        {
+                            if (x >= startPosX && x < worldObjects.GetLength(0))
+                            {
+                                newWorld[x, y] = worldObjects[x - startPosX, y - startPosY];
+                                newWorld[x, y].SetPositionDirectly(x, y);
+                            }
+                            else
+                                newWorld[x, y] = new Object(x, y, Constants.SPACE);
+                        }
+                    }
+                    else
+                    {
+                        for (int x = 0; x < lengthX; x++)
+                        {
+                            newWorld[x, y] = new Object(x, y, Constants.SPACE);
+                        }
+                    }
+                }
+
+                startPosX = padding.x >= 0 ? padding.x : 0;
+                startPosY = padding.y >= 0 ? padding.y : 0;
+
+                // Put room into new world but only create in empty spaces
+                for (int y = startPosY; y < lengthY; y++)
+                {
+                    // if index is more than room length, break out of the loop
+                    if (y - startPosY >= newRoom.GetRoomSize().y)
+                        break;
+
+                    for (int x = startPosX; x < lengthX; x++)
+                    {
+                        // if index is more than room length, break out of the loop
+                        if (x - startPosX < newRoom.GetRoomSize().x)
+                        {
+                            if (newWorld[x, y].GetSprite() == Constants.SPACE)
+                            {
+                                newWorld[x, y] = newRoomObjects[x - startPosX, y - startPosY];
+                                newWorld[x, y].SetPositionDirectly(x, y);
+                            }
+                        }
+                        else
+                            break;
+                    }
+                }
+
+                worldObjects = newWorld;
+            }
+            // Block the path if room is invalid
+            else
+                worldObjects[doorPosition.x, doorPosition.y] = new Object(doorPosition.x, doorPosition.y, Constants.WALL);
+        }
 
         // Getter/Setters
         // Return data specified by position

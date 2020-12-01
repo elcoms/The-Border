@@ -14,6 +14,15 @@ namespace TheEndlessBorder.scripts
             x = X;
             y = Y;
         }
+
+        public static Vector2 operator - (Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.x - b.x, a.y - b.y);
+        }
+        public static Vector2 operator + (Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.x + b.x, a.y + b.y);
+        }
     }
 
     struct Rect
@@ -21,17 +30,17 @@ namespace TheEndlessBorder.scripts
         public Vector2 min, max;
     }
 
+    public enum Direction
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        NULL
+    }
+
     class Room
     {
-        enum Direction
-        {
-            UP,
-            DOWN,
-            LEFT,
-            RIGHT,
-            NULL
-        }
-
         readonly int MAXSIZE_X = 40;
         readonly int MAXSIZE_Y = 10;
 
@@ -43,6 +52,12 @@ namespace TheEndlessBorder.scripts
         public bool[,] FloorPlan { get; private set; }
         public bool[,] WallPlan { get; private set; }
         public bool[,] DoorPlan { get; private set; }
+
+        // Extreme Rects
+        public Rect TopRect { get; private set; }
+        public Rect BottomRect { get; private set; }
+        public Rect LeftRect { get; private set; }
+        public Rect RightRect { get; private set; }
 
         Vector2 size;
         public Vector2 GetRoomSize() { return size; }
@@ -165,6 +180,11 @@ namespace TheEndlessBorder.scripts
             Rooms[0].max.y = 4 + random.Next() % MAXSIZE_Y;
             Rooms[0].min.x = Rooms[0].min.y = 0;
             Rect Bounds = Rooms[0];
+
+            TopRect = Rooms[0];
+            BottomRect = Rooms[0];
+            LeftRect = Rooms[0];
+            RightRect = Rooms[0];
 
             int corners = 0;
             int direction = 0;
@@ -295,42 +315,36 @@ namespace TheEndlessBorder.scripts
                     }
                 } while (currentDirection == prevDirectionMirrored);
 
-                switch (currentDirection)
-                {
-                    case Direction.UP:
-                        prevDirectionMirrored = Direction.DOWN;
-                        break;
-                    case Direction.DOWN:
-                        prevDirectionMirrored = Direction.UP;
-                        break;
-                    case Direction.LEFT:
-                        prevDirectionMirrored = Direction.RIGHT;
-                        break;
-                    case Direction.RIGHT:
-                        prevDirectionMirrored = Direction.LEFT;
-                        break;
-                    case Direction.NULL:
-                        break;
-                    default:
-                        break;
-                }
+                prevDirectionMirrored = MirrorDirection(currentDirection);
 
                 // Update bounds
                 // bounds minimum x more than the room minimum, change bound minimum x to be room minimum
                 if (Bounds.min.x > Rooms[i].min.x)
+                {
                     Bounds.min.x = Rooms[i].min.x;
+                    LeftRect = Rooms[i];
+                }
 
                 // max check
                 if (Bounds.max.x < Rooms[i].max.x)
+                {
                     Bounds.max.x = Rooms[i].max.x;
+                    RightRect = Rooms[i];
+                }
 
                 // bounds minimum y more than the room minimum, change bound minimum y to be room minimum
                 if (Bounds.min.y > Rooms[i].min.y)
+                {
                     Bounds.min.y = Rooms[i].min.y;
+                    TopRect = Rooms[i];
+                }
 
                 // max check
                 if (Bounds.max.y < Rooms[i].max.y)
+                {
                     Bounds.max.y = Rooms[i].max.y;
+                    BottomRect = Rooms[i];
+                }
             }
 
             // Render rect
@@ -415,8 +429,11 @@ namespace TheEndlessBorder.scripts
                         // randomly generate door up to a limit but only if it can be a door
                         if (doorCount < Constants.NUM_OF_DOORS && DoorPlan[x, y] && randomDoorCount <= 0)
                         {
-                            roomObjects[x, y] = new Door(x, y, IsDoorHorizontal(x, y),                          // horizontal if floor is to the left or right of the door
-                                Constants.KEY_DOOR_COLORS[random.Next(0, Constants.KEY_DOOR_COLORS.Length)]);   // random color
+                            ConsoleColor randomColor = Constants.KEY_DOOR_COLORS[random.Next(0, Constants.KEY_DOOR_COLORS.Length)];
+                            roomObjects[x, y] = new Door(x, y, IsDoorHorizontal(x, y), randomColor);    // horizontal if floor is to the left or right of the door
+
+                            if (doorCount == 0)
+                                firstDoorColor = randomColor;
 
                             doorCount++;
                             randomDoorCount = random.Next(0, wallCount);
@@ -494,6 +511,29 @@ namespace TheEndlessBorder.scripts
             {
                 return true;
             }
+        }
+
+        public static Direction MirrorDirection(Direction currentDirection)
+        {
+            switch (currentDirection)
+            {
+                case Direction.UP:
+                    return Direction.DOWN;
+
+                case Direction.DOWN:
+                    return Direction.UP;
+
+                case Direction.LEFT:
+                    return Direction.RIGHT;
+
+                case Direction.RIGHT:
+                    return Direction.LEFT;
+
+                default:
+                    break;
+            }
+
+            return Direction.NULL;
         }
     }
 }

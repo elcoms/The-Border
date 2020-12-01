@@ -91,18 +91,21 @@ namespace TheEndlessBorder.scripts
 
         public override void OnCollision(Object collidedObject)
         {
-            switch (collidedObject.GetSprite())
+            if (collidedObject != null)
             {
-                case Constants.PLAYER:
-                    if (!attack && !Program.animating)
-                    {
-                        Program.player.Damaged(damage, this);
-                        attack = true;
-                    }
-                    break;
+                switch (collidedObject.GetSprite())
+                {
+                    case Constants.PLAYER:
+                        if (!attack && !Program.animating)
+                        {
+                            Program.player.Damaged(damage, this);
+                            attack = true;
+                        }
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
         }
     }
