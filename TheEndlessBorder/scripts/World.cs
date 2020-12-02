@@ -40,6 +40,7 @@ namespace TheEndlessBorder.scripts
                 // Spawn only in floor objects
                 if (worldObjects[playerPos.x, playerPos.y].GetSprite() == Constants.FLOOR)
                 {
+
                     player.SetPosition(playerPos.x, playerPos.y);
                     spawned = true;
                 }
@@ -169,12 +170,13 @@ namespace TheEndlessBorder.scripts
                 default:
                     break;
             }
-
+            
             // merge room and world if direction is not null
             if (doorDirection != Direction.NULL)
             {
-                // center position of side rect
-                Vector2 rectCenter = new Vector2((roomRect.max.x - roomRect.min.x) / 2 + roomRect.min.x, (roomRect.max.y - roomRect.min.y) / 2 + roomRect.min.y);
+                // center position of side rect = half length of side rect + length of rect to room bounds
+                Vector2 rectCenter = new Vector2((roomRect.max.x - roomRect.min.x) / 2 + (roomRect.min.x - newRoom.Bounds.min.x),
+                                                 (roomRect.max.y - roomRect.min.y) / 2 + (roomRect.min.y - newRoom.Bounds.min.y));
 
                 // Padding amount based on the difference between the new room and world
                 Vector2 padding = doorPosition - rectCenter;
@@ -190,26 +192,26 @@ namespace TheEndlessBorder.scripts
                 if (padding.x >= 0)
                 {
                     // use the length that is longer: padding + newRoom size or current length
-                    lengthX = padding.x + newRoom.GetRoomSize().x > worldObjects.GetLength(0) ? padding.x + newRoom.GetRoomSize().x : worldObjects.GetLength(0);
-                    startPosX = padding.x;
+                    lengthX = (padding.x + newRoom.GetRoomSize().x) > worldObjects.GetLength(0) ? (padding.x + newRoom.GetRoomSize().x) : worldObjects.GetLength(0);
+                    startPosX = 0;
                 }
                 // Room is placed before 0
                 else
                 {
                     // use the length that is longer: new room length or absolute padding + current length
-                    lengthX = padding.x + newRoom.GetRoomSize().x > worldObjects.GetLength(0) ? newRoom.GetRoomSize().x : worldObjects.GetLength(0) - padding.x;
+                    lengthX = (padding.x + newRoom.GetRoomSize().x) > worldObjects.GetLength(0) ? newRoom.GetRoomSize().x : (worldObjects.GetLength(0) - padding.x);
                     startPosX = -padding.x;
                 }
 
                 // World Length Y
                 if (padding.y >= 0)
                 {
-                    lengthY = padding.y + newRoom.GetRoomSize().y > worldObjects.GetLength(1) ? padding.y + newRoom.GetRoomSize().y : worldObjects.GetLength(1);
-                    startPosY = padding.y;
+                    lengthY = (padding.y + newRoom.GetRoomSize().y) > worldObjects.GetLength(1) ? (padding.y + newRoom.GetRoomSize().y) : worldObjects.GetLength(1);
+                    startPosY = 0;
                 }
                 else
                 {
-                    lengthX = padding.y + newRoom.GetRoomSize().y > worldObjects.GetLength(1) ? newRoom.GetRoomSize().y : worldObjects.GetLength(1) - padding.y;
+                    lengthX = (padding.y + newRoom.GetRoomSize().y) > worldObjects.GetLength(1) ? newRoom.GetRoomSize().y : (worldObjects.GetLength(1) - padding.y);
                     startPosY = -padding.y;
                 }
 
@@ -227,6 +229,9 @@ namespace TheEndlessBorder.scripts
                             {
                                 newWorld[x, y] = worldObjects[x - startPosX, y - startPosY];
                                 newWorld[x, y].SetPositionDirectly(x, y);
+
+                                if (worldObjects[x - startPosX, y - startPosY] is Player)
+                                        Program.Log(x + ": " + newWorld[x, y].X + " | " + y + ": " + newWorld[x, y].Y);
                             }
                             else
                                 newWorld[x, y] = new Object(x, y, Constants.SPACE);

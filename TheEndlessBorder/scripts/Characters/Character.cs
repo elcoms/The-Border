@@ -12,6 +12,13 @@ namespace TheEndlessBorder.scripts
         protected int health = 1, damage = 1;
         protected bool dead, attacked, horizontalAttack;
 
+        public Character() : base() { }
+        public Character(int x, int y, int hp, int attackPower, char sprite, Object backgroundObject) : base(x, y, sprite, backgroundObject) 
+        {
+            health = hp;
+            damage = attackPower;
+        }
+
         public override void Render()
         {
             // if attacked, show attack graphic

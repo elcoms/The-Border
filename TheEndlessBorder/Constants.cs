@@ -51,7 +51,7 @@ namespace TheEndlessBorder
         public const int CAM_WIDTH              = 48;
         public const int CAM_HEIGHT             = 24;
         public const int WINDOW_WIDTH           = 95;
-        public const int WINDOW_HEIGHT          = 37;
+        public const int WINDOW_HEIGHT          = 39;
 
         // positions
         public const int CAM_START_X            = 5;
@@ -68,7 +68,7 @@ namespace TheEndlessBorder
         public const int GAMEOVER_PAUSE_TIME    = 4000;
 
         // limits
-        public const int NUM_OF_DOORS           = 3;
+        public const int NUM_OF_DOORS           = 4;
 
         // patterns
         public readonly static List<uint> WallPatterns = new List<uint>(new uint[] {              

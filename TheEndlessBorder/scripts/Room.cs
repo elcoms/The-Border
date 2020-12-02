@@ -58,6 +58,7 @@ namespace TheEndlessBorder.scripts
         public Rect BottomRect { get; private set; }
         public Rect LeftRect { get; private set; }
         public Rect RightRect { get; private set; }
+        public Rect Bounds { get; private set; }
 
         Vector2 size;
         public Vector2 GetRoomSize() { return size; }
@@ -179,7 +180,7 @@ namespace TheEndlessBorder.scripts
             Rooms[0].max.x = 4 + random.Next() % MAXSIZE_X;
             Rooms[0].max.y = 4 + random.Next() % MAXSIZE_Y;
             Rooms[0].min.x = Rooms[0].min.y = 0;
-            Rect Bounds = Rooms[0];
+            Rect roomBounds = Rooms[0];
 
             TopRect = Rooms[0];
             BottomRect = Rooms[0];
@@ -319,37 +320,39 @@ namespace TheEndlessBorder.scripts
 
                 // Update bounds
                 // bounds minimum x more than the room minimum, change bound minimum x to be room minimum
-                if (Bounds.min.x > Rooms[i].min.x)
+                if (roomBounds.min.x > Rooms[i].min.x)
                 {
-                    Bounds.min.x = Rooms[i].min.x;
+                    roomBounds.min.x = Rooms[i].min.x;
                     LeftRect = Rooms[i];
                 }
 
                 // max check
-                if (Bounds.max.x < Rooms[i].max.x)
+                if (roomBounds.max.x < Rooms[i].max.x)
                 {
-                    Bounds.max.x = Rooms[i].max.x;
+                    roomBounds.max.x = Rooms[i].max.x;
                     RightRect = Rooms[i];
                 }
 
                 // bounds minimum y more than the room minimum, change bound minimum y to be room minimum
-                if (Bounds.min.y > Rooms[i].min.y)
+                if (roomBounds.min.y > Rooms[i].min.y)
                 {
-                    Bounds.min.y = Rooms[i].min.y;
+                    roomBounds.min.y = Rooms[i].min.y;
                     TopRect = Rooms[i];
                 }
 
                 // max check
-                if (Bounds.max.y < Rooms[i].max.y)
+                if (roomBounds.max.y < Rooms[i].max.y)
                 {
-                    Bounds.max.y = Rooms[i].max.y;
+                    roomBounds.max.y = Rooms[i].max.y;
                     BottomRect = Rooms[i];
                 }
             }
 
             // Render rect
-            size.x = Bounds.max.x - Bounds.min.x;
-            size.y = Bounds.max.y - Bounds.min.y;
+            size.x = roomBounds.max.x - roomBounds.min.x;
+            size.y = roomBounds.max.y - roomBounds.min.y;
+            Bounds = roomBounds;
+
             FloorPlan = new bool[size.x, size.y];
             WallPlan = new bool[size.x, size.y];
             DoorPlan = new bool[size.x, size.y];
@@ -371,7 +374,7 @@ namespace TheEndlessBorder.scripts
                     for (int x = r.min.x; x < r.max.x; x++)
                     {
                         // min bounds is either 0 or negative -> 5 - (-5) = 10 (x on the console)
-                        FloorPlan[x - Bounds.min.x, y - Bounds.min.y] = true;
+                        FloorPlan[x - roomBounds.min.x, y - roomBounds.min.y] = true;
                     }
                 }
             }
@@ -416,6 +419,7 @@ namespace TheEndlessBorder.scripts
             Random random = new Random(World.WorldSeed);
 
             Enemy firstEnemySpawned = null;
+            bool enemySpawned = false;
             int doorCount = 0;
             int randomDoorCount = random.Next(0, wallCount);
             ConsoleColor firstDoorColor = Constants.KEY_DOOR_COLORS[0];
@@ -446,18 +450,34 @@ namespace TheEndlessBorder.scripts
                     }
                     else if (FloorPlan[x, y])
                     {
-                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.5% after
-                        if (firstEnemySpawned == null && random.NextDouble() < 0.01)
+                        // Avoid enemy not spawning at all
+                        if (firstEnemySpawned == null)
                         {
-                            // 70% chance for normal enemy to spawn
-                            firstEnemySpawned = random.NextDouble() < 0.7 ?
-                                new Enemy(x, y , 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[0])) :
-                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]));
+                            firstEnemySpawned = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR));
 
                             roomObjects[x, y] = firstEnemySpawned;
                             Program.enemies.Add(firstEnemySpawned);
                         }
-                        else if (firstEnemySpawned != null && random.NextDouble() < 0.003)
+
+                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.3% after
+                        if (!enemySpawned && random.NextDouble() < 0.01)
+                        {
+                            if (firstEnemySpawned != null)
+                            {
+                                Program.enemies.Remove(firstEnemySpawned);
+                                roomObjects[firstEnemySpawned.X, firstEnemySpawned.Y] = new Object(firstEnemySpawned.X, firstEnemySpawned.Y, Constants.FLOOR);
+                            }
+
+                            // 70% chance for normal enemy to spawn
+                            firstEnemySpawned = random.NextDouble() < 0.7 ?
+                                new Enemy(x, y , 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR)):
+                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR));
+
+                            roomObjects[x, y] = firstEnemySpawned;
+                            Program.enemies.Add(firstEnemySpawned);
+                            enemySpawned = true;
+                        }
+                        else if (enemySpawned && random.NextDouble() < 0.003)
                         {
                             Item randomItem = new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]);
                             
@@ -468,8 +488,8 @@ namespace TheEndlessBorder.scripts
                             }
 
                             Enemy newEnemy = random.NextDouble() < 0.7 ?
-                                new Enemy(x, y, 20, 10, Constants.ENEMY, randomItem) :
-                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, randomItem);
+                                new Enemy(x, y, 20, 10, Constants.ENEMY, randomItem, new Object(x, y, Constants.FLOOR)):
+                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, randomItem, new Object(x, y, Constants.FLOOR));
 
                             roomObjects[x, y] = newEnemy;
                             Program.enemies.Add(newEnemy);

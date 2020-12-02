@@ -20,13 +20,8 @@ namespace TheEndlessBorder.scripts
             sprite = Constants.ENEMY;
         }
 
-        public Enemy(int xPos, int yPos, int hp, int attackPower, char character, Item item)
+        public Enemy(int xPos, int yPos, int hp, int attackPower, char character, Item item, Object backgroundObject) : base(xPos, yPos, hp, attackPower, character, backgroundObject)
         {
-            X = xPos;
-            Y = yPos;
-            health = hp;
-            damage = attackPower;
-            sprite = character;
             drop = item;
             drop.SetVisible(false);
             drop.Holder = this;

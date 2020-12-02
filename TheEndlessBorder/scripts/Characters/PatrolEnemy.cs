@@ -19,17 +19,7 @@ namespace TheEndlessBorder.scripts
             damage = 5;
             sprite = Constants.ENEMY_PATROL;
         }
-        public PatrolEnemy(int xPos, int yPos, int hp, int attackPower, char character, Item item)
-        {
-            X = xPos;
-            Y = yPos;
-            health = hp;
-            damage = attackPower;
-            sprite = character;
-            drop = item;
-            drop.SetVisible(false);
-            drop.Holder = this;
-        }
+        public PatrolEnemy(int xPos, int yPos, int hp, int attackPower, char character, Item item, Object backgroundObject) : base(xPos, yPos, hp, attackPower, character, item, backgroundObject) { }
 
         public override void Update()
         {

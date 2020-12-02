@@ -10,7 +10,7 @@ namespace TheEndlessBorder.scripts
     {
         public int X { get; set; }
         public int Y { get; set; }
-        private Object objectInBackground;
+        protected Object objectInBackground;
 
         protected char sprite = Constants.UNKNOWN;
 
@@ -21,9 +21,14 @@ namespace TheEndlessBorder.scripts
             X = x;
             Y = y;
             sprite = objectSprite;
-            
-            if (sprite != Constants.SPACE)
-                objectInBackground = new Object(X, Y, Constants.SPACE);
+        }
+
+        public Object(int x, int y, char objectSprite, Object backgroundObject)
+        {
+            X = x;
+            Y = y;
+            sprite = objectSprite;
+            objectInBackground = backgroundObject;
         }
 
         public virtual void Render() 
@@ -52,6 +57,8 @@ namespace TheEndlessBorder.scripts
             // remove current position from data and replace with object in background
             if (objectInBackground != null)
                 World.UpdateWorldObjects(objectInBackground);
+            else
+                World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
 
             X = xPos >= 0 ? xPos : X;
             Y = yPos >= 0 ? yPos : Y;

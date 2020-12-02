@@ -12,13 +12,18 @@ namespace TheEndlessBorder.scripts
 
         public Player()
         {
-            X = 0;
-            Y = 0;
             health = 100;
             damage = 10;
             Level = 1;
             Gold = 0;
             sprite = Constants.PLAYER;
+            objectInBackground = new Object(X, Y, Constants.SPACE);
+        }
+
+        public Player(int xPos, int yPos, int hp, int attackPower, int level, int gold, char character, Object backgroundObject) : base(xPos, yPos, hp, attackPower, character, backgroundObject)
+        {
+            Level = level;
+            Gold = gold;
         }
 
         public override void Render()
@@ -84,7 +89,7 @@ namespace TheEndlessBorder.scripts
                     break;
 
                 case Constants.FLOOR:
-                case Constants.SPACE:
+                // case Constants.SPACE:
                     SetPosition(collidedObject.X, collidedObject.Y);
                     break;
 

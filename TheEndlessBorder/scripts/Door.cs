@@ -36,7 +36,7 @@ namespace TheEndlessBorder.scripts
         {
             if (unlocked)
             {
-                Console.Write(Constants.FLOOR);
+                
             }
             else
             {
@@ -60,7 +60,6 @@ namespace TheEndlessBorder.scripts
             else
             {
                 Key rightKey = null;
-
                 World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
                 World.CreateNewRoom(new Vector2(X, Y));
                 unlocked = true;
@@ -72,7 +71,6 @@ namespace TheEndlessBorder.scripts
                     {
                         if (item.getColor() == color)
                         {
-                            World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
                             rightKey = item as Key;
                             player.Level++;
                             player.GetInventory().RemoveItem(item);
