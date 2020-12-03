@@ -56,10 +56,7 @@ namespace TheEndlessBorder.scripts
         {
             // remove current position from data and replace with object in background
             if (objectInBackground != null)
-            {
                 World.UpdateWorldObjects(objectInBackground);
-                Program.Log(objectInBackground.GetSprite().ToString());
-            }
             else
                 World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
 
@@ -78,6 +75,9 @@ namespace TheEndlessBorder.scripts
         {
             X = xPos >= 0 ? xPos : X;
             Y = yPos >= 0 ? yPos : Y;
+
+            if (objectInBackground != null)
+                objectInBackground.SetPositionDirectly(X, Y);
         }
 
         // Getter/Setters
