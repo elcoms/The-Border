@@ -192,26 +192,26 @@ namespace TheEndlessBorder.scripts
                 if (padding.x >= 0)
                 {
                     // use the length that is longer: padding + newRoom size or current length
-                    lengthX = (padding.x + newRoom.GetRoomSize().x) > worldObjects.GetLength(0) ? (padding.x + newRoom.GetRoomSize().x) : worldObjects.GetLength(0);
+                    lengthX = (padding.x + newRoom.GetRoomSize().x) >= worldObjects.GetLength(0) ? (padding.x + newRoom.GetRoomSize().x) : worldObjects.GetLength(0);
                     startPosX = 0;
                 }
                 // Room is placed before 0
                 else
                 {
                     // use the length that is longer: new room length or absolute padding + current length
-                    lengthX = (padding.x + newRoom.GetRoomSize().x) > worldObjects.GetLength(0) ? newRoom.GetRoomSize().x : (worldObjects.GetLength(0) - padding.x);
+                    lengthX = (padding.x + newRoom.GetRoomSize().x) >= worldObjects.GetLength(0) ? newRoom.GetRoomSize().x : (worldObjects.GetLength(0) - padding.x);
                     startPosX = -padding.x;
                 }
 
                 // World Length Y
                 if (padding.y >= 0)
                 {
-                    lengthY = (padding.y + newRoom.GetRoomSize().y) > worldObjects.GetLength(1) ? (padding.y + newRoom.GetRoomSize().y) : worldObjects.GetLength(1);
+                    lengthY = (padding.y + newRoom.GetRoomSize().y) >= worldObjects.GetLength(1) ? (padding.y + newRoom.GetRoomSize().y) : worldObjects.GetLength(1);
                     startPosY = 0;
                 }
                 else
                 {
-                    lengthX = (padding.y + newRoom.GetRoomSize().y) > worldObjects.GetLength(1) ? newRoom.GetRoomSize().y : (worldObjects.GetLength(1) - padding.y);
+                    lengthY = (padding.y + newRoom.GetRoomSize().y) >= worldObjects.GetLength(1) ? newRoom.GetRoomSize().y : (worldObjects.GetLength(1) - padding.y);
                     startPosY = -padding.y;
                 }
 
@@ -229,9 +229,6 @@ namespace TheEndlessBorder.scripts
                             {
                                 newWorld[x, y] = worldObjects[x - startPosX, y - startPosY];
                                 newWorld[x, y].SetPositionDirectly(x, y);
-
-                                if (worldObjects[x - startPosX, y - startPosY] is Player)
-                                        Program.Log(x + ": " + newWorld[x, y].X + " | " + y + ": " + newWorld[x, y].Y);
                             }
                             else
                                 newWorld[x, y] = new Object(x, y, Constants.SPACE);

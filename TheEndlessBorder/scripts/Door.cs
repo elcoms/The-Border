@@ -34,16 +34,8 @@ namespace TheEndlessBorder.scripts
 
         public override void Render()
         {
-            if (unlocked)
-            {
-                
-            }
-            else
-            {
-                Console.ForegroundColor = color;
-                Console.Write(sprite);
-            }
-
+            Console.ForegroundColor = color;
+            Console.Write(sprite);
             Console.ForegroundColor = Constants.FOREGROUND_COLOR;
         }
 

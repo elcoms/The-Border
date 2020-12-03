@@ -27,27 +27,28 @@ namespace TheEndlessBorder.scripts
             Object[,] worldObjects = World.GetWorldObjects();
 
             /*
-         for (int y = 0; y < worldObjects.GetLength(1); y++)
-         {
-             Console.SetCursorPosition(0, y);
-             for (int x = 0; x < worldObjects.GetLength(0); x++)
-             {
-                 // Check if the world exists in this position
-                 if (x < 0 || y < 0 || x >= worldObjects.GetLength(0) || y >= worldObjects.GetLength(1))
-                 {
-                     // Render an empty space if not
-                     Console.Write(Constants.SPACE);
-                 }
-                 else // Render the object if it exists
-                 {
-                     if (worldObjects[x, y] != null)
-                         worldObjects[x, y].Render();
-                     else
-                         Console.Write(Constants.SPACE);
-                 }
-             }
-         }
+            for (int y = 0; y < worldObjects.GetLength(1); y++)
+            {
+                Console.SetCursorPosition(0, y);
+                for (int x = 0; x < worldObjects.GetLength(0); x++)
+                {
+                    // Check if the world exists in this position
+                    if (x < 0 || y < 0 || x >= worldObjects.GetLength(0) || y >= worldObjects.GetLength(1))
+                    {
+                        // Render an empty space if not
+                        Console.Write(Constants.SPACE);
+                    }
+                    else // Render the object if it exists
+                    {
+                        if (worldObjects[x, y] != null)
+                            worldObjects[x, y].Render();
+                        else
+                            Console.Write(Constants.SPACE);
+                    }
+                }
+            }
             */
+
             // From starting world positions up to a length set by constants
             for (int y = startY; y < startY + Constants.CAM_HEIGHT; y++)
             {
