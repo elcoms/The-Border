@@ -221,11 +221,11 @@ namespace TheEndlessBorder.scripts
                 for (int y = 0; y < lengthY; y++)
                 {
                     // Transfer from startpos to world length, else insert space object
-                    if (y >= startPosY && y < worldObjects.GetLength(1))
+                    if (y >= startPosY && y < (startPosY + worldObjects.GetLength(1)))
                     {
                         for (int x = 0; x < lengthX; x++)
                         {
-                            if (x >= startPosX && x < worldObjects.GetLength(0))
+                            if (x >= startPosX && x < (startPosX + worldObjects.GetLength(0)))
                             {
                                 newWorld[x, y] = worldObjects[x - startPosX, y - startPosY];
                                 newWorld[x, y].SetPositionDirectly(x, y);
@@ -243,6 +243,8 @@ namespace TheEndlessBorder.scripts
                     }
                 }
 
+                newWorld.GetLength(1);
+                worldObjects.GetLength(0);
                 startPosX = padding.x >= 0 ? padding.x : 0;
                 startPosY = padding.y >= 0 ? padding.y : 0;
 

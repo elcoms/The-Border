@@ -76,8 +76,9 @@ namespace TheEndlessBorder
             432,    // Corner
             436,    // Double Corners
             502,    // Sides of corner
+            502,    // Space on the right only
             504,    // Sides
-            510 }); // Corner
+            510, }); // Corner
         
         public readonly static List<uint> DoorPatterns = new List<uint>(new uint[] {
             504 });

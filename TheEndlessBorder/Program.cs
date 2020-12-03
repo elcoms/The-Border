@@ -150,7 +150,7 @@ namespace TheEndlessBorder
                     enemy.Update();
                 }
 
-               //  Log(player.X + ", " + player.Y, 0, 2);
+                // Log(player.X + ", " + player.Y, 0, 2);
             }
         }
 
@@ -188,7 +188,7 @@ namespace TheEndlessBorder
                 case State.Game:
                     camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
                     // userInterface.Render();
-
+                    
                     // For debugging purposes
                     Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);
                     foreach (string s in log)

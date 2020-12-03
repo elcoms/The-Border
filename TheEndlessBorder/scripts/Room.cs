@@ -451,13 +451,13 @@ namespace TheEndlessBorder.scripts
                     else if (FloorPlan[x, y])
                     {
                         // Avoid enemy not spawning at all
-                        if (firstEnemySpawned == null)
+                        /*if (firstEnemySpawned == null)
                         {
                             firstEnemySpawned = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR));
 
                             roomObjects[x, y] = firstEnemySpawned;
                             Program.enemies.Add(firstEnemySpawned);
-                        }
+                        }*/
 
                         // 1% Chance of spawning an enemy in each tile for first enemy, 0.3% after
                         if (!enemySpawned && random.NextDouble() < 0.01)
@@ -466,6 +466,7 @@ namespace TheEndlessBorder.scripts
                             {
                                 Program.enemies.Remove(firstEnemySpawned);
                                 roomObjects[firstEnemySpawned.X, firstEnemySpawned.Y] = new Object(firstEnemySpawned.X, firstEnemySpawned.Y, Constants.FLOOR);
+                                Program.Log("enemy");
                             }
 
                             // 70% chance for normal enemy to spawn

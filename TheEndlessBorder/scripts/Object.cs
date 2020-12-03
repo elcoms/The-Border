@@ -56,7 +56,10 @@ namespace TheEndlessBorder.scripts
         {
             // remove current position from data and replace with object in background
             if (objectInBackground != null)
+            {
                 World.UpdateWorldObjects(objectInBackground);
+                Program.Log(objectInBackground.GetSprite().ToString());
+            }
             else
                 World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
 
