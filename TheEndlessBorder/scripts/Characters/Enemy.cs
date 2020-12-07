@@ -34,7 +34,7 @@ namespace TheEndlessBorder.scripts
 
         public void DropItem()
         {
-            drop.SetPosition(X, Y);
+            drop.Spawn(X, Y);
             drop.SetVisible(true);
             Program.items.Add(drop);
 

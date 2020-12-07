@@ -187,7 +187,7 @@ namespace TheEndlessBorder
                 // ==================================================================================================
                 case State.Game:
                     camera.Render();            // Camera must render first because it cannot be interrupted by new cursor positions
-                    // userInterface.Render();
+                    userInterface.Render();
                     
                     // For debugging purposes
                     Console.SetCursorPosition(Constants.LOG_X, Constants.LOG_Y + 1);

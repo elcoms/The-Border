@@ -58,7 +58,7 @@ namespace TheEndlessBorder.scripts
             if (objectInBackground != null)
                 World.UpdateWorldObjects(objectInBackground);
             else
-                World.UpdateWorldObjects(new Object(X, Y, Constants.SPACE));
+                World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
 
             X = xPos >= 0 ? xPos : X;
             Y = yPos >= 0 ? yPos : Y;
@@ -78,6 +78,18 @@ namespace TheEndlessBorder.scripts
 
             if (objectInBackground != null)
                 objectInBackground.SetPositionDirectly(X, Y);
+        }
+
+        public virtual void Spawn(int xPos, int yPos)
+        {
+            X = xPos >= 0 ? xPos : X;
+            Y = yPos >= 0 ? yPos : Y;
+
+            // save new position's object in background
+            objectInBackground = World.GetObjectFromPosition(X, Y);
+
+            // update new position in data
+            World.UpdateWorldObjects(this);
         }
 
         // Getter/Setters
