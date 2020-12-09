@@ -35,10 +35,12 @@ namespace TheEndlessBorder.scripts
                     : "The Man could not even get close to The Border");
 
                 Console.BackgroundColor = Constants.BACKGROUND_COLOR;
-                Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
             }
 
             base.Render();
+
+            if (dead)
+                Thread.Sleep(Constants.GAMEOVER_PAUSE_TIME);
         }
 
         public void RenderStats()

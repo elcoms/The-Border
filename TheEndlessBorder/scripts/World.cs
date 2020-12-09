@@ -178,6 +178,8 @@ namespace TheEndlessBorder.scripts
                 startPosX = padding.x >= 0 ? padding.x : 0;
                 startPosY = padding.y >= 0 ? padding.y : 0;
 
+                Queue<Object> missingObjects = new Queue<Object>();
+                int count = random.Next(0, newRoom.GetRoomSize().x);
                 // Put room into new world but only create in empty spaces
                 for (int y = startPosY; y < lengthY; y++)
                 {
@@ -190,10 +192,67 @@ namespace TheEndlessBorder.scripts
                         // if index is more than room length, break out of the loop
                         if (x - startPosX < newRoom.GetRoomSize().x)
                         {
+                            // Store object to put elsewhere later if cannot place object
                             if (newWorld[x, y].GetSprite() == Constants.SPACE)
                             {
-                                newWorld[x, y] = newRoomObjects[x - startPosX, y - startPosY];
-                                newWorld[x, y].SetPositionDirectly(x, y);
+                                // place missing objects if there are any
+                                if (missingObjects.Count > 0 && count <= 0)
+                                {
+                                    char sprite = missingObjects.Peek().GetSprite();
+                                    // if original object is supposed to be a wall, check if missing object is a door
+                                    if (newRoomObjects[x - startPosX, y - startPosY].GetSprite() == Constants.WALL)
+                                    {
+                                        bool placeObject = false;
+                                        // place object according to direction
+                                        if (sprite == Constants.DOOR_HORIZONTAL)
+                                        {
+                                            if (y - startPosY + 1 == newRoomObjects.GetLength(1) || y - startPosY - 1 == -1)
+                                                placeObject = true;
+                                            else if (newRoomObjects[x - startPosX, y - startPosY + 1].GetSprite() == Constants.SPACE ||
+                                            newRoomObjects[x - startPosX, y - startPosY - 1].GetSprite() == Constants.SPACE)
+                                                placeObject = true;
+                                        }
+                                        else if (sprite == Constants.DOOR_VERTICAL)
+                                        {
+                                            if (x - startPosX + 1 == newRoomObjects.GetLength(0) || x - startPosX - 1 == -1)
+                                                placeObject = true;
+                                            else if (newRoomObjects[x - startPosX, y - startPosY + 1].GetSprite() == Constants.SPACE ||
+                                            newRoomObjects[x - startPosX, y - startPosY - 1].GetSprite() == Constants.SPACE)
+                                                placeObject = true;
+                                        }
+
+                                        if (placeObject)
+                                        {
+                                            count = random.Next(0, newRoom.GetRoomSize().x / missingObjects.Count);
+                                            newWorld[x, y] = missingObjects.Dequeue();
+                                        }
+                                        else
+                                            newWorld[x, y] = newRoomObjects[x - startPosX, y - startPosY];
+                                    }
+                                    else if ((sprite != Constants.DOOR_VERTICAL || sprite != Constants.DOOR_HORIZONTAL) && 
+                                            newRoomObjects[x - startPosX, y - startPosY].GetSprite() == Constants.FLOOR)
+                                    {
+                                        count = random.Next(0, newRoom.GetRoomSize().x / missingObjects.Count);
+                                        newWorld[x, y] = missingObjects.Dequeue();
+                                    }
+                                    else
+                                        newWorld[x, y] = newRoomObjects[x - startPosX, y - startPosY];
+
+                                    newWorld[x, y].SetPositionDirectly(x, y);
+                                }
+                                else
+                                {
+                                    newWorld[x, y] = newRoomObjects[x - startPosX, y - startPosY];
+                                    newWorld[x, y].SetPositionDirectly(x, y);
+                                    count--;
+                                }
+                            }
+                            else
+                            {
+                                char sprite = newRoomObjects[x - startPosX, y - startPosY].GetSprite();
+                                if (!(sprite == Constants.SPACE || sprite == Constants.FLOOR || sprite == Constants.WALL))
+                                    missingObjects.Enqueue(newRoomObjects[x - startPosX, y - startPosY]);
+                                count--;
                             }
                         }
                         else

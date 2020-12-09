@@ -67,6 +67,7 @@ namespace TheEndlessBorder.scripts
                             World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
                             World.CreateNewRoom(new Vector2(X, Y));
                             unlocked = true;
+                            break;
                         }
                     }
                 }

@@ -459,7 +459,7 @@ namespace TheEndlessBorder.scripts
                             Program.enemies.Add(firstEnemySpawned);
                         }
 
-                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.3% after
+                        // 1% Chance of spawning an enemy in each tile for first enemy, 0.5% after
                         if (!enemySpawned && random.NextDouble() < 0.01)
                         {
                             if (firstEnemySpawned != null)
@@ -478,12 +478,12 @@ namespace TheEndlessBorder.scripts
                             Program.enemies.Add(firstEnemySpawned);
                             enemySpawned = true;
                         }
-                        else if (enemySpawned && random.NextDouble() < 0.003)
+                        else if (enemySpawned && random.NextDouble() < 0.005)
                         {
                             Item randomItem = new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]);
                             
-                            // 10% chance for an apple to spawn instead
-                            if (random.NextDouble() < 0.1)
+                            // 30% chance for an apple to spawn instead
+                            if (random.NextDouble() < 0.3)
                             {
                                 randomItem = new HealItem(x, y, random.Next(15, 75), Constants.APPLE, ConsoleColor.Red, "The Apple", "An Apple a day, keeps The Grave at bay.");
                             }
