@@ -46,6 +46,9 @@ namespace TheEndlessBorder.scripts
 
         public void RenderStats()
         {
+            Console.SetCursorPosition(Constants.STATS_X + 4, Constants.STATS_Y - 2);
+            Console.Write(Program.god ? "[GOD]" : "Man  ");
+
             Console.SetCursorPosition(Constants.STATS_X, Constants.STATS_Y);
             Console.Write("Level: " + Level + "   ");
 

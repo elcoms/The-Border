@@ -94,13 +94,13 @@ namespace TheEndlessBorder.scripts
                 Program.Log("The Man left " + items[num].Name + " behind.");
                 
                 // check for space to drop item
-                if (World.GetObjectFromPosition(x, y - 1).GetSprite() == Constants.SPACE)
+                if (World.GetObjectFromPosition(x, y - 1).GetSprite() == Constants.FLOOR)
                     items[num].SetPosition(x, y - 1);
-                else if (World.GetObjectFromPosition(x, y + 1).GetSprite() == Constants.SPACE)
+                else if (World.GetObjectFromPosition(x, y + 1).GetSprite() == Constants.FLOOR)
                     items[num].SetPosition(x, y + 1);
-                else if (World.GetObjectFromPosition(x + 1, y).GetSprite() == Constants.SPACE)
+                else if (World.GetObjectFromPosition(x + 1, y).GetSprite() == Constants.FLOOR)
                     items[num].SetPosition(x + 1, y);
-                else if (World.GetObjectFromPosition(x - 1, y).GetSprite() == Constants.SPACE)
+                else if (World.GetObjectFromPosition(x - 1, y).GetSprite() == Constants.FLOOR)
                     items[num].SetPosition(x - 1, y);
                 else
                     items[num].SetPosition(x, y);
