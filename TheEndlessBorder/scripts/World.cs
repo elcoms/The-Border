@@ -216,8 +216,8 @@ namespace TheEndlessBorder.scripts
                                         {
                                             if (x - startPosX + 1 == newRoomObjects.GetLength(0) || x - startPosX - 1 == -1)
                                                 placeObject = true;
-                                            else if (newRoomObjects[x - startPosX, y - startPosY + 1].GetSprite() == Constants.SPACE ||
-                                            newRoomObjects[x - startPosX, y - startPosY - 1].GetSprite() == Constants.SPACE)
+                                            else if (newRoomObjects[x - startPosX + 1, y - startPosY].GetSprite() == Constants.SPACE ||
+                                            newRoomObjects[x - startPosX - 1, y - startPosY].GetSprite() == Constants.SPACE)
                                                 placeObject = true;
                                         }
 
