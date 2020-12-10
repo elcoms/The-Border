@@ -10,6 +10,9 @@ namespace TheEndlessBorder.scripts
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public int RoomNo { get; set; }
+        public bool isLit { get; set; }
+
         protected Object objectInBackground;
 
         protected char sprite = Constants.UNKNOWN;
@@ -21,6 +24,7 @@ namespace TheEndlessBorder.scripts
             X = x;
             Y = y;
             sprite = objectSprite;
+            isLit = false;
         }
 
         public Object(int x, int y, char objectSprite, Object backgroundObject)
@@ -28,12 +32,15 @@ namespace TheEndlessBorder.scripts
             X = x;
             Y = y;
             sprite = objectSprite;
+            isLit = false;
             objectInBackground = backgroundObject;
         }
 
         public virtual void Render() 
         {
+            Console.ForegroundColor = isLit ? Constants.FOREGROUND_COLOR : Constants.UNLIT_COLOR;
             Console.Write(sprite);
+            Console.ForegroundColor = Constants.FOREGROUND_COLOR;
         }
 
         public virtual void Update() { }
@@ -56,9 +63,11 @@ namespace TheEndlessBorder.scripts
         {
             // remove current position from data and replace with object in background
             if (objectInBackground != null)
+            {
+                objectInBackground.RoomNo = RoomNo;
+                objectInBackground.isLit = isLit;
                 World.UpdateWorldObjects(objectInBackground);
-            else
-                World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
+            }
 
             X = xPos >= 0 ? xPos : X;
             Y = yPos >= 0 ? yPos : Y;

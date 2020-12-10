@@ -32,7 +32,11 @@ namespace TheEndlessBorder.scripts
                 {
                     // render if alive
                     if (health > 0)
+                    {
+                        Console.ForegroundColor = isLit ? Constants.FOREGROUND_COLOR : Constants.UNLIT_COLOR;
                         Console.Write(sprite);
+                        Console.ForegroundColor = Constants.FOREGROUND_COLOR;
+                    }
                 }
                 else
                 {

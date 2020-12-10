@@ -8,12 +8,14 @@ namespace TheEndlessBorder.scripts
 {
     class Key : Item
     {
-        public Key(int x, int y, ConsoleColor keyColor)
+        public Key(int x, int y, int keyColor)
         {
             X = x;
             Y = y;
             sprite = Constants.KEY;
-            color = keyColor;
+            color = Constants.KEY_DOOR_COLORS[keyColor];
+            unlitColor = Constants.KEY_DOOR_COLORS_DARK[keyColor];
+            isLit = true;
 
             // name key according to color
             Name = "The " + color.ToString() + " Key";

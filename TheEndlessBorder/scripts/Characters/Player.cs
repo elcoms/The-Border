@@ -17,6 +17,7 @@ namespace TheEndlessBorder.scripts
             Level = 1;
             Gold = 0;
             sprite = Constants.PLAYER;
+            isLit = true;
             objectInBackground = new Object(X, Y, Constants.SPACE);
         }
 
@@ -91,7 +92,13 @@ namespace TheEndlessBorder.scripts
                     break;
 
                 case Constants.FLOOR:
-                // case Constants.SPACE:
+
+                    if (collidedObject.RoomNo != RoomNo)
+                    {
+                        World.LightUpRoom(RoomNo, collidedObject.RoomNo);
+                        RoomNo = collidedObject.RoomNo;
+                    }
+
                     SetPosition(collidedObject.X, collidedObject.Y);
                     break;
 

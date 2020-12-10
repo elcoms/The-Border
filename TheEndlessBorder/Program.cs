@@ -29,7 +29,7 @@ namespace TheEndlessBorder
         private static GraphicalInterface userInterface = new GraphicalInterface();
         private static Cutscene endingCutscene = new Cutscene();
 
-
+        public static bool god;                 // god mode
         public static bool animating;           // true if animation timer is running
         public static bool dropKeyPressed;      // true if drop key is pressed;
         public static bool win;                 // true if player exits out of map and wins the game
@@ -96,18 +96,13 @@ namespace TheEndlessBorder
                         }
                         else
                         {
-                            while (!Console.KeyAvailable)
-                            {
-                                Thread.Sleep(100);
-                            }
+                            while (!Console.KeyAvailable) { }
 
                             Input();
                         }
                     }
                     else
                     {
-                        Thread.Sleep(100);
-
                         // stop running timer if it has passed the animation time
                         if (animationTimer.ElapsedMilliseconds > Constants.ATTACK_ANIM_TIME)
                         {
@@ -284,6 +279,10 @@ namespace TheEndlessBorder
                             player.OnCollision(World.GetObjectFromPosition(player.X + 1, player.Y));
                             break;
 
+                        // GOD MODE
+                        case ConsoleKey.G:
+                            god = !god;
+                            break;
 
                         // INVENTORY INPUT
                         case ConsoleKey.D1:

@@ -23,13 +23,13 @@ namespace TheEndlessBorder.scripts
             sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
         }
 
-        public Door(int xPos, int yPos, bool isHorizontal, ConsoleColor givenColor)
+        public Door(int xPos, int yPos, bool isHorizontal, int givenColor)
         {
             X = xPos;
             Y = yPos;
             horizontal = isHorizontal;
             sprite = isHorizontal ? Constants.DOOR_HORIZONTAL : Constants.DOOR_VERTICAL;
-            SetDoorColor(givenColor);
+            SetDoorColor(Constants.KEY_DOOR_COLORS[givenColor]);
         }
 
         public override void Render()
@@ -53,21 +53,34 @@ namespace TheEndlessBorder.scripts
             {
                 Key rightKey = null;
 
-                // Check for key
-                foreach (Item item in player.GetInventory().GetItems())
+                if (Program.god)
                 {
-                    if (item as Key != null)
+                    Object floor = new Object(X, Y, Constants.FLOOR);
+                    floor.RoomNo = RoomNo;
+                    World.UpdateWorldObjects(floor);
+                    World.CreateNewRoom(new Vector2(X, Y));
+                    unlocked = true;
+                }
+                else
+                {
+                    // Check for key
+                    foreach (Item item in player.GetInventory().GetItems())
                     {
-                        if (item.getColor() == color)
+                        if (item as Key != null)
                         {
-                            rightKey = item as Key;
-                            player.Level++;
-                            player.GetInventory().RemoveItem(item);
+                            if (item.getColor() == color)
+                            {
+                                rightKey = item as Key;
+                                player.Level++;
+                                player.GetInventory().RemoveItem(item);
 
-                            World.UpdateWorldObjects(new Object(X, Y, Constants.FLOOR));
-                            World.CreateNewRoom(new Vector2(X, Y));
-                            unlocked = true;
-                            break;
+                                Object floor = new Object(X, Y, Constants.FLOOR);
+                                floor.RoomNo = RoomNo;
+                                World.UpdateWorldObjects(floor);
+                                World.CreateNewRoom(new Vector2(X, Y));
+                                unlocked = true;
+                                break;
+                            }
                         }
                     }
                 }

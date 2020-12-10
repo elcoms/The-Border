@@ -11,13 +11,15 @@ namespace TheEndlessBorder.scripts
         private int healAmount;
         private string healLog;
 
-        public HealItem(int x, int y, int healAmt, char itemSprite, ConsoleColor itemColor, string itemName, string log)
+        public HealItem(int x, int y, int healAmt, char itemSprite, ConsoleColor itemColor, ConsoleColor darkColor, string itemName, string log)
         {
             X = x;
             Y = y;
             healAmount = healAmt;
             sprite = itemSprite;
             color = itemColor;
+            unlitColor = darkColor;
+            isLit = true;
             Name = itemName;
             healLog = log;
         }

@@ -91,7 +91,7 @@ namespace TheEndlessBorder.scripts
                 switch (collidedObject.GetSprite())
                 {
                     case Constants.PLAYER:
-                        if (!attack && !Program.animating)
+                        if (!attack && !Program.animating && !Program.god)
                         {
                             Program.player.Damaged(damage, this);
                             attack = true;

@@ -61,6 +61,7 @@ namespace TheEndlessBorder.scripts
         public Rect Bounds { get; private set; }
 
         Vector2 size;
+        Object[,] roomObjects;
         public Vector2 GetRoomSize() { return size; }
 
         public Room()
@@ -172,7 +173,7 @@ namespace TheEndlessBorder.scripts
             }
         }
 
-        public Object[,] Generate(int seed)
+        public Object[,] Generate(int seed, int roomNo)
         {
             var random = new Random(seed);
             var Rooms = new Rect[4 + random.Next() % 4];
@@ -410,10 +411,10 @@ namespace TheEndlessBorder.scripts
                 }
             }
 
-            return ConvertToObjects();
+            return roomObjects = ConvertToObjects(roomNo);
         }
 
-        Object[,] ConvertToObjects()
+        Object[,] ConvertToObjects(int roomNo)
         {
             Object[,] roomObjects = new Object[size.x, size.y];
             Random random = new Random(World.WorldSeed);
@@ -422,10 +423,9 @@ namespace TheEndlessBorder.scripts
             bool enemySpawned = false;
             int doorCount = 0;
             int randomDoorCount = random.Next(0, wallCount);
-            ConsoleColor firstDoorColor = Constants.KEY_DOOR_COLORS[0];
+            int firstDoorColor = 0;
             for (int y = 0; y < FloorPlan.GetLength(1); y++)
             {
-                // roomObjects[0, y] = new Object(0, y, '|');
                 for (int x = 0; x < FloorPlan.GetLength(0); x++)
                 {
                     if (WallPlan[x, y])
@@ -433,7 +433,7 @@ namespace TheEndlessBorder.scripts
                         // randomly generate door up to a limit but only if it can be a door
                         if (doorCount < Constants.NUM_OF_DOORS && DoorPlan[x, y] && randomDoorCount <= 0)
                         {
-                            ConsoleColor randomColor = Constants.KEY_DOOR_COLORS[random.Next(0, Constants.KEY_DOOR_COLORS.Length)];
+                            int randomColor = random.Next(0, Constants.KEY_DOOR_COLORS.Length);
                             roomObjects[x, y] = new Door(x, y, IsDoorHorizontal(x, y), randomColor);    // horizontal if floor is to the left or right of the door
 
                             if (doorCount == 0)
@@ -453,7 +453,7 @@ namespace TheEndlessBorder.scripts
                         // Avoid enemy not spawning at all
                         if (firstEnemySpawned == null)
                         {
-                            firstEnemySpawned = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR));
+                            firstEnemySpawned = new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, 0), new Object(x, y, Constants.FLOOR));
 
                             roomObjects[x, y] = firstEnemySpawned;
                             Program.enemies.Add(firstEnemySpawned);
@@ -471,8 +471,8 @@ namespace TheEndlessBorder.scripts
 
                             // 70% chance for normal enemy to spawn
                             firstEnemySpawned = random.NextDouble() < 0.7 ?
-                                new Enemy(x, y , 20, 10, Constants.ENEMY, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR)):
-                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, Constants.KEY_DOOR_COLORS[0]), new Object(x, y, Constants.FLOOR));
+                                new Enemy(x, y , 20, 10, Constants.ENEMY, new Key(x, y, 0), new Object(x, y, Constants.FLOOR)):
+                                new PatrolEnemy(x, y, 15, 5, Constants.ENEMY_PATROL, new Key(x, y, 0), new Object(x, y, Constants.FLOOR));
 
                             roomObjects[x, y] = firstEnemySpawned;
                             Program.enemies.Add(firstEnemySpawned);
@@ -480,12 +480,12 @@ namespace TheEndlessBorder.scripts
                         }
                         else if (enemySpawned && random.NextDouble() < 0.005)
                         {
-                            Item randomItem = new Key(x, y, Constants.KEY_DOOR_COLORS[Program.random.Next(0, 3)]);
+                            Item randomItem = new Key(x, y, Program.random.Next(0, Constants.KEY_DOOR_COLORS.Length));
                             
                             // 30% chance for an apple to spawn instead
                             if (random.NextDouble() < 0.3)
                             {
-                                randomItem = new HealItem(x, y, random.Next(15, 75), Constants.APPLE, ConsoleColor.Red, "The Apple", "An Apple a day, keeps The Grave at bay.");
+                                randomItem = new HealItem(x, y, random.Next(15, 75), Constants.APPLE, ConsoleColor.Red,  ConsoleColor.DarkRed, "The Apple", "An Apple a day, keeps The Grave at bay.");
                             }
 
                             Enemy newEnemy = random.NextDouble() < 0.7 ?
@@ -502,13 +502,23 @@ namespace TheEndlessBorder.scripts
                     {
                         roomObjects[x, y] = new Object(x, y, Constants.SPACE);
                     }
+
+                    roomObjects[x, y].RoomNo = roomNo;
                 }
-                // roomObjects[FloorPlan.GetLength(0)-1, y] = new Object(FloorPlan.GetLength(0)-1, y, '|');
             }
 
             // prevent soft lock by giving the first enemy to the first door color
             firstEnemySpawned.SetItem(new Key(0, 0, firstDoorColor));
             return roomObjects;
+        }
+
+        public void LightUpObjects(bool light)
+        {
+            foreach (var obj in roomObjects)
+            {
+                if (!(obj is Player))
+                    obj.isLit = light;
+            }
         }
 
         bool IsDoorHorizontal(int x, int y)

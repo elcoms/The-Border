@@ -14,24 +14,22 @@ namespace TheEndlessBorder.scripts
         private bool isVisible = true;
 
         protected ConsoleColor color = Constants.FOREGROUND_COLOR;
+        protected ConsoleColor unlitColor = ConsoleColor.DarkGray;
 
         public Item()
         {
             Name = "The Item";
             sprite = 'I';
+            isLit = true;
         }
 
         public override void Render()
         {
             if (isVisible)
             {
-                Console.ForegroundColor = color;
+                Console.ForegroundColor = isLit ? color : unlitColor;
                 Console.Write(sprite);
                 Console.ForegroundColor = Constants.FOREGROUND_COLOR;
-            }
-            else
-            {
-                Console.Write(Constants.SPACE);
             }
         }
 

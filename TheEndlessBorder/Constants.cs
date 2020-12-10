@@ -86,7 +86,9 @@ namespace TheEndlessBorder
         // Color
         //======================================
         public const ConsoleColor FOREGROUND_COLOR              = ConsoleColor.White;
+        public const ConsoleColor UNLIT_COLOR                   = ConsoleColor.DarkGray;
         public const ConsoleColor BACKGROUND_COLOR              = ConsoleColor.Black;
-        public static readonly ConsoleColor[] KEY_DOOR_COLORS   = { ConsoleColor.Cyan, ConsoleColor.Green, ConsoleColor.Magenta };
+        public static readonly ConsoleColor[] KEY_DOOR_COLORS       = { ConsoleColor.Cyan, ConsoleColor.Green, ConsoleColor.Magenta };
+        public static readonly ConsoleColor[] KEY_DOOR_COLORS_DARK  = { ConsoleColor.DarkCyan, ConsoleColor.DarkGreen, ConsoleColor.DarkMagenta };
     }
 }

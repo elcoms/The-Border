@@ -11,6 +11,7 @@ namespace TheEndlessBorder.scripts
     class World
     {
         static Object[,] worldObjects;
+        static List<Room> rooms = new List<Room>();
 
         public static int WorldSeed { get; private set; }
         static Random random = new Random();
@@ -27,7 +28,8 @@ namespace TheEndlessBorder.scripts
         public void Initialize(Player player)
         {
             // Create Spawn Room
-            worldObjects = spawnRoom.Generate(random.Next());
+            worldObjects = spawnRoom.Generate(random.Next(), rooms.Count);
+            rooms.Add(spawnRoom);
 
             int i = 0;
             bool spawned = false;
@@ -40,7 +42,6 @@ namespace TheEndlessBorder.scripts
                 // Spawn only in floor objects
                 if (worldObjects[playerPos.x, playerPos.y].GetSprite() == Constants.FLOOR)
                 {
-
                     player.SetPosition(playerPos.x, playerPos.y);
                     spawned = true;
                 }
@@ -58,13 +59,20 @@ namespace TheEndlessBorder.scripts
                 }
             }
             worldObjects[0, 0] = spawnPosObject;
+
+            // set all object to be lit
+            foreach (var obj in worldObjects)
+            {
+                obj.isLit = true;
+            }
         }
 
         public static void CreateNewRoom(Vector2 doorPosition)
         {
             // Generate new Room
             Room newRoom = new Room();
-            Object[,] newRoomObjects = newRoom.Generate(random.Next());
+            Object[,] newRoomObjects = newRoom.Generate(random.Next(), rooms.Count);
+            rooms.Add(newRoom);
 
             // Insert new room to world and adjust the world accordingly
             // ==============================================================
@@ -192,7 +200,7 @@ namespace TheEndlessBorder.scripts
                         // if index is more than room length, break out of the loop
                         if (x - startPosX < newRoom.GetRoomSize().x)
                         {
-                            // Store object to put elsewhere later if cannot place object
+                            // Able to place object
                             if (newWorld[x, y].GetSprite() == Constants.SPACE)
                             {
                                 // place missing objects if there are any
@@ -229,7 +237,7 @@ namespace TheEndlessBorder.scripts
                                         else
                                             newWorld[x, y] = newRoomObjects[x - startPosX, y - startPosY];
                                     }
-                                    else if ((sprite != Constants.DOOR_VERTICAL || sprite != Constants.DOOR_HORIZONTAL) && 
+                                    else if (sprite != Constants.DOOR_VERTICAL && sprite != Constants.DOOR_HORIZONTAL && 
                                             newRoomObjects[x - startPosX, y - startPosY].GetSprite() == Constants.FLOOR)
                                     {
                                         count = random.Next(0, newRoom.GetRoomSize().x / missingObjects.Count);
@@ -247,6 +255,7 @@ namespace TheEndlessBorder.scripts
                                     count--;
                                 }
                             }
+                            // Unable to place object, store object to put elsewhere later
                             else
                             {
                                 char sprite = newRoomObjects[x - startPosX, y - startPosY].GetSprite();
@@ -265,6 +274,12 @@ namespace TheEndlessBorder.scripts
             // Block the path if room is invalid
             else
                 worldObjects[doorPosition.x, doorPosition.y] = new Object(doorPosition.x, doorPosition.y, Constants.WALL);
+        }
+
+        public static void LightUpRoom(int currentRoom, int litUpRoom)
+        {
+            rooms[currentRoom].LightUpObjects(false);
+            rooms[litUpRoom].LightUpObjects(true);
         }
 
         // Getter/Setters
