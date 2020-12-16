@@ -69,7 +69,7 @@ namespace TheEndlessBorder.scripts
                     break;
 
                 Console.SetCursorPosition(pixel.x, pixel.y);
-                Console.WriteLine(pixel.c);
+                Console.Write(pixel.c);
             }
 
             // Render stats

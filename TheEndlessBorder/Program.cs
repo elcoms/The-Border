@@ -96,7 +96,10 @@ namespace TheEndlessBorder
                         }
                         else
                         {
-                            while (!Console.KeyAvailable) { }
+                            while (!Console.KeyAvailable) 
+                            {
+                                Thread.Sleep(100);
+                            }
 
                             Input();
                         }

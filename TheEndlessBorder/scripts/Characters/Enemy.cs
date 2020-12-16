@@ -54,15 +54,18 @@ namespace TheEndlessBorder.scripts
             {
                 if (health > 0)
                 {
-                    // Check collision
-                    // up
-                    OnCollision(World.GetObjectFromPosition(X, Y - 1));
-                    // down
-                    OnCollision(World.GetObjectFromPosition(X, Y + 1));
-                    // left
-                    OnCollision(World.GetObjectFromPosition(X - 1, Y));
-                    // right
-                    OnCollision(World.GetObjectFromPosition(X + 1, Y));
+                    if (!Program.animating)
+                    {
+                        // Check collision
+                        // up
+                        OnCollision(World.GetObjectFromPosition(X, Y - 1));
+                        // down
+                        OnCollision(World.GetObjectFromPosition(X, Y + 1));
+                        // left
+                        OnCollision(World.GetObjectFromPosition(X - 1, Y));
+                        // right
+                        OnCollision(World.GetObjectFromPosition(X + 1, Y));
+                    }
                 }
                 else
                 {
