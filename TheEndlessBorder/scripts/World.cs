@@ -12,6 +12,7 @@ namespace TheEndlessBorder.scripts
     {
         static Object[,] worldObjects;
         static List<Room> rooms = new List<Room>();
+        static List<int> lightedRoomsRef = new List<int>();
 
         public static int WorldSeed { get; private set; }
         static Random random = new Random();
@@ -276,10 +277,25 @@ namespace TheEndlessBorder.scripts
                 worldObjects[doorPosition.x, doorPosition.y] = new Object(doorPosition.x, doorPosition.y, Constants.WALL);
         }
 
-        public static void LightUpRoom(int currentRoom, int litUpRoom)
+        public static void LightUpRoom(int roomNo)
         {
-            rooms[currentRoom].LightUpObjects(false);
-            rooms[litUpRoom].LightUpObjects(true);
+            rooms[roomNo].LightUpObjects(true);
+        }
+
+        public static void DarkenRoom(int roomNo)
+        {
+            if (!lightedRoomsRef.Contains(roomNo))
+                rooms[roomNo].LightUpObjects(false);
+        }
+
+        public static void SaveRoom(int roomNo)
+        {
+            lightedRoomsRef.Add(roomNo);
+        }
+
+        public static void RemoveRoom(int roomNo)
+        {
+            lightedRoomsRef.Remove(roomNo);
         }
 
         // Getter/Setters

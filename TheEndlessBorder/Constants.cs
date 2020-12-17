@@ -30,6 +30,7 @@ namespace TheEndlessBorder
         // items
         public const char KEY                   = 't';
         public const char APPLE                 = 'b';
+        public const char TORCH                 = 'i';
 
         // collision types
         public const char WALL                  = '█';

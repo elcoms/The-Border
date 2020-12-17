@@ -66,6 +66,8 @@ namespace TheEndlessBorder.scripts
             {
                 objectInBackground.RoomNo = RoomNo;
                 objectInBackground.isLit = isLit;
+                objectInBackground.X = X;
+                objectInBackground.Y = Y;
                 World.UpdateWorldObjects(objectInBackground);
             }
 

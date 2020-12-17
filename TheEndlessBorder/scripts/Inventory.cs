@@ -66,7 +66,9 @@ namespace TheEndlessBorder.scripts
                         item.Holder.SetPosition(item.X, item.Y);
                     else
                     {
-                        World.UpdateWorldObjects(new Object(item.X, item.Y, Constants.SPACE));
+                        Object floor = new Object(item.X, item.Y, Constants.FLOOR);
+                        floor.isLit = true;
+                        World.UpdateWorldObjects(floor);
                     }
                     break;
                 }
@@ -111,6 +113,18 @@ namespace TheEndlessBorder.scripts
             else
             {
                 Program.Log("There was nothing there that The Man could grab.");
+            }
+        }
+
+        public void DropItem(Item item, int x, int y)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] == item)
+                {
+                    DropItem(i+1, x, y);
+                    break;
+                }
             }
         }
 

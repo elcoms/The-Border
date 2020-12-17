@@ -78,10 +78,12 @@ namespace TheEndlessBorder.scripts
 
                 case Constants.APPLE:
                 case Constants.KEY:
+                case Constants.TORCH:
 
                     if (collidedObject is Item)
                     {
-                        inventory.AddItem(collidedObject as Item);
+                        Item item = collidedObject as Item;
+                        item.OnPickUp(this);
                     }
                     break;
 
@@ -98,7 +100,8 @@ namespace TheEndlessBorder.scripts
 
                     if (collidedObject.RoomNo != RoomNo)
                     {
-                        World.LightUpRoom(RoomNo, collidedObject.RoomNo);
+                        World.DarkenRoom(RoomNo);
+                        World.LightUpRoom(collidedObject.RoomNo);
                         RoomNo = collidedObject.RoomNo;
                     }
 

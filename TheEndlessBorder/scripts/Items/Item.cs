@@ -11,7 +11,7 @@ namespace TheEndlessBorder.scripts
         public string Name { get; protected set; }
         public Character Holder { get; set; }
         
-        private bool isVisible = true;
+        protected bool isVisible = true;
 
         protected ConsoleColor color = Constants.FOREGROUND_COLOR;
         protected ConsoleColor unlitColor = ConsoleColor.DarkGray;
@@ -34,6 +34,16 @@ namespace TheEndlessBorder.scripts
         }
 
         public virtual void Use(Player player) { }
+
+        public virtual void OnPickUp(Player player) 
+        {
+            player.GetInventory().AddItem(this);
+        }
+
+        public virtual void OnDrop() 
+        {
+            objectInBackground = World.GetObjectFromPosition(X, Y);
+        }
 
         public void SetVisible(bool visible)
         {
